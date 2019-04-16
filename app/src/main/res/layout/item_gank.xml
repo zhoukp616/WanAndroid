@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemGank"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/dp_15"
+    android:paddingTop="@dimen/dp_15"
+    android:paddingRight="@dimen/dp_15"
+    android:paddingBottom="@dimen/dp_15">
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:visibility="visible" />
+
+    <com.zkp.gank.weight.SuperTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_toLeftOf="@id/ivImage"
+        android:text="@string/app_name"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/sp_16" />
+
+    <TextView
+        android:id="@+id/tvAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginTop="@dimen/dp_10"
+        android:drawableLeft="@drawable/icon_author"
+        android:drawablePadding="@dimen/dp_5"
+        android:text="@string/app_name"
+        android:textColor="@color/colorTabTextUnSelect"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_toRightOf="@id/tvAuthor"
+        android:drawableLeft="@drawable/icon_time"
+        android:drawablePadding="@dimen/dp_5"
+        android:text="@string/app_name"
+        android:textColor="@color/colorTabTextUnSelect"
+        android:textSize="@dimen/sp_14" />
+
+</RelativeLayout>

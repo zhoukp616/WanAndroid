@@ -1,0 +1,155 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.zkp.gank"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        flavorDimensions "default"
+    }
+
+
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion '28.0.0'
+                }
+            }
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "Gank_${variant.buildType.name}_${variant.versionName}.apk".toLowerCase()
+        }
+    }
+
+    signingConfigs {
+        dev {
+            keyAlias 'Gank_dev'
+            keyPassword '123456'
+            storeFile file('D:/code/tgtrip/TianGuaTrip/ot.jks')
+            storePassword '123456'
+        }
+        ot {
+            keyAlias 'Gank'
+            keyPassword '123456'
+            storeFile file('D:/code/tgtrip/TianGuaTrip/ot.jks')
+            storePassword '123456'
+        }
+    }
+
+    buildTypes {
+        //开发版
+        dev {
+            debuggable true
+            signingConfig signingConfigs.dev
+            minifyEnabled true//混淆开关
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), "proguard-rules.pro"
+        }
+        //发布版
+        ot {
+            signingConfig signingConfigs.ot
+            minifyEnabled true//混淆开关
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), "proguard-rules.pro"
+        }
+    }
+
+    productFlavors {
+        flavors_dev {
+            applicationId "com.zkp.gankdev"
+            manifestPlaceholders = [
+                    app_name     : "干货_dev",
+                    JPUSH_PKGNAME: applicationId,
+                    JPUSH_APPKEY : "dc87ca39f1a6895a2f5af043", //JPush上注册的包名对应的appkey.
+                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+                    gaode_key    : "16d0ef7246ae91491d32feb0fb855fc8"//高德地图key
+            ]
+        }
+        flavors_ot {
+            applicationId "com.zkp.gank"
+            manifestPlaceholders = [
+                    app_name     : "干货",
+                    JPUSH_PKGNAME: applicationId,
+                    JPUSH_APPKEY : "afdc3db921a94e4525e6e2d1", //JPush上注册的包名对应的appkey.
+                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+                    gaode_key    : "212dccbb0e67b4bb622aae3b8b8193bc"//高德地图key
+            ]
+        }
+    }
+
+
+    greendao {
+        schemaVersion 1
+        daoPackage 'com.zkp.gank.greendao'
+        targetGenDir 'src/main/java'
+    }
+
+        lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+        disable 'MissingTranslation'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:support-vector-drawable:28.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation files('libs/javax.inject-1.jar')
+
+    //MultipleStatusView
+    implementation 'com.classic.common:multiple-status-view:1.6'
+    //SmartToast
+    implementation 'com.github.the-pig-of-jungle.smart-show:toast:2.6.7'
+    //SmartDialog
+    implementation 'com.github.the-pig-of-jungle.smart-show:dialog:2.6.7'
+    //okHttp
+    implementation 'com.squareup.okhttp3:okhttp:3.14.0'
+    //rxJava
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    //rxAndroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    //Retrofit
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    //Gson解析
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //fragmentation
+    implementation 'me.yokeyword:fragmentation:1.3.6'
+    //banner
+    implementation 'com.youth.banner:banner:1.4.10'
+    //Glide图片加载框架
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    //android EventBus
+    implementation 'org.simple:androideventbus:1.0.5.1'
+    //FlycoTabLayout
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    //BaseRecyclerViewAdapterHelper
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+    //AgentWeb
+    implementation 'com.just.agentweb:agentweb:4.0.2'
+    //greenDao
+    implementation 'org.greenrobot:greendao:3.2.2'
+}
