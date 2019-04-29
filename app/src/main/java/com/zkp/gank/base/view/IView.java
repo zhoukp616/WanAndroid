@@ -13,18 +13,4 @@ public interface IView {
 
     void hideLoading();
 
-    void showErrorMsg(String msg);
-
-    void showError();
-
-    void showNoNetwork();
-
-    void showEmpty();
-
-    void showContent();
-
-    void handleLoginSuccess();
-
-    void handleLogoutSuccess();
-
 }

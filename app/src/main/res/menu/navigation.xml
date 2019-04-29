@@ -4,21 +4,26 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home"
-        android:title="@string/title_home" />
+        android:title="@string/home_pager" />
 
     <item
-        android:id="@+id/navigation_category"
-        android:icon="@drawable/ic_category"
-        android:title="@string/title_category" />
+        android:id="@+id/navigation_knowledge_hierarchy"
+        android:icon="@drawable/ic_knowledge_hierarchy"
+        android:title="@string/knowledge_hierarchy" />
 
     <item
-        android:id="@+id/navigation_image"
-        android:icon="@drawable/ic_image"
-        android:title="@string/title_images" />
+        android:id="@+id/navigation_wx_article"
+        android:icon="@drawable/ic_wx_article"
+        android:title="@string/wx_article" />
 
     <item
-        android:id="@+id/navigation_collection"
-        android:icon="@drawable/ic_collection"
-        android:title="@string/title_collections" />
+        android:id="@+id/navigation_navigation"
+        android:icon="@drawable/ic_navigation"
+        android:title="@string/navigation" />
+
+    <item
+        android:id="@+id/navigation_project"
+        android:icon="@drawable/ic_project"
+        android:title="@string/project" />
 
 </menu>

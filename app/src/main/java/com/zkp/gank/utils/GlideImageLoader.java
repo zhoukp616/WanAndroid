@@ -4,7 +4,10 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.youth.banner.loader.ImageLoader;
+import com.zkp.gank.R;
 
 /**
  * @author: zkp
@@ -14,6 +17,7 @@ import com.youth.banner.loader.ImageLoader;
  * @description:
  */
 public class GlideImageLoader extends ImageLoader {
+
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
         //Glide 加载图片简单用法

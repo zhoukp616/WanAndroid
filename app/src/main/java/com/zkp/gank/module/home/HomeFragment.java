@@ -1,22 +1,30 @@
 package com.zkp.gank.module.home;
 
-import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.LinearLayout;
 
-import com.flyco.tablayout.SlidingTabLayout;
+import com.coder.zzq.smartshow.toast.SmartToast;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.runtime.Permission;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+import com.zkp.gank.bean.HomeArticlesBean;
+import com.zkp.gank.module.home.adapter.HomeArticlesAdapter;
+import com.zkp.gank.module.home.detail.ArticleDetailActivity;
 import com.zkp.gank.utils.GlideImageLoader;
 import com.zkp.gank.R;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.BannerBean;
-import com.zkp.gank.bean.TodayGankBean;
-import com.zkp.gank.module.home.today.GankFragment;
-import com.zkp.gank.module.home.today.adapter.GankViewPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 
@@ -29,20 +37,25 @@ import butterknife.BindView;
  */
 public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFragmentContract.View {
 
-    @BindView(R.id.banner)
-    Banner mBanner;
+    @BindView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
 
-    @BindView(R.id.tabLayout)
-    SlidingTabLayout mTabLayout;
+    @BindView(R.id.freshLayout)
+    SwipeRefreshLayout mFreshLayout;
 
-    @BindView(R.id.viewPager)
-    ViewPager mViewPager;
+    private Banner mBanner;
 
     private List<String> mImageUrlList;
-    private static TodayGankBean mTodayGankBean;
+    private List<String> mUrlList;
+    private List<Integer> mIdList;
+    private List<String> mTitles;
 
-    public static TodayGankBean getTodayGankBean() {
-        return mTodayGankBean;
+    private HomeArticlesAdapter mAdapter;
+    private int page = 0;
+    private LinearLayout layout;
+
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
     }
 
     @Override
@@ -52,12 +65,27 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
 
     @Override
     protected void initView() {
+        //设置布局管理器
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        //设置默认动画
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setHasFixedSize(true);
+
+        List<HomeArticlesBean.DataBean.DatasBean> dataBeanList = new ArrayList<>();
+        mAdapter = new HomeArticlesAdapter(R.layout.item_home_article, dataBeanList);
+        mRecyclerView.setAdapter(mAdapter);
+
+        layout = (LinearLayout) getLayoutInflater().inflate(R.layout.frgament_home_banner, null);
+        mBanner = layout.findViewById(R.id.banner);
+        layout.removeView(mBanner);
+        mAdapter.setHeaderView(mBanner);
+
         //设置banner样式
-        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE);
         //设置图片加载器
         mBanner.setImageLoader(new GlideImageLoader());
         //设置banner动画效果
-        mBanner.setBannerAnimation(Transformer.DepthPage);
+        mBanner.setBannerAnimation(Transformer.Accordion);
         //设置自动轮播，默认为true
         mBanner.isAutoPlay(true);
         //设置轮播时间
@@ -67,8 +95,22 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
 
         mPresenter = new HomePresenter();
         mPresenter.attachView(this);
-        mPresenter.getBanner();
-        mPresenter.getTodayGank();
+        mPresenter.registerEventBus();
+
+        AndPermission.with(this)
+                .runtime()
+                .permission(Permission.Group.STORAGE)
+                .onGranted(permissions -> {
+                    mFreshLayout.setRefreshing(true);
+                    mPresenter.getArticles(page, true);
+                })
+                .onDenied(permissions -> {
+                    AndPermission.with(this)
+                            .runtime()
+                            .permission(Permission.Group.STORAGE)
+                            .start();
+                })
+                .start();
     }
 
     @Override
@@ -78,75 +120,115 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
             mBanner.stopAutoPlay();
         }
         if (mPresenter != null) {
+            mPresenter.unregisterEventBus();
             mPresenter.detachView();
         }
     }
 
     @Override
     protected void initEventAndData() {
+        mFreshLayout.setOnRefreshListener(() -> {
+            mPresenter.getArticles(page, true);
+        });
 
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                //当前状态为停止滑动状态SCROLL_STATE_IDLE时
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int lastVisibleItem = ((LinearLayoutManager) Objects.requireNonNull(mRecyclerView.getLayoutManager())).findLastVisibleItemPosition();
+                    //时判断界面显示的最后item的position是否等于itemCount总数-1也就是最后一个item的position
+                    //如果相等则说明已经滑动到最后了
+                    if (lastVisibleItem == Objects.requireNonNull(recyclerView.getLayoutManager()).getItemCount() - 1) {
+                        mPresenter.getArticles(++page, false);
+                    }
+                }
+            }
+        });
+
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (mAdapter.getData().size() <= 0 || mAdapter.getData().size() < position) {
+                return;
+            }
+            Intent intent = new Intent(getActivity(), ArticleDetailActivity.class);
+            intent.putExtra("title", mAdapter.getData().get(position).getTitle());
+            intent.putExtra("articleLink", mAdapter.getData().get(position).getLink());
+            intent.putExtra("articleId", mAdapter.getData().get(position).getId());
+            intent.putExtra("isCollected", mAdapter.getData().get(position).isCollect());
+            intent.putExtra("isShowCollectIcon", true);
+            intent.putExtra("articleItemPosition", position);
+            Objects.requireNonNull(getActivity()).startActivity(intent);
+        });
+    }
+
+    @Override
+    public void getArticlesSuccess(HomeArticlesBean data, boolean isFresh) {
+        if (isFresh) {
+            mAdapter.replaceData(data.getData().getDatas());
+            mPresenter.getBanner();
+        } else {
+            mFreshLayout.setRefreshing(false);
+            mAdapter.addData(data.getData().getDatas());
+        }
+    }
+
+    @Override
+    public void getArticlesError(String errMsg, boolean isFresh) {
+        SmartToast.info(errMsg);
+        if (isFresh) {
+            mPresenter.getBanner();
+        } else {
+            mFreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
     public void getBannerSuccess(BannerBean data) {
-
-        Log.d("qwe", data.toString());
-
+        mFreshLayout.setRefreshing(false);
         if (mImageUrlList == null) {
             mImageUrlList = new ArrayList<>();
+            mIdList = new ArrayList<>();
+            mUrlList = new ArrayList<>();
+            mTitles = new ArrayList<>();
         } else {
             mImageUrlList.clear();
+            mIdList.clear();
+            mUrlList.clear();
+            mTitles.clear();
         }
 
-        for (BannerBean.ResultsBean resultsBean : data.getResults()) {
-            mImageUrlList.add(resultsBean.getUrl());
+        for (BannerBean.DataBean dataBean : data.getData()) {
+            mImageUrlList.add(dataBean.getImagePath());
+            mIdList.add(dataBean.getId());
+            mUrlList.add(dataBean.getUrl());
+            mTitles.add(dataBean.getTitle());
         }
 
         //设置图片集合
         mBanner.setImages(mImageUrlList);
+        //设置banner标题
+        mBanner.setBannerTitles(mTitles);
+
+        mBanner.setOnBannerListener(position -> {
+            Intent intent = new Intent(getActivity(), ArticleDetailActivity.class);
+            intent.putExtra("title", mTitles.get(position));
+            intent.putExtra("articleLink", mUrlList.get(position));
+            intent.putExtra("articleId", mIdList.get(position));
+            intent.putExtra("isCollected", false);
+            intent.putExtra("isShowCollectIcon", false);
+            intent.putExtra("articleItemPosition", position);
+            Objects.requireNonNull(getActivity()).startActivity(intent);
+        });
+
         //banner设置方法全部调用完毕时最后调用
         mBanner.start();
     }
 
     @Override
     public void getBannerError(String errMsg) {
-
-    }
-
-    @Override
-    public void getTodayGankSuccess(TodayGankBean data) {
-        List<String> titles = data.getCategory();
-        List<BaseFragment> baseFragments = new ArrayList<>();
-        mTodayGankBean = data;
-
-        for (int i = 0; i < titles.size(); i++) {
-            baseFragments.add(GankFragment.newInstance(titles.get(i), i));
-        }
-
-        //关联TabLayout和ViewPager
-        mViewPager.setAdapter(new GankViewPagerAdapter(getChildFragmentManager(), baseFragments, titles));
-        mTabLayout.setViewPager(mViewPager);
-    }
-
-    @Override
-    public void getTodayGankError(String errMsg) {
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (mBanner != null) {
-            mBanner.startAutoPlay();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mBanner != null) {
-            mBanner.stopAutoPlay();
-        }
+        mFreshLayout.setRefreshing(false);
+        SmartToast.info(errMsg);
     }
 
     @Override
@@ -160,6 +242,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
             if (mBanner != null) {
                 mBanner.startAutoPlay();
             }
+        }
+    }
+
+    public void jumpToTop() {
+        if (mRecyclerView != null) {
+            mRecyclerView.smoothScrollToPosition(0);
         }
     }
 }

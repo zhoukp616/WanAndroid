@@ -1,43 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/Grey100">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:background="@color/colorPrimary"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dp_15"
-        android:paddingRight="@dimen/dp_15">
+    <include layout="@layout/toolbar" />
 
-        <ImageView
-            android:id="@+id/ivBack"
-            android:layout_width="@dimen/dp_25"
-            android:layout_height="@dimen/dp_25"
-            android:background="@drawable/icon_back" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_25"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:lines="1"
-            android:maxEms="10"
-            android:text="@string/app_name"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/sp_16" />
-
-        <ImageView
-            android:id="@+id/ivCollection"
-            android:layout_width="@dimen/dp_25"
-            android:layout_height="@dimen/dp_25"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/icon_uncollection" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

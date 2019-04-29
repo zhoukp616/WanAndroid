@@ -3,7 +3,7 @@ package com.zkp.gank.module.home;
 import com.zkp.gank.base.presenter.IPresenter;
 import com.zkp.gank.base.view.IView;
 import com.zkp.gank.bean.BannerBean;
-import com.zkp.gank.bean.TodayGankBean;
+import com.zkp.gank.bean.HomeArticlesBean;
 
 /**
  * @author: zkp
@@ -15,6 +15,22 @@ import com.zkp.gank.bean.TodayGankBean;
 public class HomeFragmentContract {
 
     public interface View extends IView {
+
+        /**
+         * 获取首页文章列表成功
+         *
+         * @param data    HomeArticlesBean
+         * @param isFresh boolean
+         */
+        void getArticlesSuccess(HomeArticlesBean data, boolean isFresh);
+
+        /**
+         * 获取首页文章列表失败
+         *
+         * @param errMsg  String
+         * @param isFresh boolean
+         */
+        void getArticlesError(String errMsg, boolean isFresh);
 
         /**
          * 获取Banner成功
@@ -30,32 +46,22 @@ public class HomeFragmentContract {
          */
         void getBannerError(String errMsg);
 
-        /**
-         * 获取今日干货成功
-         *
-         * @param data TodayGankBean
-         */
-        void getTodayGankSuccess(TodayGankBean data);
-
-        /**
-         * 获取今日干货失败
-         * @param errMsg String
-         */
-        void getTodayGankError(String errMsg);
-
     }
 
     public interface Presenter extends IPresenter<View> {
 
         /**
+         * 获取首页文章列表
+         *
+         * @param page    int
+         * @param isFresh boolean
+         */
+        void getArticles(int page, boolean isFresh);
+
+        /**
          * 获取首页Banner
          */
         void getBanner();
-
-        /**
-         * 获取首页今日干货
-         */
-        void getTodayGank();
     }
 
 }

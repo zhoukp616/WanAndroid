@@ -10,7 +10,7 @@ import android.os.Environment;
 
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.zkp.gank.BuildConfig;
-import com.zkp.gank.module.Main.MainActivity;
+import com.zkp.gank.module.main.MainActivity;
 import com.zkp.gank.R;
 import com.zkp.gank.app.GankApplication;
 

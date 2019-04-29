@@ -8,7 +8,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         flavorDimensions "default"
@@ -67,33 +67,25 @@ android {
         flavors_dev {
             applicationId "com.zkp.gankdev"
             manifestPlaceholders = [
-                    app_name     : "干货_dev",
-                    JPUSH_PKGNAME: applicationId,
-                    JPUSH_APPKEY : "dc87ca39f1a6895a2f5af043", //JPush上注册的包名对应的appkey.
-                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
-                    gaode_key    : "16d0ef7246ae91491d32feb0fb855fc8"//高德地图key
+                    app_name: "玩安卓_dev",
             ]
         }
         flavors_ot {
             applicationId "com.zkp.gank"
             manifestPlaceholders = [
-                    app_name     : "干货",
-                    JPUSH_PKGNAME: applicationId,
-                    JPUSH_APPKEY : "afdc3db921a94e4525e6e2d1", //JPush上注册的包名对应的appkey.
-                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
-                    gaode_key    : "212dccbb0e67b4bb622aae3b8b8193bc"//高德地图key
+                    app_name: "玩安卓",
             ]
         }
     }
 
 
-    greendao {
-        schemaVersion 1
-        daoPackage 'com.zkp.gank.greendao'
-        targetGenDir 'src/main/java'
-    }
+//    greendao {
+//        schemaVersion 1
+//        daoPackage 'com.zkp.gank.greendao'
+//        targetGenDir 'src/main/java'
+//    }
 
-        lintOptions {
+    lintOptions {
         checkReleaseBuilds false
         abortOnError false
         disable 'MissingTranslation'
@@ -108,21 +100,18 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:support-vector-drawable:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation files('libs/javax.inject-1.jar')
 
-    //MultipleStatusView
-    implementation 'com.classic.common:multiple-status-view:1.6'
-    //SmartToast
-    implementation 'com.github.the-pig-of-jungle.smart-show:toast:2.6.7'
-    //SmartDialog
-    implementation 'com.github.the-pig-of-jungle.smart-show:dialog:2.6.7'
+    //permission
+    implementation 'com.yanzhenjie.permission:support:2.0.1'
+    //SmartShow
+    implementation 'com.github.the-pig-of-jungle.smart-show:all:2.7.3'
     //okHttp
     implementation 'com.squareup.okhttp3:okhttp:3.14.0'
     //rxJava
@@ -142,6 +131,7 @@ dependencies {
     implementation 'com.youth.banner:banner:1.4.10'
     //Glide图片加载框架
     implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     //android EventBus
     implementation 'org.simple:androideventbus:1.0.5.1'
     //FlycoTabLayout
@@ -149,7 +139,15 @@ dependencies {
     //BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     //AgentWeb
-    implementation 'com.just.agentweb:agentweb:4.0.2'
-    //greenDao
-    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.just.agentweb:agentweb:4.0.3-alpha@aar'
+    //    //greenDao
+    //    implementation 'org.greenrobot:greendao:3.2.2'
+    //SmartRefreshLayout
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
+    //没有使用特殊Header，可以不加这行
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
+    //VerticalTabLayout
+    implementation 'q.rorbin:VerticalTabLayout:1.2.5'
+    //flowLayout
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
 }

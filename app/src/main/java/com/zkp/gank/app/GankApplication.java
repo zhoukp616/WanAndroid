@@ -2,10 +2,10 @@ package com.zkp.gank.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 
 import com.coder.zzq.smartshow.core.SmartShow;
+import com.zkp.gank.base.activity.BaseActivity;
+import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.crash.UnCaughtHandler;
 
 import java.util.ArrayList;
@@ -25,8 +25,8 @@ public class GankApplication extends Application {
     private static Context mContext;
     private static GankApplication mApplication;
 
-    private List<AppCompatActivity> mActivityList;
-    private List<Fragment> mFragmentsList;
+    private List<BaseActivity> mActivityList;
+    private List<BaseFragment> mFragmentsList;
 
     public static Context getContext() {
         return mContext;
@@ -57,11 +57,11 @@ public class GankApplication extends Application {
         Thread.setDefaultUncaughtExceptionHandler(new UnCaughtHandler(this));
     }
 
-    public void addActivity(AppCompatActivity activity) {
+    public void addActivity(BaseActivity activity) {
         mActivityList.add(activity);
     }
 
-    public void addFragment(Fragment fragment) {
+    public void addFragment(BaseFragment fragment) {
         mFragmentsList.add(fragment);
     }
 
@@ -69,12 +69,12 @@ public class GankApplication extends Application {
      * 退出应用
      */
     public void exitApplication() {
-        for (AppCompatActivity activity : mActivityList) {
+        for (BaseActivity activity : mActivityList) {
             if (activity != null) {
                 activity.finish();
             }
         }
-        for (Fragment fragment : mFragmentsList) {
+        for (BaseFragment fragment : mFragmentsList) {
             if (fragment != null) {
                 Objects.requireNonNull(fragment.getActivity()).onBackPressed();
             }

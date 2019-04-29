@@ -3,7 +3,6 @@ package com.zkp.gank.http;
 import android.content.Context;
 import android.util.Log;
 
-
 import com.zkp.gank.app.GankApplication;
 
 import java.io.IOException;
@@ -18,10 +17,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
@@ -55,30 +52,106 @@ public class HttpUtil {
     /**
      * 创建网络接口实例
      */
-    public static <T> T createApi(String baseUrl, Class<T> service) {
+    public static <T> T createApi(Context context, String baseUrl, Class<T> service) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(getInstance())
+                .client(getInstance(context))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit.create(service);
     }
 
-    public static OkHttpClient getInstance() {
+    public static OkHttpClient getInstance(Context context) {
 
         if (mOkHttpClient != null) {
             return mOkHttpClient;
         }
 
-        mOkHttpClient = new OkHttpClient.Builder()
-                .retryOnConnectionFailure(true)
-                .readTimeout(TIMEOUT_READ, TimeUnit.SECONDS)
-                .connectTimeout(TIMEOUT_CONNECTION, TimeUnit.SECONDS)
-                .build();
+        X509TrustManager trustManager;
+        SSLSocketFactory sslSocketFactory;
+        final InputStream inputStream;
+        try {
+            //得到证书的输入流
+            inputStream = context.getAssets().open("wanandroid.crt");
+
+            //以流的方式读入证书
+            trustManager = trustManagerForCertificates(inputStream);
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, new TrustManager[]{trustManager}, null);
+            sslSocketFactory = sslContext.getSocketFactory();
+
+            mOkHttpClient = new OkHttpClient.Builder()
+                    .retryOnConnectionFailure(true)
+                    .readTimeout(TIMEOUT_READ, TimeUnit.SECONDS)
+                    .connectTimeout(TIMEOUT_CONNECTION, TimeUnit.SECONDS)
+                    .hostnameVerifier((hostname, session) -> true)
+                    .sslSocketFactory(sslSocketFactory, trustManager)
+                    .build();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
 
         return mOkHttpClient;
 
+    }
+
+    private static X509TrustManager trustManagerForCertificates(InputStream in) throws GeneralSecurityException {
+        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+        Collection<? extends Certificate> certificates = certificateFactory.generateCertificates(in);
+        if (certificates.isEmpty()) {
+            throw new IllegalArgumentException("expected non-empty set of trusted certificates");
+        }
+
+        // Put the certificates a key store. Any password will work.
+        char[] password = "password".toCharArray();
+        KeyStore keyStore = newEmptyKeyStore(password);
+        int index = 0;
+        for (Certificate certificate : certificates) {
+            String certificateAlias = Integer.toString(index++);
+            keyStore.setCertificateEntry(certificateAlias, certificate);
+        }
+
+        // Use it to build an X509 trust manager.
+        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(
+                KeyManagerFactory.getDefaultAlgorithm());
+        keyManagerFactory.init(keyStore, password);
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
+                TrustManagerFactory.getDefaultAlgorithm());
+        trustManagerFactory.init(keyStore);
+        TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+        if (trustManagers.length != 1 || !(trustManagers[0] instanceof X509TrustManager)) {
+            throw new IllegalStateException("Unexpected default trust managers:"
+                    + Arrays.toString(trustManagers));
+        }
+        return (X509TrustManager) trustManagers[0];
+    }
+
+    /**
+     * 添加password
+     *
+     * @param password 密码
+     * @return KeyStore
+     * @throws GeneralSecurityException
+     */
+    private static KeyStore newEmptyKeyStore(char[] password) throws GeneralSecurityException {
+        try {
+            // 这里添加自定义的密码，默认
+            KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            // By convention, 'null' creates an empty key store.
+            InputStream in = null;
+            keyStore.load(in, password);
+            return keyStore;
+        } catch (IOException e) {
+            throw new AssertionError(e);
+        }
     }
 
     public static <T> void request(Observable<T> observable, final IResponseListener<T> listener) {
