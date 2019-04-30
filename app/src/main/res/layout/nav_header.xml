@@ -14,7 +14,7 @@
         android:layout_height="@dimen/dp_80"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp_20"
-        android:src="@drawable/ic_author_round" />
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/nav_header_login"

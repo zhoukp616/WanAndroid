@@ -150,4 +150,6 @@ dependencies {
     implementation 'q.rorbin:VerticalTabLayout:1.2.5'
     //flowLayout
     implementation 'com.hyman:flowlayout-lib:1.1.2'
+    //YCUpdateLib
+    implementation 'cn.yc:YCUpdateLib:1.0.6'
 }

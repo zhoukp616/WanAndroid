@@ -43,7 +43,20 @@ public class AppConfig {
     public static final int TYPE_PROJECT = 4;
 
     /**
+     * 关于
+     */
+    public static final int TYPE_ABOUT_US = 9;
+
+    /**
      * 连续两次点击时间间隔<2000,则退出应用
      */
     public static final long EXIT_TIME = 2000;
+
+
+    /**
+     * About Url
+     */
+    public static final String ABOUT_WEBSITE = "https://www.wanandroid.com/about";
+    public static final String ABOUT_SOURCE_CODE = "https://github.com/Zkp275557625/Gank";
+    public static final String ABOUT_FEEDBACK = "https://github.com/Zkp275557625/Gank/issues";
 }

@@ -9,6 +9,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -107,7 +108,9 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
-            mTitle.setText(Html.fromHtml(title));
+            if (!TextUtils.isEmpty(title)){
+                mTitle.setText(Html.fromHtml(title));
+            }
             mTitle.setSelected(true);
         }
 

@@ -3,8 +3,6 @@ package com.zkp.gank.base.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.coder.zzq.smartshow.toast.SmartToast;
-import com.zkp.gank.R;
 import com.zkp.gank.base.presenter.IPresenter;
 import com.zkp.gank.base.view.IView;
 import com.zkp.gank.weight.ProgressDialog;

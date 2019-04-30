@@ -1,5 +1,6 @@
 package com.zkp.gank.module.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -25,7 +26,9 @@ import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.http.AppConfig;
 import com.zkp.gank.module.home.HomeFragment;
 import com.zkp.gank.module.knowledge.KnowLedgeFragment;
+import com.zkp.gank.module.main.activity.ComponentActivity;
 import com.zkp.gank.module.navigation.NavigationFragment;
+import com.zkp.gank.module.project.ProjectFragment;
 import com.zkp.gank.module.wechat.WeChatFragment;
 
 
@@ -71,6 +74,7 @@ public class MainActivity extends BaseActivity {
     private KnowLedgeFragment mKnowledgeFragment;
     private WeChatFragment mWeChatFragment;
     private NavigationFragment mNavigationFragment;
+    private ProjectFragment mProjectFragment;
 
     private long clickTime;
 
@@ -167,6 +171,11 @@ public class MainActivity extends BaseActivity {
                     mNavigationFragment.jumpToTop();
                 }
                 break;
+            case AppConfig.TYPE_PROJECT:
+                if (mProjectFragment != null) {
+                    mProjectFragment.jumpToTop();
+                }
+                break;
             default:
                 break;
         }
@@ -227,14 +236,14 @@ public class MainActivity extends BaseActivity {
                 }
                 transaction.show(mNavigationFragment);
                 break;
-//            case AppConfig.TYPE_PROJECT:
-//                mTitle.setText(getString(R.string.project));
-//                if (mProjectFragment == null) {
-//                    mProjectFragment = ProjectFragment.newInstance();
-//                    transaction.add(R.id.frameLayout, mProjectFragment);
-//                }
-//                transaction.show(mProjectFragment);
-//                break;
+            case AppConfig.TYPE_PROJECT:
+                mTitle.setText(getString(R.string.project));
+                if (mProjectFragment == null) {
+                    mProjectFragment = ProjectFragment.newInstance();
+                    transaction.add(R.id.frameLayout, mProjectFragment);
+                }
+                transaction.show(mProjectFragment);
+                break;
             default:
                 break;
         }
@@ -242,10 +251,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initNavigationView() {
-//        mNavigationView.setNavigationItemSelectedListener(menuItem -> {
-//
-//            switch (menuItem.getItemId()) {
-//                case R.id.nav_item_my_collect:
+        mNavigationView.setNavigationItemSelectedListener(menuItem -> {
+
+            switch (menuItem.getItemId()) {
+                case R.id.nav_item_my_collect:
 //                    if (mPresenter.getLoginStatus()) {
 //                        CommonUtils.startFragmentInCommonActivity(MainActivity.this, AppConfig.TYPE_COLLECT);
 //                    } else {
@@ -253,7 +262,7 @@ public class MainActivity extends BaseActivity {
 //                        ToastUtils.showToast(MainActivity.this, getString(R.string.login_first));
 //                    }
 //                    break;
-//                case R.id.nav_item_todo:
+                case R.id.nav_item_todo:
 //                    if (mPresenter.getLoginStatus()) {
 //                        Intent intent = new Intent(MainActivity.this, TodoActivity.class);
 //                        startActivity(intent);
@@ -262,7 +271,7 @@ public class MainActivity extends BaseActivity {
 //                        ToastUtils.showToast(MainActivity.this, getString(R.string.login_first));
 //                    }
 //                    break;
-//                case R.id.nav_item_night_mode:
+                case R.id.nav_item_night_mode:
 //                    if (mPresenter.isNightMode()) {
 //                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 //                        mPresenter.setNightMode(false);
@@ -273,22 +282,24 @@ public class MainActivity extends BaseActivity {
 //                        menuItem.setTitle(R.string.nav_night_mode);
 //                    }
 //                    recreate();
-//                    break;
-//                case R.id.nav_item_setting:
+                    break;
+                case R.id.nav_item_setting:
 //                    CommonUtils.startFragmentInCommonActivity(MainActivity.this, Constants.TYPE_SETTING);
-//                    break;
-//                case R.id.nav_item_about_us:
-//                    CommonUtils.startFragmentInCommonActivity(MainActivity.this, Constants.TYPE_ABOUT_US);
-//                    break;
-//                case R.id.nav_item_logout:
+                    break;
+                case R.id.nav_item_about_us:
+                    Intent intent = new Intent(MainActivity.this, ComponentActivity.class);
+                    intent.putExtra("type_fragment", AppConfig.TYPE_ABOUT_US);
+                    startActivity(intent);
+                    break;
+                case R.id.nav_item_logout:
 //                    mPresenter.logout();
-//                    break;
-//                default:
-//                    break;
-//            }
-//            return true;
-//        });
-//
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        });
+
 //        mUsTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_login);
 //        mUsTv.setText(mPresenter.getLoginStatus() ? mPresenter.getLoginAccount() : getString(R.string.login));
 //        mUsTv.setOnClickListener(v -> CommonUtils.startLoginActivity(MainActivity.this));
@@ -319,8 +330,7 @@ public class MainActivity extends BaseActivity {
                     showFragment(AppConfig.TYPE_NAVIGATION);
                     break;
                 case R.id.navigation_project:
-                    showFragment(AppConfig.TYPE_HOME_PAGER);
-//                    showFragment(AppConfig.TYPE_PROJECT);
+                    showFragment(AppConfig.TYPE_PROJECT);
                     break;
                 default:
                     break;
@@ -351,11 +361,11 @@ public class MainActivity extends BaseActivity {
                     transaction.hide(mNavigationFragment);
                 }
                 break;
-//            case AppConfig.TYPE_PROJECT:
-//                if (mProjectFragment != null) {
-//                    transaction.hide(mProjectFragment);
-//                }
-//                break;
+            case AppConfig.TYPE_PROJECT:
+                if (mProjectFragment != null) {
+                    transaction.hide(mProjectFragment);
+                }
+                break;
             default:
                 break;
         }

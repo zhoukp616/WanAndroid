@@ -107,10 +107,8 @@ public class WxArticleListFragment extends BaseFragment<WxArticleListPresenter> 
             return;
         }
         if (isFresh) {
-//            mArticleList = articleListData.getDatas();
             mAdapter.replaceData(data.getData().getDatas());
         } else {
-//            mArticleList.addAll(articleListData.getDatas());
             mAdapter.addData(data.getData().getDatas());
         }
     }

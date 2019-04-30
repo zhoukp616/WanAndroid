@@ -1,14 +1,15 @@
 package com.zkp.gank.module.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 
 import com.coder.zzq.smartshow.toast.SmartToast;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.youth.banner.Banner;
@@ -40,8 +41,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.freshLayout)
-    SwipeRefreshLayout mFreshLayout;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
 
     private Banner mBanner;
 
@@ -63,6 +64,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
         return R.layout.fragment_home;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void initView() {
         //设置布局管理器
@@ -101,7 +103,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
                 .runtime()
                 .permission(Permission.Group.STORAGE)
                 .onGranted(permissions -> {
-                    mFreshLayout.setRefreshing(true);
                     mPresenter.getArticles(page, true);
                 })
                 .onDenied(permissions -> {
@@ -127,8 +128,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
 
     @Override
     protected void initEventAndData() {
-        mFreshLayout.setOnRefreshListener(() -> {
+
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             mPresenter.getArticles(page, true);
+            refreshLayout.finishRefresh();
+        });
+
+        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            mPresenter.getArticles(++page, false);
+            refreshLayout.finishLoadMore();
         });
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -168,7 +176,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
             mAdapter.replaceData(data.getData().getDatas());
             mPresenter.getBanner();
         } else {
-            mFreshLayout.setRefreshing(false);
             mAdapter.addData(data.getData().getDatas());
         }
     }
@@ -178,14 +185,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
         SmartToast.info(errMsg);
         if (isFresh) {
             mPresenter.getBanner();
-        } else {
-            mFreshLayout.setRefreshing(false);
         }
     }
 
     @Override
     public void getBannerSuccess(BannerBean data) {
-        mFreshLayout.setRefreshing(false);
         if (mImageUrlList == null) {
             mImageUrlList = new ArrayList<>();
             mIdList = new ArrayList<>();
@@ -227,7 +231,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
 
     @Override
     public void getBannerError(String errMsg) {
-        mFreshLayout.setRefreshing(false);
         SmartToast.info(errMsg);
     }
 

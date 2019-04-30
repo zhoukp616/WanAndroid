@@ -4,6 +4,8 @@ import com.zkp.gank.bean.ArticleListBean;
 import com.zkp.gank.bean.BannerBean;
 import com.zkp.gank.bean.HomeArticlesBean;
 import com.zkp.gank.bean.NavigationBean;
+import com.zkp.gank.bean.ProjectListBean;
+import com.zkp.gank.bean.ProjectTreeBean;
 import com.zkp.gank.bean.TreeBean;
 import com.zkp.gank.bean.WeChatArticleBean;
 import com.zkp.gank.bean.WeChatBean;
@@ -32,9 +34,6 @@ public interface ApiService {
     @GET("/banner/json")
     Observable<BannerBean> getBanner();
 
-
-    //============================================知识体系相关====================================================
-
     /**
      * 获取文章列表
      *
@@ -43,6 +42,8 @@ public interface ApiService {
      */
     @GET("/article/list/{page}/json")
     Observable<HomeArticlesBean> getHomeArticles(@Path("page") int page);
+
+    //============================================知识体系相关====================================================
 
     /**
      * 获取知识体系数据
@@ -88,8 +89,29 @@ public interface ApiService {
 
     /**
      * 获取导航数据
+     *
      * @return
      */
     @GET("/navi/json")
     Observable<NavigationBean> getNavigation();
+
+    //============================================项目相关====================================================
+
+    /**
+     * 获取项目分类数据
+     *
+     * @return
+     */
+    @GET("/project/tree/json")
+    Observable<ProjectTreeBean> getProjectTree();
+
+    /**
+     * 获取某个项目分类下的文章列表数据
+     *
+     * @param page 页码
+     * @param cid  分类ID
+     * @return
+     */
+    @GET("/project/list/{page}/json?")
+    Observable<ProjectListBean> getProjectList(@Path("page") int page, @Query("cid") int cid);
 }
