@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.zkp.gank.R;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.http.AppConfig;
-import com.zkp.gank.module.main.fragment.AboutFragment;
+import com.zkp.gank.module.main.fragment.about.AboutFragment;
 
 import butterknife.BindView;
 

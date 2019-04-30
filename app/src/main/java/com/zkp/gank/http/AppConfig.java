@@ -1,5 +1,9 @@
 package com.zkp.gank.http;
 
+import android.os.Environment;
+
+import java.io.File;
+
 /**
  * @author: zkp
  * @project: TianGuaTrip
@@ -8,6 +12,9 @@ package com.zkp.gank.http;
  * @description: App配置类
  */
 public class AppConfig {
+
+    public static final String APP_PATH = Environment.getExternalStorageDirectory() + File.separator + "玩安卓";
+
     /**
      * 读取超时 默认设置为10s
      */
@@ -18,6 +25,8 @@ public class AppConfig {
     public static final int TIMEOUT_CONNECTION = 10;
 
     public static final String BASE_URL = "https://www.wanandroid.com";
+
+    public static final String URL_UPDATE = "http://mock-api.com/3EgdX1gM.mock/getUpdateInfo";
 
     public static final String CURRENT_FRAGMENT_KEY = "current_fragment";
 

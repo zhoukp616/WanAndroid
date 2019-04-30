@@ -2,11 +2,10 @@ package com.zkp.gank.module.wechat.list;
 
 import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.presenter.BasePresenter;
-import com.zkp.gank.bean.ArticleListBean;
 import com.zkp.gank.bean.WeChatArticleBean;
 import com.zkp.gank.http.ApiService;
 import com.zkp.gank.http.AppConfig;
-import com.zkp.gank.http.HttpUtil;
+import com.zkp.gank.http.HttpsUtil;
 
 import org.simple.eventbus.EventBus;
 
@@ -40,7 +39,7 @@ public class WxArticleListPresenter extends BasePresenter<WxArticleListFragmentC
         if (mView != null) {
             mView.showLoading();
 
-            HttpUtil.request(HttpUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getWxArticleList(id, page), new HttpUtil.IResponseListener<WeChatArticleBean>() {
+            HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getWxArticleList(id, page), new HttpsUtil.IResponseListener<WeChatArticleBean>() {
                 @Override
                 public void onSuccess(WeChatArticleBean data) {
                     if (data.getErrorCode() == 0) {

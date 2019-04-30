@@ -5,7 +5,7 @@ import com.zkp.gank.base.presenter.BasePresenter;
 import com.zkp.gank.bean.WeChatBean;
 import com.zkp.gank.http.ApiService;
 import com.zkp.gank.http.AppConfig;
-import com.zkp.gank.http.HttpUtil;
+import com.zkp.gank.http.HttpsUtil;
 
 import org.simple.eventbus.EventBus;
 
@@ -39,7 +39,7 @@ public class WeChatPresenter extends BasePresenter<WeChatFragmentContract.View> 
         if (mView != null) {
             mView.showLoading();
 
-            HttpUtil.request(HttpUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getWeChat(), new HttpUtil.IResponseListener<WeChatBean>() {
+            HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getWeChat(), new HttpsUtil.IResponseListener<WeChatBean>() {
                 @Override
                 public void onSuccess(WeChatBean data) {
                     if (data.getErrorCode() == 0) {

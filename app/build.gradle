@@ -97,7 +97,6 @@ android {
     }
 
 }
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
@@ -150,6 +149,8 @@ dependencies {
     implementation 'q.rorbin:VerticalTabLayout:1.2.5'
     //flowLayout
     implementation 'com.hyman:flowlayout-lib:1.1.2'
-    //YCUpdateLib
-    implementation 'cn.yc:YCUpdateLib:1.0.6'
+    //update
+    implementation 'com.qianwen:update-app:3.5.2'
+    implementation 'com.qianwen:okhttp-utils:3.8.0'
 }
+

@@ -18,11 +18,6 @@ public class AboutFragmentContract {
 
     public interface Presenter extends IPresenter<View> {
 
-        /**
-         * 获取版本更新信息
-         */
-        void getUpdateInfo();
-
     }
 
 }

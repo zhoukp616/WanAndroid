@@ -6,7 +6,7 @@ import com.zkp.gank.base.presenter.BasePresenter;
 import com.zkp.gank.bean.BannerBean;
 import com.zkp.gank.bean.HomeArticlesBean;
 import com.zkp.gank.http.AppConfig;
-import com.zkp.gank.http.HttpUtil;
+import com.zkp.gank.http.HttpsUtil;
 
 import javax.inject.Inject;
 
@@ -40,7 +40,7 @@ public class HomePresenter extends BasePresenter<HomeFragmentContract.View> impl
         if (mView != null) {
             mView.showLoading();
 
-            HttpUtil.request(HttpUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getHomeArticles(page), new HttpUtil.IResponseListener<HomeArticlesBean>() {
+            HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getHomeArticles(page), new HttpsUtil.IResponseListener<HomeArticlesBean>() {
                 @Override
                 public void onSuccess(HomeArticlesBean data) {
                     if (data.getErrorCode() == 0) {
@@ -66,7 +66,7 @@ public class HomePresenter extends BasePresenter<HomeFragmentContract.View> impl
         if (mView != null) {
             mView.showLoading();
 
-            HttpUtil.request(HttpUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getBanner(), new HttpUtil.IResponseListener<BannerBean>() {
+            HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getBanner(), new HttpsUtil.IResponseListener<BannerBean>() {
                 @Override
                 public void onSuccess(BannerBean data) {
                     if (data.getErrorCode() == 0) {

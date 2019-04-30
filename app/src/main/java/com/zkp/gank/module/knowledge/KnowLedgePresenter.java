@@ -5,7 +5,7 @@ import com.zkp.gank.base.presenter.BasePresenter;
 import com.zkp.gank.bean.TreeBean;
 import com.zkp.gank.http.ApiService;
 import com.zkp.gank.http.AppConfig;
-import com.zkp.gank.http.HttpUtil;
+import com.zkp.gank.http.HttpsUtil;
 
 import org.simple.eventbus.EventBus;
 
@@ -40,7 +40,7 @@ public class KnowLedgePresenter extends BasePresenter<KnowLedgeFragmentContract.
 
             mView.showLoading();
 
-            HttpUtil.request(HttpUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getTree(), new HttpUtil.IResponseListener<TreeBean>() {
+            HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getTree(), new HttpsUtil.IResponseListener<TreeBean>() {
                 @Override
                 public void onSuccess(TreeBean data) {
                     if (data.getErrorCode() == 0) {

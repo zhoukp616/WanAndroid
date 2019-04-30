@@ -5,7 +5,7 @@ import com.zkp.gank.base.presenter.BasePresenter;
 import com.zkp.gank.bean.ProjectTreeBean;
 import com.zkp.gank.http.ApiService;
 import com.zkp.gank.http.AppConfig;
-import com.zkp.gank.http.HttpUtil;
+import com.zkp.gank.http.HttpsUtil;
 
 import org.simple.eventbus.EventBus;
 
@@ -39,7 +39,7 @@ public class ProjectPresenter extends BasePresenter<ProjectFragmentContract.View
         if (mView != null) {
             mView.showLoading();
 
-            HttpUtil.request(HttpUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getProjectTree(), new HttpUtil.IResponseListener<ProjectTreeBean>() {
+            HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getProjectTree(), new HttpsUtil.IResponseListener<ProjectTreeBean>() {
                 @Override
                 public void onSuccess(ProjectTreeBean data) {
                     if (data.getErrorCode() == 0) {
