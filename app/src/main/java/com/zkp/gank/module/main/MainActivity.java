@@ -8,29 +8,35 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
+import com.zkp.gank.bean.LoginBean;
 import com.zkp.gank.http.AppConfig;
 import com.zkp.gank.module.home.HomeFragment;
 import com.zkp.gank.module.knowledge.KnowLedgeFragment;
+import com.zkp.gank.module.login.LoginActivity;
 import com.zkp.gank.module.main.activity.ComponentActivity;
 import com.zkp.gank.module.navigation.NavigationFragment;
 import com.zkp.gank.module.project.ProjectFragment;
 import com.zkp.gank.module.wechat.WeChatFragment;
 
+
+import java.util.concurrent.atomic.AtomicReference;
 
 import butterknife.BindView;
 
@@ -41,7 +47,9 @@ import butterknife.BindView;
  * @time: 2019/4/10 16:44
  * @description:
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainActivityContract.View {
+
+    private static final int LOGIN = 0x00001;
 
     @BindView(R.id.drawerLayout)
     DrawerLayout mDrawerLayout;
@@ -75,6 +83,8 @@ public class MainActivity extends BaseActivity {
     private WeChatFragment mWeChatFragment;
     private NavigationFragment mNavigationFragment;
     private ProjectFragment mProjectFragment;
+
+    private TextView mUsTv;
 
     private long clickTime;
 
@@ -115,8 +125,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
 
+        //闪退重启、日志收集，保存在 玩安卓/Crash 下
 //        GankApplication.getApplication().initUnCaughtHandler();
 //        GankApplication.getApplication().addActivity(this);
+
+        mPresenter = new MainPresenter();
+        mPresenter.attachView(this);
 
         initToolbar();
         initDrawerLayout();
@@ -251,8 +265,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initNavigationView() {
-        mNavigationView.setNavigationItemSelectedListener(menuItem -> {
 
+        AtomicReference<Intent> intent = new AtomicReference<>();
+
+        mNavigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_item_my_collect:
 //                    if (mPresenter.getLoginStatus()) {
@@ -261,7 +277,7 @@ public class MainActivity extends BaseActivity {
 //                        CommonUtils.startLoginActivity(MainActivity.this);
 //                        ToastUtils.showToast(MainActivity.this, getString(R.string.login_first));
 //                    }
-//                    break;
+                    break;
                 case R.id.nav_item_todo:
 //                    if (mPresenter.getLoginStatus()) {
 //                        Intent intent = new Intent(MainActivity.this, TodoActivity.class);
@@ -270,29 +286,39 @@ public class MainActivity extends BaseActivity {
 //                        CommonUtils.startLoginActivity(MainActivity.this);
 //                        ToastUtils.showToast(MainActivity.this, getString(R.string.login_first));
 //                    }
-//                    break;
+                    break;
                 case R.id.nav_item_night_mode:
-//                    if (mPresenter.isNightMode()) {
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                        mPresenter.setNightMode(false);
-//                        menuItem.setTitle(R.string.nav_day_mode);
-//                    } else {
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                        mPresenter.setNightMode(true);
-//                        menuItem.setTitle(R.string.nav_night_mode);
-//                    }
-//                    recreate();
+                    if (mPresenter.isNightMode()) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        mPresenter.setNightMode(false);
+                        menuItem.setTitle(R.string.nav_day_mode);
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        mPresenter.setNightMode(true);
+                        menuItem.setTitle(R.string.nav_night_mode);
+                    }
+                    recreate();
                     break;
                 case R.id.nav_item_setting:
-//                    CommonUtils.startFragmentInCommonActivity(MainActivity.this, Constants.TYPE_SETTING);
+                    intent.set(new Intent(MainActivity.this, ComponentActivity.class));
+                    intent.get().putExtra("type_fragment", AppConfig.TYPE_SETTING);
+                    startActivity(intent.get());
                     break;
                 case R.id.nav_item_about_us:
-                    Intent intent = new Intent(MainActivity.this, ComponentActivity.class);
-                    intent.putExtra("type_fragment", AppConfig.TYPE_ABOUT_US);
-                    startActivity(intent);
+                    intent.set(new Intent(MainActivity.this, ComponentActivity.class));
+                    intent.get().putExtra("type_fragment", AppConfig.TYPE_ABOUT_US);
+                    startActivity(intent.get());
                     break;
                 case R.id.nav_item_logout:
-//                    mPresenter.logout();
+                    mPresenter.logout();
+                    mUsTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_login);
+                    mUsTv.setText(mPresenter.getLoginStatus() ? mPresenter.getUserAccount() : getString(R.string.login_in));
+                    mNavigationView.getMenu().findItem(R.id.nav_item_logout).setVisible(mPresenter.getLoginStatus());
+                    if (!mPresenter.getLoginStatus()) {
+                        mUsTv.setOnClickListener(v -> {
+                            startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LOGIN);
+                        });
+                    }
                     break;
                 default:
                     break;
@@ -300,18 +326,22 @@ public class MainActivity extends BaseActivity {
             return true;
         });
 
-//        mUsTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_login);
-//        mUsTv.setText(mPresenter.getLoginStatus() ? mPresenter.getLoginAccount() : getString(R.string.login));
-//        mUsTv.setOnClickListener(v -> CommonUtils.startLoginActivity(MainActivity.this));
-//        mNavigationView.getMenu().findItem(R.id.nav_item_logout).setVisible(mPresenter.getLoginStatus());
-//        MenuItem nightModeItem = mNavigationView.getMenu().findItem(R.id.nav_item_night_mode);
-//        if (mPresenter.isNightMode()) {
-//            nightModeItem.setIcon(R.drawable.ic_day);
-//            nightModeItem.setTitle(R.string.nav_day_mode);
-//        } else {
-//            nightModeItem.setIcon(R.drawable.ic_night);
-//            nightModeItem.setTitle(R.string.nav_night_mode);
-//        }
+        mUsTv = mNavigationView.getHeaderView(0).findViewById(R.id.nav_header_login);
+        mUsTv.setText(mPresenter.getLoginStatus() ? mPresenter.getUserAccount() : getString(R.string.login_in));
+        if (!mPresenter.getLoginStatus()) {
+            mUsTv.setOnClickListener(v -> {
+                startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LOGIN);
+            });
+        }
+        mNavigationView.getMenu().findItem(R.id.nav_item_logout).setVisible(mPresenter.getLoginStatus());
+        MenuItem nightModeItem = mNavigationView.getMenu().findItem(R.id.nav_item_night_mode);
+        if (mPresenter.isNightMode()) {
+            nightModeItem.setIcon(R.drawable.ic_day);
+            nightModeItem.setTitle(R.string.nav_day_mode);
+        } else {
+            nightModeItem.setIcon(R.drawable.ic_night);
+            nightModeItem.setTitle(R.string.nav_night_mode);
+        }
     }
 
     private void initBottomNavigationView() {
@@ -372,6 +402,23 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case LOGIN:
+                    mUsTv.setText(mPresenter.getLoginStatus() ? mPresenter.getUserAccount() : getString(R.string.login_in));
+                    if (mPresenter.getLoginStatus()) {
+                        mUsTv.setEnabled(false);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -392,4 +439,15 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    @Override
+    public void logoutSuccess(LoginBean data) {
+        mUsTv.setText(getString(R.string.login));
+        mUsTv.setOnClickListener(v -> startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LOGIN));
+        mNavigationView.getMenu().findItem(R.id.nav_item_logout).setVisible(false);
+    }
+
+    @Override
+    public void logoutError(String errMsg) {
+        SmartToast.show(errMsg);
+    }
 }

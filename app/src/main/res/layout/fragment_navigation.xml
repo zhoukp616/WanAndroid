@@ -12,8 +12,10 @@
         android:layout_width="@dimen/dp_110"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        app:indicator_color="@color/colorPrimary"
+        android:textColor="?android:textColorSecondary"
+        app:indicator_color="@color/tab_selected"
         app:indicator_gravity="fill"
+        app:tabTextColor="@color/tab_text"
         app:tab_height="@dimen/dp_50"
         app:tab_margin="@dimen/dp_16"
         app:tab_mode="scrollable" />

@@ -41,6 +41,14 @@
             android:name=".module.main.activity.ComponentActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.login.LoginActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.login.register.RegisterActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.zkp.gank.provider"

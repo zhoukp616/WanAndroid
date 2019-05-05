@@ -2,11 +2,13 @@ package com.zkp.gank.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.coder.zzq.smartshow.core.SmartShow;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.crash.UnCaughtHandler;
+import com.zkp.gank.utils.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,14 @@ public class GankApplication extends Application {
 
         //初始化SmartShow
         SmartShow.init(this);
+
+        if (SPUtils.getBoolean(this, "isNightMode")) {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     /**

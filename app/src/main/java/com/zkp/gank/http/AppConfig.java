@@ -15,6 +15,8 @@ public class AppConfig {
 
     public static final String APP_PATH = Environment.getExternalStorageDirectory() + File.separator + "玩安卓";
 
+    public static final String SHARED_PREFERENCES_NAME = "gankAPP";
+
     /**
      * 读取超时 默认设置为10s
      */
@@ -51,6 +53,10 @@ public class AppConfig {
      */
     public static final int TYPE_PROJECT = 4;
 
+    /**
+     * 设置
+     */
+    public static final int TYPE_SETTING = 8;
     /**
      * 关于
      */

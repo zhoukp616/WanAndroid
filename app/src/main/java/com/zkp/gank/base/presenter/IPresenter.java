@@ -39,4 +39,25 @@ public interface IPresenter<T extends IView> {
      */
     void unregisterEventBus();
 
+    /**
+     * 获取登录状态
+     *
+     * @return true--已经登录   false--还未登录
+     */
+    boolean getLoginStatus();
+
+    /**
+     * 获取用户账号
+     *
+     * @return String
+     */
+    String getUserAccount();
+
+    /**
+     * 设置用户账号
+     *
+     * @param userAccount String
+     */
+    void setUserAccount(String userAccount);
+
 }

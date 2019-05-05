@@ -3,6 +3,7 @@ package com.zkp.gank.http;
 import com.zkp.gank.bean.ArticleListBean;
 import com.zkp.gank.bean.BannerBean;
 import com.zkp.gank.bean.HomeArticlesBean;
+import com.zkp.gank.bean.LoginBean;
 import com.zkp.gank.bean.NavigationBean;
 import com.zkp.gank.bean.ProjectListBean;
 import com.zkp.gank.bean.ProjectTreeBean;
@@ -12,6 +13,7 @@ import com.zkp.gank.bean.WeChatBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -114,4 +116,32 @@ public interface ApiService {
      */
     @GET("/project/list/{page}/json?")
     Observable<ProjectListBean> getProjectList(@Path("page") int page, @Query("cid") int cid);
+
+
+    //============================================登录相关====================================================
+
+    /**
+     * 登录
+     *
+     * @param userName 用户名
+     * @param password 密码
+     * @return
+     */
+    @POST("/user/login")
+    Observable<LoginBean> login(@Query("username") String userName, @Query("password") String password);
+
+    /**
+     * 注册
+     *
+     * @param userName   用户名
+     * @param password   密码
+     * @param rePassword 重复密码
+     * @return
+     */
+    @POST("/user/register")
+    Observable<LoginBean> register(@Query("username") String userName, @Query("password") String password, @Query("repassword") String rePassword);
+
+
+    @GET("/user/logout/json")
+    Observable<LoginBean> logout();
 }

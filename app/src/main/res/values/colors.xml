@@ -4,9 +4,17 @@
     <color name="colorPrimaryDark">#048998</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorTabTextUnSelect">#707070</color>
+    <color name="colorWhiteTitle">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorTabTextUnSelect">#707070</color>
     <color name="colorRed">#F44336</color>
+
+    <color name="bottom_nav_checked">#00ACC1</color>
+    <color name="bottom_nav_not_checked">#cccccc</color>
+    <color name="nav_item_color_ic">#616161</color>
+    <color name="nav_item_color_tv">#19191B</color>
+    <color name="tab_selected">#00ACC0</color>
+    <color name="tab_text">@color/Grey200</color>
 
     <color name="Grey50">#FAFAFA</color>
     <color name="Grey100">#F5F5F5</color>

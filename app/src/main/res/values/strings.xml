@@ -35,10 +35,20 @@
 
     <string name="scale_down_show_behavior">com.zkp.gank.weight.ScaleDownShowBehavior</string>
     <string name="bye_burger_bottom_behavior">com.zkp.gank.weight.BottomNavigationBehavior</string>
+
+
     <string name="about_update">检查更新</string>
     <string name="about_website">关于网站</string>
     <string name="about_source_code">源码下载</string>
     <string name="about_feedback">意见反馈</string>
     <string name="about_copyright">版权声明</string>
+
+    <string name="cache_setting">缓存设置</string>
+    <string name="clear_cache">清空缓存</string>
+    <string name="enter_user_name">请输入用户名</string>
+    <string name="enter_password">请输入密码</string>
+    <string name="login">登录</string>
+    <string name="register">还没账号?</string>
+
 
 </resources>

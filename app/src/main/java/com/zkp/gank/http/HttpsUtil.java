@@ -3,6 +3,9 @@ package com.zkp.gank.http;
 import android.content.Context;
 import android.util.Log;
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.zkp.gank.app.GankApplication;
 
 import java.io.IOException;
@@ -87,6 +90,8 @@ public class HttpsUtil {
                     .connectTimeout(TIMEOUT_CONNECTION, TimeUnit.SECONDS)
                     .hostnameVerifier((hostname, session) -> true)
                     .sslSocketFactory(sslSocketFactory, trustManager)
+                    .cookieJar(new PersistentCookieJar(new SetCookieCache(),
+                            new SharedPrefsCookiePersistor(GankApplication.getContext())))
                     .build();
 
         } catch (IOException e) {

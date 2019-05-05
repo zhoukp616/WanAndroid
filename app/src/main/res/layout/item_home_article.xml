@@ -144,7 +144,7 @@
                 android:gravity="top|start"
                 android:lineSpacingExtra="@dimen/dp_2"
                 android:maxLines="2"
-                android:textColor="@color/Grey900"
+                android:textColor="@color/colorBlack"
                 android:textSize="@dimen/sp_16"
                 tools:text="WanAndroid" />
 

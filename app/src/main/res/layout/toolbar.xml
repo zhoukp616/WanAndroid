@@ -25,8 +25,8 @@
             android:layout_gravity="start"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:textColor="@color/colorWhite"
-            android:textSize="18sp" />
+            android:textColor="@color/colorWhiteTitle"
+            android:textSize="@dimen/sp_18" />
 
     </android.support.v7.widget.Toolbar>
 

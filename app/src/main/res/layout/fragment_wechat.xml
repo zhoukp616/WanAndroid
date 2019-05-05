@@ -20,7 +20,7 @@
             app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorHeight="@dimen/dp_2"
             app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/colorWhite"
+            app:tabSelectedTextColor="@color/colorWhiteTitle"
             app:tabTextAppearance="@style/TabLayoutStyle"
             app:tabTextColor="@color/Grey200" />
 

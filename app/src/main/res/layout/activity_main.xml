@@ -25,9 +25,11 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_55"
             android:layout_gravity="bottom"
-            android:background="?android:attr/windowBackground"
+            android:background="@color/colorWhite"
             android:elevation="@dimen/dp_16"
             app:labelVisibilityMode="labeled"
+            app:itemIconTint="@drawable/nav_item_color_selector"
+            app:itemTextColor="@drawable/nav_item_color_selector"
             app:layout_behavior="@string/bye_burger_bottom_behavior"
             app:menu="@menu/navigation" />
 
@@ -53,6 +55,8 @@
         android:background="@color/colorWhite"
         app:headerLayout="@layout/nav_header"
         app:insetForeground="@android:color/transparent"
+        app:itemIconTint="@color/nav_item_color_ic"
+        app:itemTextColor="@color/nav_item_color_tv"
         app:menu="@menu/nav_menu">
 
     </android.support.design.widget.NavigationView>
