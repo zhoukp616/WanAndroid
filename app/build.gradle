@@ -36,13 +36,13 @@ android {
         dev {
             keyAlias 'Gank_dev'
             keyPassword '123456'
-            storeFile file('D:/code/tgtrip/TianGuaTrip/ot.jks')
+            storeFile file('D:/code/Git/Gank/ot.jks')
             storePassword '123456'
         }
         ot {
             keyAlias 'Gank'
             keyPassword '123456'
-            storeFile file('D:/code/tgtrip/TianGuaTrip/ot.jks')
+            storeFile file('D:/code/Git/Gank/ot.jks')
             storePassword '123456'
         }
     }
