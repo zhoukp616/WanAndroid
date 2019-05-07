@@ -63,6 +63,29 @@ public class AppConfig {
     public static final int TYPE_ABOUT_US = 9;
 
     /**
+     * TODO分类
+     */
+    public static final int TODO_TYPE_ALL = 0;
+    public static final int TODO_TYPE_WORK = 1;
+    public static final int TODO_TYPE_STUDY = 2;
+    public static final int TODO_TYPE_LIFE = 3;
+    public static final int TODO_TYPE_OTHER = 4;
+
+    public static final int TODO_PRIORITY_FIRST = 1;
+    public static final int TODO_PRIORITY_SECOND = 2;
+
+    /**
+     * TODO列表参数
+     */
+    public static final String KEY_TODO_TITLE = "title";
+    public static final String KEY_TODO_CONTENT = "content";
+    public static final String KEY_TODO_DATE = "date";
+    public static final String KEY_TODO_TYPE = "type";
+    public static final String KEY_TODO_STATUS = "status";
+    public static final String KEY_TODO_PRIORITY = "priority";
+    public static final String KEY_TODO_ORDERBY = "orderby";
+
+    /**
      * 连续两次点击时间间隔<2000,则退出应用
      */
     public static final long EXIT_TIME = 2000;

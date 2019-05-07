@@ -1,4 +1,4 @@
-package com.zkp.gank.weight;
+package com.zkp.gank.widget;
 
 import android.app.Dialog;
 import android.content.Context;

@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 
-package com.zkp.gank.weight;
+package com.zkp.gank.widget;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;

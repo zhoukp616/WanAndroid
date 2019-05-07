@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.zkp.gank.base.presenter.IPresenter;
 import com.zkp.gank.base.view.IView;
-import com.zkp.gank.weight.ProgressDialog;
+import com.zkp.gank.widget.ProgressDialog;
 
 import javax.inject.Inject;
 

@@ -49,6 +49,14 @@
             android:name=".module.login.register.RegisterActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.main.todo.ToDoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.main.todo.list.add.AddToDoActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.zkp.gank.provider"

@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 
-package com.zkp.gank.weight;
+package com.zkp.gank.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -155,5 +155,7 @@ dependencies {
     //update
     implementation 'com.qianwen:update-app:3.5.2'
     implementation 'com.qianwen:okhttp-utils:3.8.0'
+    //PickerView
+    implementation 'com.contrarywind:Android-PickerView:4.1.8'
 }
 

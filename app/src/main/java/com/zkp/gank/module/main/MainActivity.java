@@ -31,6 +31,7 @@ import com.zkp.gank.module.home.HomeFragment;
 import com.zkp.gank.module.knowledge.KnowLedgeFragment;
 import com.zkp.gank.module.login.LoginActivity;
 import com.zkp.gank.module.main.activity.ComponentActivity;
+import com.zkp.gank.module.main.todo.ToDoActivity;
 import com.zkp.gank.module.navigation.NavigationFragment;
 import com.zkp.gank.module.project.ProjectFragment;
 import com.zkp.gank.module.wechat.WeChatFragment;
@@ -271,21 +272,21 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainAct
         mNavigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_item_my_collect:
-//                    if (mPresenter.getLoginStatus()) {
+                    if (mPresenter.getLoginStatus()) {
 //                        CommonUtils.startFragmentInCommonActivity(MainActivity.this, AppConfig.TYPE_COLLECT);
-//                    } else {
-//                        CommonUtils.startLoginActivity(MainActivity.this);
-//                        ToastUtils.showToast(MainActivity.this, getString(R.string.login_first));
-//                    }
+                    } else {
+                        startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LOGIN);
+                        SmartToast.show("请先登录");
+                    }
                     break;
                 case R.id.nav_item_todo:
-//                    if (mPresenter.getLoginStatus()) {
-//                        Intent intent = new Intent(MainActivity.this, TodoActivity.class);
-//                        startActivity(intent);
-//                    } else {
-//                        CommonUtils.startLoginActivity(MainActivity.this);
-//                        ToastUtils.showToast(MainActivity.this, getString(R.string.login_first));
-//                    }
+                    if (mPresenter.getLoginStatus()) {
+                        intent.set(new Intent(MainActivity.this, ToDoActivity.class));
+                        startActivity(intent.get());
+                    } else {
+                        startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LOGIN);
+                        SmartToast.show("请先登录");
+                    }
                     break;
                 case R.id.nav_item_night_mode:
                     if (mPresenter.isNightMode()) {
