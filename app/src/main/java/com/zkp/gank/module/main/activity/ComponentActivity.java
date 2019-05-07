@@ -1,5 +1,6 @@
 package com.zkp.gank.module.main.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -8,9 +9,11 @@ import android.widget.TextView;
 import com.zkp.gank.R;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.http.AppConfig;
+import com.zkp.gank.module.main.activity.search.fragment.SearchFragment;
 import com.zkp.gank.module.main.fragment.about.AboutFragment;
 import com.zkp.gank.module.main.fragment.collect.CollectFragment;
 import com.zkp.gank.module.main.fragment.setting.SettingFragment;
+import com.zkp.gank.module.main.fragment.web.UsefulSitesFragment;
 
 import butterknife.BindView;
 
@@ -41,6 +44,7 @@ public class ComponentActivity extends BaseActivity {
     @Override
     protected void initView() {
         int fragType = getIntent().getIntExtra("type_fragment", -1);
+        Bundle extras = getIntent().getExtras();
         switch (fragType) {
             case AppConfig.TYPE_COLLECT:
                 mTargetFragment = CollectFragment.newInstance();
@@ -54,6 +58,15 @@ public class ComponentActivity extends BaseActivity {
                 //关于
                 mTargetFragment = AboutFragment.newInstance();
                 title = getString(R.string.about_us);
+                break;
+            case AppConfig.TYPE_USEFUL_SITES:
+                mTargetFragment = UsefulSitesFragment.newInstance();
+                title = getString(R.string.useful_sites);
+                break;
+            case AppConfig.TYPE_SEARCH_RESULT:
+                assert extras != null;
+                title = extras.getString("search_key", "");
+                mTargetFragment = SearchFragment.newInstance(extras);
                 break;
             default:
                 break;

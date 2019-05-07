@@ -1,7 +1,6 @@
 package com.zkp.gank.module.main;
 
 
-import android.util.Log;
 
 import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.presenter.BasePresenter;
@@ -37,7 +36,6 @@ public class MainPresenter extends BasePresenter<MainActivityContract.View> impl
             HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).logout(), new HttpsUtil.IResponseListener<LoginBean>() {
                 @Override
                 public void onSuccess(LoginBean data) {
-                    Log.d("qwe", data.toString());
                     if (data.getErrorCode() == 0) {
                         SPUtils.putBoolean(GankApplication.getContext(), "loginStatus", false);
                         SPUtils.putString(GankApplication.getContext(), "userAccount", "");

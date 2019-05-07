@@ -63,7 +63,9 @@ public abstract class BaseFragment<T extends IPresenter> extends AbstractSimpleF
             dialog = new ProgressDialog(getActivity());
             dialog.showMessage("加载中...");
         }
-        dialog.show();
+        if (!dialog.isShowing()) {
+            dialog.show();
+        }
     }
 
     @Override
@@ -72,7 +74,10 @@ public abstract class BaseFragment<T extends IPresenter> extends AbstractSimpleF
             dialog = new ProgressDialog(getActivity());
             dialog.showMessage("加载中...");
         }
-        dialog.dismiss();
+
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
 }

@@ -4,7 +4,9 @@ import com.zkp.gank.bean.AddToDoBean;
 import com.zkp.gank.bean.ArticleListBean;
 import com.zkp.gank.bean.BannerBean;
 import com.zkp.gank.bean.CollectListBean;
+import com.zkp.gank.bean.FriendWebBean;
 import com.zkp.gank.bean.HomeArticlesBean;
+import com.zkp.gank.bean.HotKeyBean;
 import com.zkp.gank.bean.LoginBean;
 import com.zkp.gank.bean.NavigationBean;
 import com.zkp.gank.bean.ProjectListBean;
@@ -33,6 +35,36 @@ import retrofit2.http.QueryMap;
  * @description:
  */
 public interface ApiService {
+
+    //============================================Main相关====================================================
+
+    /**
+     * 获取常用网站列表
+     *
+     * @return
+     */
+    @GET("/friend/json")
+    Observable<FriendWebBean> getFriendWebs();
+
+    /**
+     * 获取当前搜索最多的关键词
+     *
+     * @return
+     */
+    @GET("/hotkey/json")
+    Observable<HotKeyBean> getHotKeys();
+
+    /**
+     * 搜索
+     * 页码：拼接在链接上，从0开始
+     * k ： 搜索关键词
+     *
+     * @param page int
+     * @param k    String
+     * @return
+     */
+    @POST("/article/query/{page}/json")
+    Observable<HomeArticlesBean> searchArticlesByKeyWord(@Path("page") int page, @Query("k") String k);
 
     //============================================首页相关====================================================
 

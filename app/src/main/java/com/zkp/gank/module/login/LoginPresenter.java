@@ -1,6 +1,5 @@
 package com.zkp.gank.module.login;
 
-import android.util.Log;
 
 import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.presenter.BasePresenter;
@@ -24,7 +23,6 @@ public class LoginPresenter extends BasePresenter<LoginActivityContract.View> im
             HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).login(userName, password), new HttpsUtil.IResponseListener<LoginBean>() {
                 @Override
                 public void onSuccess(LoginBean data) {
-                    Log.d("qwe", data.toString());
                     if (data.getErrorCode() == 0) {
                         mView.loginSuccess(data);
                     } else {

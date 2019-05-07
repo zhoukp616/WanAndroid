@@ -52,8 +52,9 @@ public class AppConfig {
      * 项目
      */
     public static final int TYPE_PROJECT = 4;
-
-
+    /**
+     * 我的收藏
+     */
     public static final int TYPE_COLLECT = 5;
     /**
      * 设置
@@ -63,6 +64,14 @@ public class AppConfig {
      * 关于
      */
     public static final int TYPE_ABOUT_US = 9;
+    /**
+     * 常用网站
+     */
+    public static final int TYPE_USEFUL_SITES = 10;
+    /**
+     * 搜索结果
+     */
+    public static final int TYPE_SEARCH_RESULT = 11;
 
     /**
      * TODO分类

@@ -29,6 +29,7 @@ import com.zkp.gank.module.home.HomeFragment;
 import com.zkp.gank.module.knowledge.KnowLedgeFragment;
 import com.zkp.gank.module.login.LoginActivity;
 import com.zkp.gank.module.main.activity.ComponentActivity;
+import com.zkp.gank.module.main.activity.search.SearchActivity;
 import com.zkp.gank.module.main.todo.ToDoActivity;
 import com.zkp.gank.module.navigation.NavigationFragment;
 import com.zkp.gank.module.project.ProjectFragment;
@@ -427,12 +428,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainAct
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_usage:
-                SmartToast.show("常用网站");
+                intent = new Intent(MainActivity.this, ComponentActivity.class);
+                intent.putExtra("type_fragment", AppConfig.TYPE_USEFUL_SITES);
+                startActivity(intent);
                 break;
             case R.id.action_search:
-                SmartToast.show("搜索");
+                intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

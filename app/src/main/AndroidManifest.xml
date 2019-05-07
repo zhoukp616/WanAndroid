@@ -57,6 +57,10 @@
             android:name=".module.main.todo.list.add.AddToDoActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.main.activity.search.SearchActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.zkp.gank.provider"
