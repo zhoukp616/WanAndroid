@@ -16,14 +16,12 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.zkp.gank.R;
-import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.bean.LoginBean;
 import com.zkp.gank.http.AppConfig;
@@ -273,7 +271,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainAct
             switch (menuItem.getItemId()) {
                 case R.id.nav_item_my_collect:
                     if (mPresenter.getLoginStatus()) {
-//                        CommonUtils.startFragmentInCommonActivity(MainActivity.this, AppConfig.TYPE_COLLECT);
+                        intent.set(new Intent(MainActivity.this, ComponentActivity.class));
+                        intent.get().putExtra("type_fragment", AppConfig.TYPE_COLLECT);
+                        startActivity(intent.get());
                     } else {
                         startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LOGIN);
                         SmartToast.show("请先登录");

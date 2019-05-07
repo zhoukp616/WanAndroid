@@ -101,12 +101,14 @@ public class ToDoActivity extends BaseActivity<ToDoPresenter> implements ToDoAct
                     if (mTodoStatus == 1) {
                         mTodoStatus = 0;
                         EventBus.getDefault().post(new RefreshTodoEvent(0));
+                        fragmentSparseArray.get(mViewPager.getCurrentItem()).setUserVisibleHint(true);
                     }
                     break;
                 case R.id.action_todo_done:
                     if (mTodoStatus == 0) {
                         mTodoStatus = 1;
                         EventBus.getDefault().post(new RefreshTodoEvent(1));
+                        fragmentSparseArray.get(mViewPager.getCurrentItem()).setUserVisibleHint(true);
                     }
                     break;
                 default:

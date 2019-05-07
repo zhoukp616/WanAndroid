@@ -72,6 +72,7 @@ public class ProjectListFragment extends BaseFragment<ProjectListPresenter> impl
         cid = getArguments().getInt("cid");
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            page = 0;
             mPresenter.getProjectList(page, cid, true);
             refreshLayout.finishRefresh();
         });
@@ -96,6 +97,21 @@ public class ProjectListFragment extends BaseFragment<ProjectListPresenter> impl
             intent.putExtra("articleItemPosition", position);
             Objects.requireNonNull(getActivity()).startActivity(intent);
         });
+
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.ivLike:
+                    if (Objects.requireNonNull(mAdapter.getItem(position)).isCollect()) {
+                        mPresenter.unCollectArticle(Objects.requireNonNull(mAdapter.getItem(position)).getId());
+                    } else {
+                        mPresenter.collectArticle(Objects.requireNonNull(mAdapter.getItem(position)).getId());
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+
     }
 
     @Override
@@ -112,6 +128,28 @@ public class ProjectListFragment extends BaseFragment<ProjectListPresenter> impl
 
     @Override
     public void getProjectListError(String errMsg, boolean isFresh) {
+        SmartToast.show(errMsg);
+    }
+
+    @Override
+    public void collectArticleSuccess() {
+        page = 0;
+        mPresenter.getProjectList(page, cid, true);
+    }
+
+    @Override
+    public void collectArticleError(String errMsg) {
+        SmartToast.show(errMsg);
+    }
+
+    @Override
+    public void unCollectArticleSuccess() {
+        page = 0;
+        mPresenter.getProjectList(page, cid, true);
+    }
+
+    @Override
+    public void unCollectArticleError(String errMsg) {
         SmartToast.show(errMsg);
     }
 

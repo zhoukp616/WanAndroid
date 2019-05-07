@@ -59,8 +59,7 @@ public class HomeArticlesAdapter extends BaseQuickAdapter<HomeArticlesBean.DataB
             helper.getView(R.id.ivArticleThumbnail).setVisibility(View.GONE);
         }
 
-//        helper.addOnClickListener(R.id.tv_article_chapterName);
-//        helper.addOnClickListener(R.id.iv_article_like);
-//        helper.addOnClickListener(R.id.tv_article_tag);
+        helper.addOnClickListener(R.id.ivArticleLike);
+
     }
 }

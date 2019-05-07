@@ -2,6 +2,7 @@ package com.zkp.gank.module.wechat.list;
 
 import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.presenter.BasePresenter;
+import com.zkp.gank.bean.HomeArticlesBean;
 import com.zkp.gank.bean.WeChatArticleBean;
 import com.zkp.gank.http.ApiService;
 import com.zkp.gank.http.AppConfig;
@@ -53,6 +54,56 @@ public class WxArticleListPresenter extends BasePresenter<WxArticleListFragmentC
                 @Override
                 public void onFail(String errMsg) {
                     mView.getWxArticleListError(errMsg, isFresh);
+                    mView.hideLoading();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void collectArticle(int id) {
+        if (mView != null) {
+            mView.showLoading();
+
+            HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).collectArticle(id), new HttpsUtil.IResponseListener<HomeArticlesBean>() {
+                @Override
+                public void onSuccess(HomeArticlesBean data) {
+                    if (data.getErrorCode() == 0) {
+                        mView.collectArticleSuccess();
+                    } else {
+                        mView.collectArticleError(data.getErrorMsg());
+                    }
+                    mView.hideLoading();
+                }
+
+                @Override
+                public void onFail(String errMsg) {
+                    mView.collectArticleError(errMsg);
+                    mView.hideLoading();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void unCollectArticle(int id) {
+        if (mView != null) {
+            mView.showLoading();
+
+            HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).unCollectArticle(id), new HttpsUtil.IResponseListener<HomeArticlesBean>() {
+                @Override
+                public void onSuccess(HomeArticlesBean data) {
+                    if (data.getErrorCode() == 0) {
+                        mView.unCollectArticleSuccess();
+                    } else {
+                        mView.unCollectArticleError(data.getErrorMsg());
+                    }
+                    mView.hideLoading();
+                }
+
+                @Override
+                public void onFail(String errMsg) {
+                    mView.unCollectArticleError(errMsg);
                     mView.hideLoading();
                 }
             });

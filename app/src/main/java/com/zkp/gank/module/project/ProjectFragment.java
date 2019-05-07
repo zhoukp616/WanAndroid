@@ -58,7 +58,12 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
     }
 
     @Override
-    public void onDestroy() {
+    protected void initEventAndData() {
+
+    }
+
+    @Override
+    public void onDestroyView() {
         if (fragmentSparseArray != null) {
             fragmentSparseArray.clear();
             fragmentSparseArray = null;
@@ -70,12 +75,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
         if (mPresenter != null) {
             mPresenter.unregisterEventBus();
         }
-        super.onDestroy();
-    }
-
-    @Override
-    protected void initEventAndData() {
-
+        super.onDestroyView();
     }
 
     @Override

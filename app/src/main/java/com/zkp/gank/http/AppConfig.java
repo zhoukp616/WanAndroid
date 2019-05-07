@@ -53,6 +53,8 @@ public class AppConfig {
      */
     public static final int TYPE_PROJECT = 4;
 
+
+    public static final int TYPE_COLLECT = 5;
     /**
      * 设置
      */

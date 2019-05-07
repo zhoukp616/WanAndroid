@@ -9,6 +9,7 @@ import com.zkp.gank.R;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.http.AppConfig;
 import com.zkp.gank.module.main.fragment.about.AboutFragment;
+import com.zkp.gank.module.main.fragment.collect.CollectFragment;
 import com.zkp.gank.module.main.fragment.setting.SettingFragment;
 
 import butterknife.BindView;
@@ -41,14 +42,18 @@ public class ComponentActivity extends BaseActivity {
     protected void initView() {
         int fragType = getIntent().getIntExtra("type_fragment", -1);
         switch (fragType) {
-            case AppConfig.TYPE_ABOUT_US:
-                //关于
-                mTargetFragment = AboutFragment.newInstance();
-                title = getString(R.string.about_us);
+            case AppConfig.TYPE_COLLECT:
+                mTargetFragment = CollectFragment.newInstance();
+                title = getString(R.string.collect);
                 break;
             case AppConfig.TYPE_SETTING:
                 mTargetFragment = SettingFragment.newInstance();
                 title = getString(R.string.setting);
+                break;
+            case AppConfig.TYPE_ABOUT_US:
+                //关于
+                mTargetFragment = AboutFragment.newInstance();
+                title = getString(R.string.about_us);
                 break;
             default:
                 break;

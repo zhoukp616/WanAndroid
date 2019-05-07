@@ -73,8 +73,6 @@ public class AddToDoActivity extends BaseActivity<AddToDoPresenter> implements A
      */
     private int from;
 
-    private int type;
-
     private String[] types = new String[]{"无标签", "工作", "学习", "生活", "其他"};
     private ChooseListDialog mTypeChooseDialog;
     private int preChoosePositionType = 0;
@@ -110,7 +108,7 @@ public class AddToDoActivity extends BaseActivity<AddToDoPresenter> implements A
             //增加todo数据
             mTitle.setText(R.string.todo_new_title);
             //获取要添加的type类型
-            type = getIntent().getIntExtra("type_todo", 0);
+            preChoosePositionType = getIntent().getIntExtra("type_todo", 0);
         } else {
             //更新todo数据
             mTitle.setText(R.string.todo_edit_title);

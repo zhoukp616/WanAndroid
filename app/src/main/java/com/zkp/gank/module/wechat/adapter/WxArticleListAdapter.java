@@ -57,8 +57,6 @@ public class WxArticleListAdapter extends BaseQuickAdapter<WeChatArticleBean.Dat
             helper.getView(R.id.ivArticleThumbnail).setVisibility(View.GONE);
         }
 
-        helper.addOnClickListener(R.id.tvArticleChapterName);
         helper.addOnClickListener(R.id.ivArticleLike);
-        helper.addOnClickListener(R.id.tvArticleTag);
     }
 }

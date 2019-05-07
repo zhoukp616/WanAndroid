@@ -25,6 +25,7 @@
     <color name="colorRed">#F44336</color>
 
     <color name="bottom_nav_checked">#00ACC1</color>
+    <color name="bottom_nav_checked_dark">#048998</color>
     <color name="bottom_nav_not_checked">#cccccc</color>
     <color name="nav_item_color_ic">@color/Grey600</color>
     <color name="nav_item_color_tv">@color/Grey600</color>

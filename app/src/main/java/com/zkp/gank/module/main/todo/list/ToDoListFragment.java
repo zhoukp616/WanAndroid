@@ -3,23 +3,24 @@ package com.zkp.gank.module.main.todo.list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zkp.gank.R;
 import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.ToDoListBean;
+import com.zkp.gank.module.main.todo.RefreshTodoEvent;
 import com.zkp.gank.module.main.todo.ToDoActivity;
 import com.zkp.gank.module.main.todo.list.adapter.ToDoListAdapter;
 import com.zkp.gank.module.main.todo.list.add.AddToDoActivity;
 import com.zkp.gank.widget.RecyclerViewImplementsContextMenu;
+
+import org.simple.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,6 +132,8 @@ public class ToDoListFragment extends BaseFragment<ToDoListPresenter> implements
     @Override
     public void deleteTodoSuccess() {
         SmartToast.show("删除成功");
+        EventBus.getDefault().post(new RefreshTodoEvent(-1));
+        status = ToDoActivity.getTodoStatus();
         mPresenter.refresh(type, status);
     }
 
@@ -142,6 +145,8 @@ public class ToDoListFragment extends BaseFragment<ToDoListPresenter> implements
     @Override
     public void updateToDoStatusSuccess() {
         SmartToast.show("更新状态成功");
+        EventBus.getDefault().post(new RefreshTodoEvent(-1));
+        status = ToDoActivity.getTodoStatus();
         mPresenter.refresh(type, status);
     }
 
@@ -188,6 +193,22 @@ public class ToDoListFragment extends BaseFragment<ToDoListPresenter> implements
                 return true;
             default:
                 return super.onContextItemSelected(item);
+        }
+    }
+
+    /**
+     * TODO状态改变后，Fragment再次可见，则更新数据
+     *
+     * @param isVisibleToUser
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            if (mPresenter!= null){
+                status = ToDoActivity.getTodoStatus();
+                mPresenter.refresh(type, status);
+            }
         }
     }
 }

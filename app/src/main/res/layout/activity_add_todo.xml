@@ -121,7 +121,8 @@
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/bottom_nav_checked"
                     android:checked="true"
-                    android:text="@string/todo_priority_1" />
+                    android:text="@string/todo_priority_1"
+                    android:textColor="@color/colorBlack" />
 
                 <RadioButton
                     android:id="@+id/rb_todo_priority_2"
@@ -129,7 +130,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_13"
                     android:buttonTint="@color/bottom_nav_checked"
-                    android:text="@string/todo_priority_2" />
+                    android:text="@string/todo_priority_2"
+                    android:textColor="@color/colorBlack" />
             </RadioGroup>
 
             <View

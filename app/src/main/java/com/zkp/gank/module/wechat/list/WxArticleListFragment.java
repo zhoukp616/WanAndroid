@@ -77,6 +77,7 @@ public class WxArticleListFragment extends BaseFragment<WxArticleListPresenter> 
         mPresenter.getWxArticleList(id, page, true);
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            page = 0;
             mPresenter.getWxArticleList(id, page, true);
             refreshLayout.finishRefresh();
         });
@@ -99,6 +100,21 @@ public class WxArticleListFragment extends BaseFragment<WxArticleListPresenter> 
             intent.putExtra("articleItemPosition", position);
             Objects.requireNonNull(getActivity()).startActivity(intent);
         });
+
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.ivArticleLike:
+                    if (Objects.requireNonNull(mAdapter.getItem(position)).isCollect()) {
+                        mPresenter.unCollectArticle(Objects.requireNonNull(mAdapter.getItem(position)).getId());
+                    } else {
+                        mPresenter.collectArticle(Objects.requireNonNull(mAdapter.getItem(position)).getId());
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+
     }
 
     @Override
@@ -115,6 +131,28 @@ public class WxArticleListFragment extends BaseFragment<WxArticleListPresenter> 
 
     @Override
     public void getWxArticleListError(String errMsg, boolean isFresh) {
+        SmartToast.show(errMsg);
+    }
+
+    @Override
+    public void collectArticleSuccess() {
+        page = 0;
+        mPresenter.getWxArticleList(id, page, true);
+    }
+
+    @Override
+    public void collectArticleError(String errMsg) {
+        SmartToast.show(errMsg);
+    }
+
+    @Override
+    public void unCollectArticleSuccess() {
+        page = 0;
+        mPresenter.getWxArticleList(id, page, true);
+    }
+
+    @Override
+    public void unCollectArticleError(String errMsg) {
         SmartToast.show(errMsg);
     }
 

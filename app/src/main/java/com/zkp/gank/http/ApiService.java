@@ -3,6 +3,7 @@ package com.zkp.gank.http;
 import com.zkp.gank.bean.AddToDoBean;
 import com.zkp.gank.bean.ArticleListBean;
 import com.zkp.gank.bean.BannerBean;
+import com.zkp.gank.bean.CollectListBean;
 import com.zkp.gank.bean.HomeArticlesBean;
 import com.zkp.gank.bean.LoginBean;
 import com.zkp.gank.bean.NavigationBean;
@@ -155,6 +156,48 @@ public interface ApiService {
      */
     @GET("/user/logout/json")
     Observable<LoginBean> logout();
+
+
+    //============================================收藏相关====================================================
+
+    /**
+     * 获取收藏列表
+     *
+     * @param page int
+     * @return
+     */
+    @GET("/lg/collect/list/{page}/json")
+    Observable<CollectListBean> getCollectList(@Path("page") int page);
+
+    /**
+     * 收藏站内文章
+     *
+     * @param id int
+     * @return
+     */
+    @POST("/lg/collect/{id}/json")
+    Observable<HomeArticlesBean> collectArticle(@Path("id") int id);
+
+    /**
+     * 取消收藏 --文章列表
+     *
+     * @param id int
+     * @return
+     */
+    @POST("/lg/uncollect_originId/{id}/json")
+    Observable<HomeArticlesBean> unCollectArticle(@Path("id") int id);
+
+    /**
+     * 取消收藏
+     * id:拼接在链接上
+     * originId:列表页下发，无则为-1
+     *
+     * @param id       int
+     * @param originId int
+     * @return
+     */
+    @POST("/lg/uncollect/{id}/json")
+    Observable<HomeArticlesBean> unCollectInCollectPage(@Path("id") int id, @Query("originId") int originId);
 
 
     //============================================todo相关====================================================

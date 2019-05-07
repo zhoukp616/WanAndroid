@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.LinearLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
@@ -130,6 +132,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
     protected void initEventAndData() {
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            page = 0;
             mPresenter.getArticles(page, true);
             refreshLayout.finishRefresh();
         });
@@ -168,6 +171,22 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
             intent.putExtra("articleItemPosition", position);
             Objects.requireNonNull(getActivity()).startActivity(intent);
         });
+
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.ivArticleLike:
+                    //收藏
+                    if (Objects.requireNonNull(mAdapter.getItem(position)).isCollect()) {
+                        mPresenter.unCollectArticle(Objects.requireNonNull(mAdapter.getItem(position)).getId());
+                    } else {
+                        mPresenter.collectArticle(Objects.requireNonNull(mAdapter.getItem(position)).getId());
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+
     }
 
     @Override
@@ -232,6 +251,28 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
     @Override
     public void getBannerError(String errMsg) {
         SmartToast.info(errMsg);
+    }
+
+    @Override
+    public void collectArticleSuccess() {
+        page = 0;
+        mPresenter.getArticles(page, true);
+    }
+
+    @Override
+    public void collectArticleError(String errMsg) {
+        SmartToast.show(errMsg);
+    }
+
+    @Override
+    public void unCollectArticleSuccess() {
+        page = 0;
+        mPresenter.getArticles(page, true);
+    }
+
+    @Override
+    public void unCollectArticleError(String errMsg) {
+        SmartToast.show(errMsg);
     }
 
     @Override

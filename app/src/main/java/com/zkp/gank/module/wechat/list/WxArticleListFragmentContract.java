@@ -31,6 +31,30 @@ public class WxArticleListFragmentContract {
          */
         void getWxArticleListError(String errMsg, boolean isFresh);
 
+        /**
+         * 收藏站内文章成功
+         */
+        void collectArticleSuccess();
+
+        /**
+         * 收藏站内文章失败
+         *
+         * @param errMsg String
+         */
+        void collectArticleError(String errMsg);
+
+        /**
+         * 取消收藏站内文章成功
+         */
+        void unCollectArticleSuccess();
+
+        /**
+         * 取消收藏站内文章失败
+         *
+         * @param errMsg String
+         */
+        void unCollectArticleError(String errMsg);
+
     }
 
     public interface Presenter extends IPresenter<View> {
@@ -43,6 +67,20 @@ public class WxArticleListFragmentContract {
          * @param isFresh 是否刷新 boolean
          */
         void getWxArticleList(int id, int page, boolean isFresh);
+
+        /**
+         * 收藏站内文章
+         *
+         * @param id
+         */
+        void collectArticle(int id);
+
+        /**
+         * 取消收藏站内文章
+         *
+         * @param id
+         */
+        void unCollectArticle(int id);
     }
 
 }
