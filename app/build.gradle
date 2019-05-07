@@ -79,11 +79,11 @@ android {
     }
 
 
-//    greendao {
-//        schemaVersion 1
-//        daoPackage 'com.zkp.gank.greendao'
-//        targetGenDir 'src/main/java'
-//    }
+    greendao {
+        schemaVersion 1
+        daoPackage 'com.zkp.gank.db.greendao'
+        targetGenDir 'src/main/java'
+    }
 
     lintOptions {
         checkReleaseBuilds false
@@ -142,8 +142,9 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     //AgentWeb
     implementation 'com.just.agentweb:agentweb:4.0.3-alpha@aar'
-    //    //greenDao
-    //    implementation 'org.greenrobot:greendao:3.2.2'
+    //greenDao
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'org.greenrobot:greendao-generator:3.2.2'
     //SmartRefreshLayout
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
     //没有使用特殊Header，可以不加这行

@@ -1,4 +1,4 @@
-package com.zkp.gank.module.main.activity.search.fragment.adapter;
+package com.zkp.gank.module.main.activity.search.adapter;
 
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author: zkp
  * @project: Gank
- * @package: com.zkp.gank.module.main.activity.search.fragment.adapter
+ * @package: com.zkp.gank.module.main.activity.search.adapter
  * @time: 2019/5/7 16:34
  * @description:
  */

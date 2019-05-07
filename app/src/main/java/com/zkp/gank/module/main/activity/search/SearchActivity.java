@@ -3,6 +3,7 @@ package com.zkp.gank.module.main.activity.search;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -13,16 +14,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 import com.zkp.gank.R;
 import com.zkp.gank.base.activity.BaseActivity;
-import com.zkp.gank.bean.HomeArticlesBean;
 import com.zkp.gank.bean.HotKeyBean;
+import com.zkp.gank.db.entity.SearchHistory;
 import com.zkp.gank.http.AppConfig;
 import com.zkp.gank.module.main.activity.ComponentActivity;
+import com.zkp.gank.module.main.activity.search.adapter.SearchHistoryAdapter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -49,6 +52,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     RecyclerView mRecyclerView;
 
     private List<HotKeyBean.DataBean> hotKeyList;
+    private SearchHistoryAdapter mAdapter;
+    private List<SearchHistory> mSearchHistoryList;
 
     @Override
     protected int getLayoutId() {
@@ -59,6 +64,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     protected void initView() {
         initToolbar();
         initRecyclerView();
+
+        mPresenter = new SearchPresenter();
+        mPresenter.attachView(this);
     }
 
     private void initToolbar() {
@@ -72,7 +80,36 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     }
 
     private void initRecyclerView() {
+        mSearchHistoryList = new ArrayList<>();
+        mAdapter = new SearchHistoryAdapter(R.layout.item_search_history, mSearchHistoryList);
 
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (mAdapter.getData().size() <= 0 || mAdapter.getData().size() < position) {
+                return;
+            }
+            mPresenter.deleteSearchHistoryById(mAdapter.getData().get(position).getId());
+            mAdapter.remove(position);
+        });
+
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (mAdapter.getData().size() <= 0 || mAdapter.getData().size() < position) {
+                return;
+            }
+            goToSearchResult(mAdapter.getData().get(position).getData());
+        });
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter.bindToRecyclerView(mRecyclerView);
+        mAdapter.setEmptyView(R.layout.search_empty_view);
+    }
+
+    private void goToSearchResult(String keyWord) {
+        mPresenter.addSearchHistory(keyWord);
+        Intent intent = new Intent(SearchActivity.this, ComponentActivity.class);
+        intent.putExtra("type_fragment", AppConfig.TYPE_SEARCH_RESULT);
+        intent.putExtra("search_key", keyWord);
+        startActivity(intent);
     }
 
     @Override
@@ -81,6 +118,14 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         mPresenter = new SearchPresenter();
         mPresenter.attachView(this);
         mPresenter.getHotKeys();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mPresenter != null) {
+            mPresenter.loadAllSearchHistory();
+        }
     }
 
     @Override
@@ -106,16 +151,15 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     }
 
-    private void goToSearchResult(String keyWord) {
-        Intent intent = new Intent(SearchActivity.this, ComponentActivity.class);
-        intent.putExtra("type_fragment", AppConfig.TYPE_SEARCH_RESULT);
-        intent.putExtra("search_key", keyWord);
-        startActivity(intent);
-    }
-
     @Override
     public void getHotKeysError(String errMsg) {
         SmartToast.show(errMsg);
+    }
+
+    @Override
+    public void showSearchHistory(List<SearchHistory> historyDataList) {
+        mSearchHistoryList = historyDataList;
+        mAdapter.replaceData(historyDataList);
     }
 
     @Override

@@ -17,6 +17,10 @@ public class AppConfig {
 
     public static final String SHARED_PREFERENCES_NAME = "gankAPP";
 
+    public static final String DB_NAME = "zkp_wan_android.db";
+
+    public static final int HISTORY_LIST_SIZE = 50;
+
     /**
      * 读取超时 默认设置为10s
      */

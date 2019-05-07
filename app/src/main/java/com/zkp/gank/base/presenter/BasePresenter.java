@@ -1,10 +1,12 @@
 package com.zkp.gank.base.presenter;
 
 
-
 import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.view.IView;
 import com.zkp.gank.utils.SPUtils;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * @author: zkp
@@ -16,6 +18,8 @@ import com.zkp.gank.utils.SPUtils;
 public class BasePresenter<T extends IView> implements IPresenter<T> {
 
     protected T mView;
+
+    private CompositeDisposable compositeDisposable;
 
 
     @Override
@@ -56,6 +60,13 @@ public class BasePresenter<T extends IView> implements IPresenter<T> {
     @Override
     public void setUserAccount(String userAccount) {
         SPUtils.putString(GankApplication.getContext(), "userAccount", userAccount);
+    }
+
+    protected void addSubscribe(Disposable disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
+        }
+        compositeDisposable.add(disposable);
     }
 
 }

@@ -4,16 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zkp.gank.R;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.HomeArticlesBean;
 import com.zkp.gank.module.home.detail.ArticleDetailActivity;
-import com.zkp.gank.module.main.activity.search.fragment.adapter.ArticleListAdapter;
+import com.zkp.gank.module.main.activity.search.adapter.ArticleListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
