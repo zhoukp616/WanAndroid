@@ -29,5 +29,10 @@ public class WelFareAdapter extends BaseQuickAdapter<WelFareBean.ResultsBean, Ba
         if (!TextUtils.isEmpty(item.getUrl())) {
             ImageLoader.load(mContext, item.getUrl(), helper.getView(R.id.ivImage));
         }
+
+        //短按全屏显示
+        helper.addOnClickListener(R.id.ivImage);
+        //长按保存图片
+        helper.addOnLongClickListener(R.id.ivImage);
     }
 }

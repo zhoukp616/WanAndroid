@@ -1,5 +1,8 @@
 package com.zkp.gank.module.main.fragment.welfare;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+
 import com.zkp.gank.base.presenter.IPresenter;
 import com.zkp.gank.base.view.IView;
 import com.zkp.gank.bean.WelFareBean;
@@ -30,6 +33,20 @@ public class WelFareFragmentContract {
          */
         void getWelFaresError(String errMsg);
 
+        /**
+         * 保存图片成功
+         *
+         * @param path 图片路径
+         */
+        void saveBitmapSuccess(String path);
+
+        /**
+         * 保存图片失败
+         *
+         * @param errMsg String
+         */
+        void saveBitmapError(String errMsg);
+
     }
 
     public interface Presenter extends IPresenter<View> {
@@ -52,6 +69,14 @@ public class WelFareFragmentContract {
          */
         void loadMore();
 
+        /**
+         * 保存图片到手机
+         *
+         * @param bitmap
+         * @param filePath 保存路径
+         * @param context
+         */
+        void saveBitmap(Bitmap bitmap, String filePath, Context context);
     }
 
 }

@@ -27,8 +27,7 @@ import butterknife.BindView;
  */
 public class ComponentActivity extends BaseActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    private static Toolbar mToolbar;
 
     @BindView(R.id.toolbar_title)
     TextView mTitle;
@@ -44,6 +43,8 @@ public class ComponentActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mToolbar = findViewById(R.id.toolbar);
+
         int fragType = getIntent().getIntExtra("type_fragment", -1);
         Bundle extras = getIntent().getExtras();
         switch (fragType) {
@@ -92,6 +93,10 @@ public class ComponentActivity extends BaseActivity {
     @Override
     protected void initEventAndData() {
         initToolBar();
+    }
+
+    public static Toolbar getmToolbar() {
+        return mToolbar;
     }
 
     private void initToolBar() {
