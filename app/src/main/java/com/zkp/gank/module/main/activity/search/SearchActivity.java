@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @author: zkp
@@ -118,6 +119,18 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         mPresenter = new SearchPresenter();
         mPresenter.attachView(this);
         mPresenter.getHotKeys();
+    }
+
+    @OnClick({R.id.tvClearAll})
+    void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tvClearAll:
+                mPresenter.clearAllSearchHistory();
+                mPresenter.loadAllSearchHistory();
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

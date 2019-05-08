@@ -1,6 +1,7 @@
 package com.zkp.gank.db;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.db.entity.SearchHistory;
@@ -72,7 +73,9 @@ public class DbHelperImpl implements DbHelper {
 
     @Override
     public List<SearchHistory> loadAllSearchHistory() {
-        return daoSession.getSearchHistoryDao().loadAll();
+        List<SearchHistory> result = daoSession.getSearchHistoryDao().loadAll();
+        Log.d("qwe", result.toString());
+        return result;
     }
 
     private void getSearchHistoryList() {

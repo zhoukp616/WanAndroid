@@ -79,6 +79,7 @@
     <string name="cancel">取消</string>
     <string name="add_todo_success">已保存</string>
     <string name="add_todo_failed">保存失败</string>
+    <string name="nav_welfare">福利</string>
 
 
 </resources>

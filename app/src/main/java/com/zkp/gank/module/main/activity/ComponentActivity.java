@@ -14,6 +14,7 @@ import com.zkp.gank.module.main.fragment.about.AboutFragment;
 import com.zkp.gank.module.main.fragment.collect.CollectFragment;
 import com.zkp.gank.module.main.fragment.setting.SettingFragment;
 import com.zkp.gank.module.main.fragment.web.UsefulSitesFragment;
+import com.zkp.gank.module.main.fragment.welfare.WelFareFragment;
 
 import butterknife.BindView;
 
@@ -49,6 +50,10 @@ public class ComponentActivity extends BaseActivity {
             case AppConfig.TYPE_COLLECT:
                 mTargetFragment = CollectFragment.newInstance();
                 title = getString(R.string.collect);
+                break;
+            case AppConfig.TYPE_WELFARE:
+                mTargetFragment = WelFareFragment.newInstance();
+                title = getString(R.string.nav_welfare);
                 break;
             case AppConfig.TYPE_SETTING:
                 mTargetFragment = SettingFragment.newInstance();

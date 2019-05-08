@@ -55,4 +55,13 @@ public class SearchHistory {
     public void setData(String data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "SearchHistory{" +
+                "id=" + id +
+                ", date=" + date +
+                ", data='" + data + '\'' +
+                '}';
+    }
 }

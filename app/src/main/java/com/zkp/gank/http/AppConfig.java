@@ -30,7 +30,14 @@ public class AppConfig {
      */
     public static final int TIMEOUT_CONNECTION = 10;
 
+    /**
+     * 玩安卓 baseUrl
+     */
     public static final String BASE_URL = "https://www.wanandroid.com";
+    /**
+     * 干货集中营 baseUrl
+     */
+    public static final String BASE_URL_GANK = "http://gank.io";
 
     public static final String URL_UPDATE = "http://mock-api.com/3EgdX1gM.mock/getUpdateInfo";
 
@@ -60,6 +67,10 @@ public class AppConfig {
      * 我的收藏
      */
     public static final int TYPE_COLLECT = 5;
+    /**
+     * 福利
+     */
+    public static final int TYPE_WELFARE = 6;
     /**
      * 设置
      */

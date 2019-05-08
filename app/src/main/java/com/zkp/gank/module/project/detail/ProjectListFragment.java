@@ -61,15 +61,16 @@ public class ProjectListFragment extends BaseFragment<ProjectListPresenter> impl
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
-
-        mPresenter = new ProjectListPresenter();
-        mPresenter.attachView(this);
     }
 
     @Override
     protected void initEventAndData() {
         assert getArguments() != null;
         cid = getArguments().getInt("cid");
+
+        mPresenter = new ProjectListPresenter();
+        mPresenter.attachView(this);
+        mPresenter.getProjectList(page, cid, true);
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             page = 0;
@@ -82,7 +83,6 @@ public class ProjectListFragment extends BaseFragment<ProjectListPresenter> impl
             refreshLayout.finishLoadMore();
         });
 
-        mPresenter.getProjectList(page, cid, true);
 
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (mAdapter.getData().size() <= 0 || mAdapter.getData().size() < position) {

@@ -53,7 +53,6 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
     protected void initView() {
         mPresenter = new ProjectPresenter();
         mPresenter.attachView(this);
-        mPresenter.registerEventBus();
         mPresenter.getProjectTree();
     }
 
@@ -72,9 +71,6 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
             dataBeanList.clear();
             dataBeanList = null;
         }
-        if (mPresenter != null) {
-            mPresenter.unregisterEventBus();
-        }
         super.onDestroyView();
     }
 
@@ -85,7 +81,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
     }
 
     private void initViewPagerAndTabLayout() {
-        mViewPager.setAdapter(new FragmentStatePagerAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager()) {
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 ProjectListFragment projectListFragment = fragmentSparseArray.get(position);

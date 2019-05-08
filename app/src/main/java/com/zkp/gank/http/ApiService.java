@@ -15,6 +15,7 @@ import com.zkp.gank.bean.ToDoListBean;
 import com.zkp.gank.bean.TreeBean;
 import com.zkp.gank.bean.WeChatArticleBean;
 import com.zkp.gank.bean.WeChatBean;
+import com.zkp.gank.bean.WelFareBean;
 
 import java.util.Map;
 
@@ -189,6 +190,17 @@ public interface ApiService {
     @GET("/user/logout/json")
     Observable<LoginBean> logout();
 
+    //============================================福利相关====================================================
+
+    /**
+     * 获取福利相关图片列表
+     *
+     * @param page 页码
+     * @return
+     */
+    @GET("/api/data/福利/10/{page}")
+    Observable<WelFareBean> getWelFares(@Path("page") int page);
+
 
     //============================================收藏相关====================================================
 
@@ -301,4 +313,6 @@ public interface ApiService {
      */
     @POST("/lg/todo/done/{id}/json")
     Observable<AddToDoBean> updateToDoStatus(@Path("id") int id, @Query("status") int status);
+
+
 }

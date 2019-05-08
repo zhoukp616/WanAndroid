@@ -270,6 +270,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainAct
 
         mNavigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
+                case R.id.nav_item_welfare:
+                    //福利
+                    intent.set(new Intent(MainActivity.this, ComponentActivity.class));
+                    intent.get().putExtra("type_fragment", AppConfig.TYPE_WELFARE);
+                    startActivity(intent.get());
+                    break;
                 case R.id.nav_item_my_collect:
                     if (mPresenter.getLoginStatus()) {
                         intent.set(new Intent(MainActivity.this, ComponentActivity.class));

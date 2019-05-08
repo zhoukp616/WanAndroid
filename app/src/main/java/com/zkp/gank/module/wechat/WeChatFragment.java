@@ -138,10 +138,10 @@ public class WeChatFragment extends BaseFragment<WeChatPresenter> implements WeC
             fragmentSparseArray.clear();
             fragmentSparseArray = null;
         }
-//        if (mWxChapterDataList != null) {
-//            mWxChapterDataList.clear();
-//            mWxChapterDataList = null;
-//        }
+        if (dataBeanList != null) {
+            dataBeanList.clear();
+            dataBeanList = null;
+        }
         super.onDestroyView();
     }
 }
