@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -224,7 +225,7 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
     @SuppressLint("SetTextI18n")
     @Override
     public void getCurrentJsonSucess(CurrentWetaherBean data) {
-        mTvTemperature.setText(data.getResult().getApparent_temperature() + "");
+        mTvTemperature.setText(data.getResult().getTemperature() + "");
         mTvWether.setText(mPresenter.getWeather(data.getResult().getSkycon()));
         mTvHumidity.setText(String.valueOf(data.getResult().getHumidity()).substring(2) + "%");
         mTvAqi.setText(data.getResult().getAqi() + "");
@@ -307,7 +308,9 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
             mLongitude = bdLocation.getLongitude();
             mTvTitle.setText(bdLocation.getDistrict());
 
-            mPresenter.getCurrentJson(String.valueOf(mLongitude).substring(0, 7), String.valueOf(mLatitude).substring(0, 7));
+            mPresenter.getCurrentJson(String.valueOf(mLongitude), String.valueOf(mLatitude));
+            Log.d("qwe", mLongitude + "," + mLatitude);
+
         }
     }
 }

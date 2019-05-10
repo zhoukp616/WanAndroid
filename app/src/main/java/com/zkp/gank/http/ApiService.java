@@ -338,7 +338,7 @@ public interface ApiService {
      * @param latitude  纬度
      * @return
      */
-    @GET("{longitude},{latitude}/hourly.json")
+    @GET("/v2/TAkhjf8d1nlSlspN/{longitude},{latitude}/hourly.json")
     Observable<HourlyWeatherBean> getHourlyJson(@Path("longitude") String longitude, @Path("latitude") String latitude);
 
     /**
@@ -348,6 +348,6 @@ public interface ApiService {
      * @param latitude  纬度
      * @return
      */
-    @GET("{longitude},{latitude}/realtime.json")
+    @GET("/v2/TAkhjf8d1nlSlspN/{longitude},{latitude}/realtime.json")
     Observable<CurrentWetaherBean> getCurrentJson(@Path("longitude") String longitude, @Path("latitude") String latitude);
 }

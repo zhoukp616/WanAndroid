@@ -13,41 +13,33 @@ public class CurrentWetaherBean {
 
 
     /**
-     * api_status : active
-     * api_version : v2.2
-     * lang : zh_CN
-     * location : [25.1552,121.6544]
-     * result : {"apparent_temperature":19.1,"aqi":40,"cloudrate":0.46,"co":0.4708,"comfort":{"desc":"温暖","index":4},"dswrf":590.9,"humidity":0.79,"no2":8.56,"o3":156.22,"pm10":40,"pm25":10,"precipitation":{"local":{"datasource":"radar","intensity":0,"status":"ok"},"nearest":{"distance":110.7,"intensity":0.1875,"status":"ok"}},"pres":99529.19,"skycon":"PARTLY_CLOUDY_DAY","so2":1.93,"status":"ok","temperature":24,"ultraviolet":{"desc":"弱","index":3},"visibility":21.7,"wind":{"direction":68.79,"speed":17.89}}
-     * server_time : 1557474998
      * status : ok
-     * tzshift : 28800
+     * lang : zh_CN
      * unit : metric
+     * server_time : 1557480498
+     * location : [24.502836,118.178221]
+     * api_status : active
+     * tzshift : 28800
+     * api_version : v2.2
+     * result : {"status":"ok","o3":147,"co":0.3,"temperature":24.21,"pm10":51,"skycon":"PARTLY_CLOUDY_DAY","cloudrate":0.3,"precipitation":{"nearest":{"status":"ok","distance":10000,"intensity":0},"local":{"status":"ok","intensity":0,"datasource":"radar"}},"dswrf":614.4,"visibility":21.51,"humidity":0.66,"so2":5,"ultraviolet":{"index":2,"desc":"很弱"},"pres":100672.8,"aqi":51,"pm25":28,"no2":4,"apparent_temperature":19.5,"comfort":{"index":5,"desc":"舒适"},"wind":{"direction":118,"speed":16.56}}
      */
 
-    private String api_status;
-    private String api_version;
-    private String lang;
-    private ResultBean result;
-    private int server_time;
     private String status;
-    private int tzshift;
+    private String lang;
     private String unit;
+    private int server_time;
+    private String api_status;
+    private int tzshift;
+    private String api_version;
+    private ResultBean result;
     private List<Double> location;
 
-    public String getApi_status() {
-        return api_status;
+    public String getStatus() {
+        return status;
     }
 
-    public void setApi_status(String api_status) {
-        this.api_status = api_status;
-    }
-
-    public String getApi_version() {
-        return api_version;
-    }
-
-    public void setApi_version(String api_version) {
-        this.api_version = api_version;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getLang() {
@@ -58,12 +50,12 @@ public class CurrentWetaherBean {
         this.lang = lang;
     }
 
-    public ResultBean getResult() {
-        return result;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setResult(ResultBean result) {
-        this.result = result;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public int getServer_time() {
@@ -74,12 +66,12 @@ public class CurrentWetaherBean {
         this.server_time = server_time;
     }
 
-    public String getStatus() {
-        return status;
+    public String getApi_status() {
+        return api_status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setApi_status(String api_status) {
+        this.api_status = api_status;
     }
 
     public int getTzshift() {
@@ -90,12 +82,20 @@ public class CurrentWetaherBean {
         this.tzshift = tzshift;
     }
 
-    public String getUnit() {
-        return unit;
+    public String getApi_version() {
+        return api_version;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setApi_version(String api_version) {
+        this.api_version = api_version;
+    }
+
+    public ResultBean getResult() {
+        return result;
+    }
+
+    public void setResult(ResultBean result) {
+        this.result = result;
     }
 
     public List<Double> getLocation() {
@@ -108,71 +108,63 @@ public class CurrentWetaherBean {
 
     public static class ResultBean {
         /**
-         * apparent_temperature : 19.1
-         * aqi : 40
-         * cloudrate : 0.46
-         * co : 0.4708
-         * comfort : {"desc":"温暖","index":4}
-         * dswrf : 590.9
-         * humidity : 0.79
-         * no2 : 8.56
-         * o3 : 156.22
-         * pm10 : 40
-         * pm25 : 10
-         * precipitation : {"local":{"datasource":"radar","intensity":0,"status":"ok"},"nearest":{"distance":110.7,"intensity":0.1875,"status":"ok"}}
-         * pres : 99529.19
-         * skycon : PARTLY_CLOUDY_DAY
-         * so2 : 1.93
          * status : ok
-         * temperature : 24
-         * ultraviolet : {"desc":"弱","index":3}
-         * visibility : 21.7
-         * wind : {"direction":68.79,"speed":17.89}
+         * o3 : 147
+         * co : 0.3
+         * temperature : 24.21
+         * pm10 : 51
+         * skycon : PARTLY_CLOUDY_DAY
+         * cloudrate : 0.3
+         * precipitation : {"nearest":{"status":"ok","distance":10000,"intensity":0},"local":{"status":"ok","intensity":0,"datasource":"radar"}}
+         * dswrf : 614.4
+         * visibility : 21.51
+         * humidity : 0.66
+         * so2 : 5
+         * ultraviolet : {"index":2,"desc":"很弱"}
+         * pres : 100672.8
+         * aqi : 51
+         * pm25 : 28
+         * no2 : 4
+         * apparent_temperature : 19.5
+         * comfort : {"index":5,"desc":"舒适"}
+         * wind : {"direction":118,"speed":16.56}
          */
 
-        private double apparent_temperature;
-        private int aqi;
-        private double cloudrate;
-        private double co;
-        private ComfortBean comfort;
-        private double dswrf;
-        private double humidity;
-        private double no2;
-        private double o3;
-        private int pm10;
-        private int pm25;
-        private PrecipitationBean precipitation;
-        private double pres;
-        private String skycon;
-        private double so2;
         private String status;
-        private int temperature;
-        private UltravioletBean ultraviolet;
+        private int o3;
+        private double co;
+        private double temperature;
+        private int pm10;
+        private String skycon;
+        private double cloudrate;
+        private PrecipitationBean precipitation;
+        private double dswrf;
         private double visibility;
+        private double humidity;
+        private int so2;
+        private UltravioletBean ultraviolet;
+        private double pres;
+        private int aqi;
+        private int pm25;
+        private int no2;
+        private double apparent_temperature;
+        private ComfortBean comfort;
         private WindBean wind;
 
-        public double getApparent_temperature() {
-            return apparent_temperature;
+        public String getStatus() {
+            return status;
         }
 
-        public void setApparent_temperature(double apparent_temperature) {
-            this.apparent_temperature = apparent_temperature;
+        public void setStatus(String status) {
+            this.status = status;
         }
 
-        public int getAqi() {
-            return aqi;
+        public int getO3() {
+            return o3;
         }
 
-        public void setAqi(int aqi) {
-            this.aqi = aqi;
-        }
-
-        public double getCloudrate() {
-            return cloudrate;
-        }
-
-        public void setCloudrate(double cloudrate) {
-            this.cloudrate = cloudrate;
+        public void setO3(int o3) {
+            this.o3 = o3;
         }
 
         public double getCo() {
@@ -183,44 +175,12 @@ public class CurrentWetaherBean {
             this.co = co;
         }
 
-        public ComfortBean getComfort() {
-            return comfort;
+        public double getTemperature() {
+            return temperature;
         }
 
-        public void setComfort(ComfortBean comfort) {
-            this.comfort = comfort;
-        }
-
-        public double getDswrf() {
-            return dswrf;
-        }
-
-        public void setDswrf(double dswrf) {
-            this.dswrf = dswrf;
-        }
-
-        public double getHumidity() {
-            return humidity;
-        }
-
-        public void setHumidity(double humidity) {
-            this.humidity = humidity;
-        }
-
-        public double getNo2() {
-            return no2;
-        }
-
-        public void setNo2(double no2) {
-            this.no2 = no2;
-        }
-
-        public double getO3() {
-            return o3;
-        }
-
-        public void setO3(double o3) {
-            this.o3 = o3;
+        public void setTemperature(double temperature) {
+            this.temperature = temperature;
         }
 
         public int getPm10() {
@@ -231,12 +191,20 @@ public class CurrentWetaherBean {
             this.pm10 = pm10;
         }
 
-        public int getPm25() {
-            return pm25;
+        public String getSkycon() {
+            return skycon;
         }
 
-        public void setPm25(int pm25) {
-            this.pm25 = pm25;
+        public void setSkycon(String skycon) {
+            this.skycon = skycon;
+        }
+
+        public double getCloudrate() {
+            return cloudrate;
+        }
+
+        public void setCloudrate(double cloudrate) {
+            this.cloudrate = cloudrate;
         }
 
         public PrecipitationBean getPrecipitation() {
@@ -247,52 +215,12 @@ public class CurrentWetaherBean {
             this.precipitation = precipitation;
         }
 
-        public double getPres() {
-            return pres;
+        public double getDswrf() {
+            return dswrf;
         }
 
-        public void setPres(double pres) {
-            this.pres = pres;
-        }
-
-        public String getSkycon() {
-            return skycon;
-        }
-
-        public void setSkycon(String skycon) {
-            this.skycon = skycon;
-        }
-
-        public double getSo2() {
-            return so2;
-        }
-
-        public void setSo2(double so2) {
-            this.so2 = so2;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public int getTemperature() {
-            return temperature;
-        }
-
-        public void setTemperature(int temperature) {
-            this.temperature = temperature;
-        }
-
-        public UltravioletBean getUltraviolet() {
-            return ultraviolet;
-        }
-
-        public void setUltraviolet(UltravioletBean ultraviolet) {
-            this.ultraviolet = ultraviolet;
+        public void setDswrf(double dswrf) {
+            this.dswrf = dswrf;
         }
 
         public double getVisibility() {
@@ -303,6 +231,78 @@ public class CurrentWetaherBean {
             this.visibility = visibility;
         }
 
+        public double getHumidity() {
+            return humidity;
+        }
+
+        public void setHumidity(double humidity) {
+            this.humidity = humidity;
+        }
+
+        public int getSo2() {
+            return so2;
+        }
+
+        public void setSo2(int so2) {
+            this.so2 = so2;
+        }
+
+        public UltravioletBean getUltraviolet() {
+            return ultraviolet;
+        }
+
+        public void setUltraviolet(UltravioletBean ultraviolet) {
+            this.ultraviolet = ultraviolet;
+        }
+
+        public double getPres() {
+            return pres;
+        }
+
+        public void setPres(double pres) {
+            this.pres = pres;
+        }
+
+        public int getAqi() {
+            return aqi;
+        }
+
+        public void setAqi(int aqi) {
+            this.aqi = aqi;
+        }
+
+        public int getPm25() {
+            return pm25;
+        }
+
+        public void setPm25(int pm25) {
+            this.pm25 = pm25;
+        }
+
+        public int getNo2() {
+            return no2;
+        }
+
+        public void setNo2(int no2) {
+            this.no2 = no2;
+        }
+
+        public double getApparent_temperature() {
+            return apparent_temperature;
+        }
+
+        public void setApparent_temperature(double apparent_temperature) {
+            this.apparent_temperature = apparent_temperature;
+        }
+
+        public ComfortBean getComfort() {
+            return comfort;
+        }
+
+        public void setComfort(ComfortBean comfort) {
+            this.comfort = comfort;
+        }
+
         public WindBean getWind() {
             return wind;
         }
@@ -311,48 +311,14 @@ public class CurrentWetaherBean {
             this.wind = wind;
         }
 
-        public static class ComfortBean {
-            /**
-             * desc : 温暖
-             * index : 4
-             */
-
-            private String desc;
-            private int index;
-
-            public String getDesc() {
-                return desc;
-            }
-
-            public void setDesc(String desc) {
-                this.desc = desc;
-            }
-
-            public int getIndex() {
-                return index;
-            }
-
-            public void setIndex(int index) {
-                this.index = index;
-            }
-        }
-
         public static class PrecipitationBean {
             /**
-             * local : {"datasource":"radar","intensity":0,"status":"ok"}
-             * nearest : {"distance":110.7,"intensity":0.1875,"status":"ok"}
+             * nearest : {"status":"ok","distance":10000,"intensity":0}
+             * local : {"status":"ok","intensity":0,"datasource":"radar"}
              */
 
-            private LocalBean local;
             private NearestBean nearest;
-
-            public LocalBean getLocal() {
-                return local;
-            }
-
-            public void setLocal(LocalBean local) {
-                this.local = local;
-            }
+            private LocalBean local;
 
             public NearestBean getNearest() {
                 return nearest;
@@ -362,23 +328,67 @@ public class CurrentWetaherBean {
                 this.nearest = nearest;
             }
 
-            public static class LocalBean {
+            public LocalBean getLocal() {
+                return local;
+            }
+
+            public void setLocal(LocalBean local) {
+                this.local = local;
+            }
+
+            public static class NearestBean {
                 /**
-                 * datasource : radar
-                 * intensity : 0
                  * status : ok
+                 * distance : 10000
+                 * intensity : 0
                  */
 
-                private String datasource;
-                private int intensity;
                 private String status;
+                private int distance;
+                private int intensity;
 
-                public String getDatasource() {
-                    return datasource;
+                public String getStatus() {
+                    return status;
                 }
 
-                public void setDatasource(String datasource) {
-                    this.datasource = datasource;
+                public void setStatus(String status) {
+                    this.status = status;
+                }
+
+                public int getDistance() {
+                    return distance;
+                }
+
+                public void setDistance(int distance) {
+                    this.distance = distance;
+                }
+
+                public int getIntensity() {
+                    return intensity;
+                }
+
+                public void setIntensity(int intensity) {
+                    this.intensity = intensity;
+                }
+            }
+
+            public static class LocalBean {
+                /**
+                 * status : ok
+                 * intensity : 0
+                 * datasource : radar
+                 */
+
+                private String status;
+                private int intensity;
+                private String datasource;
+
+                public String getStatus() {
+                    return status;
+                }
+
+                public void setStatus(String status) {
+                    this.status = status;
                 }
 
                 public int getIntensity() {
@@ -389,68 +399,24 @@ public class CurrentWetaherBean {
                     this.intensity = intensity;
                 }
 
-                public String getStatus() {
-                    return status;
+                public String getDatasource() {
+                    return datasource;
                 }
 
-                public void setStatus(String status) {
-                    this.status = status;
-                }
-            }
-
-            public static class NearestBean {
-                /**
-                 * distance : 110.7
-                 * intensity : 0.1875
-                 * status : ok
-                 */
-
-                private double distance;
-                private double intensity;
-                private String status;
-
-                public double getDistance() {
-                    return distance;
-                }
-
-                public void setDistance(double distance) {
-                    this.distance = distance;
-                }
-
-                public double getIntensity() {
-                    return intensity;
-                }
-
-                public void setIntensity(double intensity) {
-                    this.intensity = intensity;
-                }
-
-                public String getStatus() {
-                    return status;
-                }
-
-                public void setStatus(String status) {
-                    this.status = status;
+                public void setDatasource(String datasource) {
+                    this.datasource = datasource;
                 }
             }
         }
 
         public static class UltravioletBean {
             /**
-             * desc : 弱
-             * index : 3
+             * index : 2
+             * desc : 很弱
              */
 
-            private String desc;
             private int index;
-
-            public String getDesc() {
-                return desc;
-            }
-
-            public void setDesc(String desc) {
-                this.desc = desc;
-            }
+            private String desc;
 
             public int getIndex() {
                 return index;
@@ -459,22 +425,56 @@ public class CurrentWetaherBean {
             public void setIndex(int index) {
                 this.index = index;
             }
+
+            public String getDesc() {
+                return desc;
+            }
+
+            public void setDesc(String desc) {
+                this.desc = desc;
+            }
+        }
+
+        public static class ComfortBean {
+            /**
+             * index : 5
+             * desc : 舒适
+             */
+
+            private int index;
+            private String desc;
+
+            public int getIndex() {
+                return index;
+            }
+
+            public void setIndex(int index) {
+                this.index = index;
+            }
+
+            public String getDesc() {
+                return desc;
+            }
+
+            public void setDesc(String desc) {
+                this.desc = desc;
+            }
         }
 
         public static class WindBean {
             /**
-             * direction : 68.79
-             * speed : 17.89
+             * direction : 118
+             * speed : 16.56
              */
 
-            private double direction;
+            private int direction;
             private double speed;
 
-            public double getDirection() {
+            public int getDirection() {
                 return direction;
             }
 
-            public void setDirection(double direction) {
+            public void setDirection(int direction) {
                 this.direction = direction;
             }
 

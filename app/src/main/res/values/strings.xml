@@ -87,5 +87,6 @@
     <string name="humidity">湿度</string>
     <string name="aqi_excellent">优</string>
     <string name="wind">风力</string>
+    <string name="temperature_data">19.5</string>
 
 </resources>

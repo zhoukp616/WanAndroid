@@ -41,7 +41,7 @@ public class AppConfig {
     /**
      * 天气API
      */
-    public static final String BASE_URL_WETHER = "https://api.caiyunapp.com/v2/TAkhjf8d1nlSlspN/";
+    public static final String BASE_URL_WETHER = "https://api.caiyunapp.com";
 
     public static final String URL_UPDATE = "http://mock-api.com/3EgdX1gM.mock/getUpdateInfo";
 
