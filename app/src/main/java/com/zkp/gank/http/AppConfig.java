@@ -38,6 +38,10 @@ public class AppConfig {
      * 干货集中营 baseUrl
      */
     public static final String BASE_URL_GANK = "http://gank.io";
+    /**
+     * 天气API
+     */
+    public static final String BASE_URL_WETHER = "https://api.caiyunapp.com/v2/TAkhjf8d1nlSlspN/";
 
     public static final String URL_UPDATE = "http://mock-api.com/3EgdX1gM.mock/getUpdateInfo";
 
@@ -71,6 +75,10 @@ public class AppConfig {
      * 福利
      */
     public static final int TYPE_WELFARE = 6;
+    /**
+     * 天气
+     */
+    public static final int TYPE_WEATHER = 7;
     /**
      * 设置
      */

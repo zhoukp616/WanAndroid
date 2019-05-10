@@ -36,6 +36,10 @@ public class ComponentActivity extends BaseActivity {
 
     private String title;
 
+    public static Toolbar getmToolbar() {
+        return mToolbar;
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_about;
@@ -93,10 +97,6 @@ public class ComponentActivity extends BaseActivity {
     @Override
     protected void initEventAndData() {
         initToolBar();
-    }
-
-    public static Toolbar getmToolbar() {
-        return mToolbar;
     }
 
     private void initToolBar() {

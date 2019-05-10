@@ -2,12 +2,16 @@ package com.zkp.gank.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.coder.zzq.smartshow.core.SmartShow;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.crash.UnCaughtHandler;
+import com.zkp.gank.db.greendao.DaoMaster;
+import com.zkp.gank.db.greendao.DaoSession;
+import com.zkp.gank.http.AppConfig;
 import com.zkp.gank.utils.SPUtils;
 
 import java.util.ArrayList;
@@ -26,16 +30,16 @@ public class GankApplication extends Application {
 
     private static Context mContext;
     private static GankApplication mApplication;
-
+    private static DaoSession daoSession;
     private List<BaseActivity> mActivityList;
     private List<BaseFragment> mFragmentsList;
 
-    public static Context getContext() {
-        return mContext;
-    }
-
     public static GankApplication getApplication() {
         return mApplication;
+    }
+
+    public static DaoSession getDaoSession() {
+        return daoSession;
     }
 
     @Override
@@ -58,6 +62,19 @@ public class GankApplication extends Application {
             AppCompatDelegate.setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_NO);
         }
+
+        initGreenDao();
+    }
+
+    private void initGreenDao() {
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(GankApplication.getContext(), AppConfig.DB_NAME);
+        SQLiteDatabase database = devOpenHelper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(database);
+        daoSession = daoMaster.newSession();
+    }
+
+    public static Context getContext() {
+        return mContext;
     }
 
     /**

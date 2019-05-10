@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.zkp.gank.app.GankApplication;
+import com.zkp.gank.db.entity.RefreshTime;
 import com.zkp.gank.db.entity.SearchHistory;
 import com.zkp.gank.db.greendao.DaoMaster;
 import com.zkp.gank.db.greendao.DaoSession;
@@ -30,14 +31,7 @@ public class DbHelperImpl implements DbHelper {
 
     @Inject
     public DbHelperImpl() {
-        initGreenDao();
-    }
-
-    private void initGreenDao() {
-        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(GankApplication.getContext(), AppConfig.DB_NAME);
-        SQLiteDatabase database = devOpenHelper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(database);
-        daoSession = daoMaster.newSession();
+        daoSession = GankApplication.getDaoSession();
     }
 
     @Override
@@ -76,6 +70,27 @@ public class DbHelperImpl implements DbHelper {
         List<SearchHistory> result = daoSession.getSearchHistoryDao().loadAll();
         Log.d("qwe", result.toString());
         return result;
+    }
+
+    @Override
+    public RefreshTime loadRefreshTime() {
+        return daoSession.getRefreshTimeDao().load(1L);
+    }
+
+    @Override
+    public RefreshTime updateRefreshTime(RefreshTime data) {
+        RefreshTime refreshTime = daoSession.getRefreshTimeDao().load(1L);
+        if (refreshTime == null) {
+            daoSession.getRefreshTimeDao().insert(data);
+        } else {
+            daoSession.getRefreshTimeDao().update(data);
+        }
+        return data;
+    }
+
+    @Override
+    public void clearRefreshTime() {
+        daoSession.getRefreshTimeDao().deleteByKey(1L);
     }
 
     private void getSearchHistoryList() {

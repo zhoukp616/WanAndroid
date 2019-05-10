@@ -80,6 +80,12 @@
     <string name="add_todo_success">已保存</string>
     <string name="add_todo_failed">保存失败</string>
     <string name="nav_welfare">福利</string>
-
+    <string name="nav_weather">天气</string>
+    <string name="update_just_now">刚刚更新</string>
+    <string name="update_minute">分钟前更新</string>
+    <string name="temperature">℃</string>
+    <string name="humidity">湿度</string>
+    <string name="aqi_excellent">优</string>
+    <string name="wind">风力</string>
 
 </resources>

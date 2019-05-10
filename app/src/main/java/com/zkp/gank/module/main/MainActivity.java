@@ -30,6 +30,7 @@ import com.zkp.gank.module.knowledge.KnowLedgeFragment;
 import com.zkp.gank.module.login.LoginActivity;
 import com.zkp.gank.module.main.activity.ComponentActivity;
 import com.zkp.gank.module.main.activity.search.SearchActivity;
+import com.zkp.gank.module.main.activity.weather.WeatherActivity;
 import com.zkp.gank.module.main.todo.ToDoActivity;
 import com.zkp.gank.module.navigation.NavigationFragment;
 import com.zkp.gank.module.project.ProjectFragment;
@@ -270,12 +271,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainAct
 
         mNavigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
-                case R.id.nav_item_welfare:
-                    //福利
-                    intent.set(new Intent(MainActivity.this, ComponentActivity.class));
-                    intent.get().putExtra("type_fragment", AppConfig.TYPE_WELFARE);
-                    startActivity(intent.get());
-                    break;
                 case R.id.nav_item_my_collect:
                     if (mPresenter.getLoginStatus()) {
                         intent.set(new Intent(MainActivity.this, ComponentActivity.class));
@@ -285,6 +280,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainAct
                         startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LOGIN);
                         SmartToast.show("请先登录");
                     }
+                    break;
+                case R.id.nav_item_welfare:
+                    //福利
+                    intent.set(new Intent(MainActivity.this, ComponentActivity.class));
+                    intent.get().putExtra("type_fragment", AppConfig.TYPE_WELFARE);
+                    startActivity(intent.get());
+                    break;
+                case R.id.nav_item_weather:
+                    //天气
+                    intent.set(new Intent(MainActivity.this, WeatherActivity.class));
+                    startActivity(intent.get());
                     break;
                 case R.id.nav_item_todo:
                     if (mPresenter.getLoginStatus()) {

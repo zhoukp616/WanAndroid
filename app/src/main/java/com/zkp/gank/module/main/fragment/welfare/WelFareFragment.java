@@ -19,7 +19,6 @@ import com.zkp.gank.bean.WelFareBean;
 import com.zkp.gank.http.AppConfig;
 import com.zkp.gank.module.main.activity.ComponentActivity;
 import com.zkp.gank.module.main.fragment.welfare.adapter.WelFareAdapter;
-import com.zkp.gank.utils.ImageLoader;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -126,7 +126,6 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         isCollected = bundle.getBoolean("isCollected");
         isShowCollectIcon = bundle.getBoolean("isShowCollectIcon");
         articleItemPosition = bundle.getInt("articleItemPosition", -1);
-//        eventBusTag = bundle.getString(Constants.EVENT_BUS_TAG);
     }
 
     @Override

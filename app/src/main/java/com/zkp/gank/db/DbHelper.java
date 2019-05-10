@@ -1,5 +1,6 @@
 package com.zkp.gank.db;
 
+import com.zkp.gank.db.entity.RefreshTime;
 import com.zkp.gank.db.entity.SearchHistory;
 
 import java.util.List;
@@ -40,4 +41,22 @@ public interface DbHelper {
      */
     List<SearchHistory> loadAllSearchHistory();
 
+    /**
+     * 获取RefreshTime
+     *
+     * @return
+     */
+    RefreshTime loadRefreshTime();
+
+    /**
+     * 更新RefreshTime
+     *
+     * @param data
+     */
+    RefreshTime updateRefreshTime(RefreshTime data);
+
+    /**
+     * 删除RefreshTime
+     */
+    void clearRefreshTime();
 }
