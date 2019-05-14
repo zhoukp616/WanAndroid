@@ -412,7 +412,7 @@ public class HourlyWeatherBean {
                  */
 
                 private String datetime;
-                private int value;
+                private double value;
 
                 public String getDatetime() {
                     return datetime;
@@ -422,11 +422,11 @@ public class HourlyWeatherBean {
                     this.datetime = datetime;
                 }
 
-                public int getValue() {
+                public double getValue() {
                     return value;
                 }
 
-                public void setValue(int value) {
+                public void setValue(double value) {
                     this.value = value;
                 }
             }
@@ -490,7 +490,7 @@ public class HourlyWeatherBean {
                  */
 
                 private String datetime;
-                private int value;
+                private double value;
 
                 public String getDatetime() {
                     return datetime;
@@ -500,11 +500,11 @@ public class HourlyWeatherBean {
                     this.datetime = datetime;
                 }
 
-                public int getValue() {
+                public double getValue() {
                     return value;
                 }
 
-                public void setValue(int value) {
+                public void setValue(double value) {
                     this.value = value;
                 }
             }

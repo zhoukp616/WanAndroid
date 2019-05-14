@@ -28,9 +28,18 @@ import com.yanzhenjie.permission.runtime.Permission;
 import com.zkp.gank.R;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.bean.CurrentWetaherBean;
+import com.zkp.gank.bean.DailyWeatherBean;
 import com.zkp.gank.bean.HourlyWeatherBean;
 import com.zkp.gank.db.entity.RefreshTime;
+import com.zkp.gank.widget.WeatherView;
+import com.zkp.gank.widget.SuitLines;
+import com.zkp.gank.widget.SunView;
+import com.zkp.gank.widget.Unit;
+import com.zkp.gank.widget.WeatherBean;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -84,6 +93,51 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
     @BindView(R.id.tvWindDirection)
     TextView mTvWindDirection;
 
+    @BindView(R.id.tvUltraviolet)
+    TextView mTvUltraviolet;
+
+    @BindView(R.id.tvVisibility)
+    TextView mTvVisibility;
+
+    @BindView(R.id.tvIntensity)
+    TextView mTvIntensity;
+
+    @BindView(R.id.tvPm25)
+    TextView mTvPm25;
+
+    @BindView(R.id.tvDswrf)
+    TextView mTvDswrf;
+
+    @BindView(R.id.tvTgwd)
+    TextView mTvTgwd;
+
+    @BindView(R.id.tvSunRise)
+    TextView mTvSunRise;
+
+    @BindView(R.id.tvSunSet)
+    TextView mTvSunSet;
+
+    @BindView(R.id.tvDayLong)
+    TextView mTvDayLong;
+
+    @BindView(R.id.tvColth)
+    TextView mTvColth;
+
+    @BindView(R.id.tvCar)
+    TextView mTvCar;
+
+    @BindView(R.id.tvCold)
+    TextView mTvCold;
+
+    @BindView(R.id.suitLines)
+    SuitLines mSuitlines;
+
+    @BindView(R.id.sunView)
+    SunView mSunView;
+
+    @BindView(R.id.weatherView)
+    WeatherView mWeatherView;
+
     private RefreshTime mRefreshTime;
 
     private LocationClient mLocationClient;
@@ -103,6 +157,7 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
 
     @Override
     protected void initView() {
+
     }
 
     @Override
@@ -127,9 +182,7 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
         mPresenter = new WeatherPresenter();
         mPresenter.attachView(this);
 
-        mPresenter.loadRefreshTime();
-        //加载天气信息
-        //...
+        mPresenter.updateRefreshTime(new RefreshTime("刚刚更新", 0, System.currentTimeMillis() / 1000));
     }
 
     private void initLocationOption() {
@@ -173,6 +226,7 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             mRefreshTime.setLastRefreshTime(System.currentTimeMillis() / 1000);
             mPresenter.updateRefreshTime(mRefreshTime);
+            mLocationClient.restart();
             refreshLayout.finishRefresh();
         });
     }
@@ -205,18 +259,6 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
     }
 
     @Override
-    public void loadRefreshTimeSuccess(RefreshTime data) {
-        if (!TextUtils.isEmpty(data.getTitle())) {
-            mRefreshTime = data;
-            mTvUpdateTime.setText(mRefreshTime.getTitle());
-        } else {
-            mTvUpdateTime.setText("");
-            mRefreshTime.setTitle(getString(R.string.update_just_now));
-            mRefreshTime.setLastRefreshTime(System.currentTimeMillis() / 1000);
-        }
-    }
-
-    @Override
     public void updateRefreshTimeSuccess(RefreshTime data) {
         mRefreshTime = data;
         mTvUpdateTime.setText(mRefreshTime.getTitle());
@@ -232,6 +274,8 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
         mTvAqiLevel.setText(mPresenter.getApiLeve(data.getResult().getAqi()));
         mTvWindSpeed.setText(mPresenter.getWindSpeed(data.getResult().getWind().getSpeed()));
         mTvWindDirection.setText(mPresenter.getWindDirection(data.getResult().getWind().getDirection()));
+
+        mPresenter.getDailyJson(String.valueOf(mLongitude), String.valueOf(mLatitude));
     }
 
     @Override
@@ -239,9 +283,68 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
         SmartToast.show(errMsg);
     }
 
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void getDailyJsonSuccess(DailyWeatherBean data) {
+        mTvUltraviolet.setText(data.getResult().getDaily().getUltraviolet().get(0).getDesc());
+        mTvVisibility.setText(data.getResult().getDaily().getVisibility().get(0).getAvg() + "");
+        mTvIntensity.setText(data.getResult().getDaily().getPrecipitation().get(0).getAvg() + "");
+        mTvPm25.setText(data.getResult().getDaily().getPm25().get(0).getAvg() + "");
+        mTvDswrf.setText(data.getResult().getDaily().getDswrf().get(0).getAvg() + "");
+        mTvTgwd.setText(data.getResult().getDaily().getTemperature().get(0).getMax() + "");
+        mTvSunRise.setText(data.getResult().getDaily().getAstro().get(0).getSunrise().getTime());
+        mTvSunSet.setText(data.getResult().getDaily().getAstro().get(0).getSunset().getTime());
+
+        mTvDayLong.setText(mPresenter.getDayLong(data.getResult().getDaily().getAstro().get(0).getSunrise().getTime(),
+                data.getResult().getDaily().getAstro().get(0).getSunset().getTime()));
+
+        mSunView.setSunrise(Integer.parseInt(data.getResult().getDaily().getAstro().get(0).getSunrise().getTime().substring(0, 2)),
+                Integer.parseInt(data.getResult().getDaily().getAstro().get(0).getSunrise().getTime().substring(3)));
+
+        mSunView.setSunset(Integer.parseInt(data.getResult().getDaily().getAstro().get(0).getSunset().getTime().substring(0, 2)),
+                Integer.parseInt(data.getResult().getDaily().getAstro().get(0).getSunset().getTime().substring(3)));
+
+        mSunView.setCurrentTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE));
+
+        mTvColth.setText(getResources().getString(R.string.cloth) + "：" + data.getResult().getDaily().getComfort().get(0).getDesc());
+        mTvCar.setText(getResources().getString(R.string.car) + "：" + data.getResult().getDaily().getCarWashing().get(0).getDesc());
+        mTvCold.setText(getResources().getString(R.string.cold) + "：" + data.getResult().getDaily().getColdRisk().get(0).getDesc());
+
+        List<WeatherBean> weatherBeanList = new ArrayList<>();
+
+        for (int i = 0; i < data.getResult().getDaily().getTemperature().size(); i++) {
+            WeatherBean weatherBean = new WeatherBean(i + 1,
+                    data.getResult().getDaily().getTemperature().get(i).getDate().substring(5),
+                    mPresenter.getWeek(data.getResult().getDaily().getTemperature().get(i).getDate(), i),
+                    (int) data.getResult().getDaily().getTemperature().get(i).getMax(),
+                    (int) data.getResult().getDaily().getTemperature().get(i).getMin());
+
+            weatherBeanList.add(weatherBean);
+        }
+
+        mWeatherView.setData(weatherBeanList);
+
+
+        mPresenter.getHouelyJson(String.valueOf(mLongitude), String.valueOf(mLatitude));
+    }
+
+    @Override
+    public void getDailyJsonError(String errMsg) {
+        SmartToast.show(errMsg);
+    }
+
     @Override
     public void getHouelyJsonSucess(HourlyWeatherBean data) {
 
+        List<Unit> lines = new ArrayList<>();
+
+        for (int i = 0; i < data.getResult().getHourly().getTemperature().size(); i++) {
+            lines.add(new Unit((int) data.getResult().getHourly().getTemperature().get(i).getValue(),
+                    data.getResult().getHourly().getTemperature().get(i).getDatetime().substring(5)));
+        }
+        mSuitlines.setLineForm(true);
+        mSuitlines.setCoverLine(false);
+        mSuitlines.feedWithAnim(lines);
     }
 
     @Override
@@ -309,8 +412,6 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
             mTvTitle.setText(bdLocation.getDistrict());
 
             mPresenter.getCurrentJson(String.valueOf(mLongitude), String.valueOf(mLatitude));
-            Log.d("qwe", mLongitude + "," + mLatitude);
-
         }
     }
 }

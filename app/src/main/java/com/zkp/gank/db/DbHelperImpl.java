@@ -1,12 +1,10 @@
 package com.zkp.gank.db;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.db.entity.RefreshTime;
 import com.zkp.gank.db.entity.SearchHistory;
-import com.zkp.gank.db.greendao.DaoMaster;
 import com.zkp.gank.db.greendao.DaoSession;
 import com.zkp.gank.http.AppConfig;
 

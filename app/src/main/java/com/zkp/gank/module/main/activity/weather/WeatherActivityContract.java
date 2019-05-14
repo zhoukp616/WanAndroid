@@ -5,6 +5,7 @@ import android.content.Context;
 import com.zkp.gank.base.presenter.IPresenter;
 import com.zkp.gank.base.view.IView;
 import com.zkp.gank.bean.CurrentWetaherBean;
+import com.zkp.gank.bean.DailyWeatherBean;
 import com.zkp.gank.bean.HourlyWeatherBean;
 import com.zkp.gank.db.entity.RefreshTime;
 
@@ -27,11 +28,6 @@ public class WeatherActivityContract {
         void loadAddressDataSuccess(AddressItem item);
 
         /**
-         * 获取RefreshTime成功
-         */
-        void loadRefreshTimeSuccess(RefreshTime data);
-
-        /**
          * 更新RefreshTime成功
          *
          * @param data
@@ -51,6 +47,20 @@ public class WeatherActivityContract {
          * @param errMsg String
          */
         void getCurrentJsonErrror(String errMsg);
+
+        /**
+         * 获取天级天气预报成功
+         *
+         * @param data DailyWeatherBean
+         */
+        void getDailyJsonSuccess(DailyWeatherBean data);
+
+        /**
+         * 获取天级天气预报失败
+         *
+         * @param errMsg String
+         */
+        void getDailyJsonError(String errMsg);
 
         /**
          * 获取小时级天气预报成功
@@ -75,11 +85,6 @@ public class WeatherActivityContract {
          * @param context
          */
         void loadAddressData(Context context);
-
-        /**
-         * 获取RefreshTime
-         */
-        void loadRefreshTime();
 
         /**
          * 更新RefreshTime
@@ -128,6 +133,12 @@ public class WeatherActivityContract {
          */
         String getWindSpeed(double speed);
 
+        /**
+         * 获取风向信息
+         *
+         * @param direction
+         * @return
+         */
         String getWindDirection(double direction);
 
         /**
@@ -138,6 +149,31 @@ public class WeatherActivityContract {
          */
         void getHouelyJson(String longitude, String latitude);
 
+        /**
+         * 获取小时级天气预报
+         *
+         * @param longitude 经度
+         * @param latitude  纬度
+         */
+        void getDailyJson(String longitude, String latitude);
+
+        /**
+         * 计算昼长
+         *
+         * @param sunRise 日出时间 05：12
+         * @param sunSet  日落时间 18:56
+         * @return
+         */
+        String getDayLong(String sunRise, String sunSet);
+
+        /**
+         * 获取星期几
+         *
+         * @param date  日期
+         * @param index 索引 index=0返回今日
+         * @return
+         */
+        String getWeek(String date, int index);
     }
 
 }

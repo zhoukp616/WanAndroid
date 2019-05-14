@@ -8,6 +8,7 @@ import com.zkp.gank.R;
 import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.presenter.BasePresenter;
 import com.zkp.gank.bean.CurrentWetaherBean;
+import com.zkp.gank.bean.DailyWeatherBean;
 import com.zkp.gank.bean.HourlyWeatherBean;
 import com.zkp.gank.bean.JsonBean;
 import com.zkp.gank.db.DbHelper;
@@ -15,15 +16,17 @@ import com.zkp.gank.db.DbHelperImpl;
 import com.zkp.gank.db.entity.RefreshTime;
 import com.zkp.gank.http.ApiService;
 import com.zkp.gank.http.AppConfig;
-import com.zkp.gank.http.HttpsUtil;
 import com.zkp.gank.http.HttpsUtilWeather;
 import com.zkp.gank.utils.GetJsonDataUtil;
 import com.zkp.gank.utils.RxUtils;
 
 import org.json.JSONArray;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -55,24 +58,6 @@ public class WeatherPresenter extends BasePresenter<WeatherActivityContract.View
                 .filter(addressItem -> mView != null)
                 .subscribe(addressItem -> {
                             mView.loadAddressDataSuccess(addressItem);
-                        }
-                ));
-    }
-
-    @Override
-    public void loadRefreshTime() {
-        addSubscribe(Observable.create((ObservableOnSubscribe<RefreshTime>) e -> {
-            RefreshTime refreshTime = dbHelper.loadRefreshTime();
-            if (refreshTime != null) {
-                refreshTime.setTitle(getUpdateTime(refreshTime));
-            } else {
-                refreshTime = new RefreshTime("", 0, 0);
-            }
-            e.onNext(refreshTime);
-        }).compose(RxUtils.schedulerTransformer())
-                .filter(refreshTime -> mView != null)
-                .subscribe(refreshTime -> {
-                            mView.loadRefreshTimeSuccess(refreshTime);
                         }
                 ));
     }
@@ -229,19 +214,19 @@ public class WeatherPresenter extends BasePresenter<WeatherActivityContract.View
         if (direction == 0) {
             return "北风";
         } else if (direction < 90) {
-            return "东北风";
+            return "东北";
         } else if (direction == 90) {
             return "东风";
         } else if (direction < 180) {
-            return "东南风";
+            return "东南";
         } else if (direction == 180) {
             return "南风";
         } else if (direction < 270) {
-            return "西南风";
+            return "西南";
         } else if (direction == 270) {
             return "西风";
         } else if (direction < 360) {
-            return "西北风";
+            return "西北";
         } else {
             return "北风";
         }
@@ -266,6 +251,72 @@ public class WeatherPresenter extends BasePresenter<WeatherActivityContract.View
                 }
             });
         }
+    }
+
+    @Override
+    public void getDailyJson(String longitude, String latitude) {
+        if (mView != null) {
+            HttpsUtilWeather.request(HttpsUtilWeather.createApi(GankApplication.getContext(), AppConfig.BASE_URL_WETHER, ApiService.class).getDailyJson(longitude, latitude), new HttpsUtilWeather.IResponseListener<DailyWeatherBean>() {
+                @Override
+                public void onSuccess(DailyWeatherBean data) {
+                    if ("ok".equals(data.getStatus())) {
+                        mView.getDailyJsonSuccess(data);
+                    } else {
+                        mView.getDailyJsonError("获取小时级天气预报失败");
+                    }
+                }
+
+                @Override
+                public void onFail(String errMsg) {
+                    mView.getDailyJsonError(errMsg);
+                }
+            });
+        }
+    }
+
+    @Override
+    public String getDayLong(String sunRise, String sunSet) {
+        StringBuilder dayLong = new StringBuilder();
+
+        if (Integer.parseInt(sunSet.substring(3)) < Integer.parseInt(sunRise.substring(3))) {
+            dayLong.append(Integer.parseInt(sunSet.substring(0, 2)) - 1 - Integer.parseInt(sunRise.substring(0, 2)))
+                    .append("时")
+                    .append(60 + Integer.parseInt(sunSet.substring(3)) - Integer.parseInt(sunRise.substring(3)))
+                    .append("分");
+
+        } else if (Integer.parseInt(sunSet.substring(3)) > Integer.parseInt(sunRise.substring(3))) {
+            dayLong.append(Integer.parseInt(sunSet.substring(0, 2)) - Integer.parseInt(sunRise.substring(0, 2)))
+                    .append("时")
+                    .append(Integer.parseInt(sunSet.substring(3)) - Integer.parseInt(sunRise.substring(3)))
+                    .append("分");
+        } else {
+            dayLong.append(Integer.parseInt(sunSet.substring(0, 2)) - Integer.parseInt(sunRise.substring(0, 2)))
+                    .append("时");
+        }
+
+        return dayLong.toString();
+    }
+
+    @Override
+    public String getWeek(String dateString, int index) {
+        String week;
+        String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+        if (index == 0) {
+            week = "今日";
+        } else {
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar cal = Calendar.getInstance();
+            Date date;
+            try {
+                date = sdf.parse(dateString);
+                cal.setTime(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            week = weekDays[cal.get(Calendar.DAY_OF_WEEK) - 1];
+        }
+        return week;
     }
 
     private AddressItem loadJson(Context context) {

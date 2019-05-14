@@ -344,8 +344,8 @@ public class CurrentWetaherBean {
                  */
 
                 private String status;
-                private int distance;
-                private int intensity;
+                private double distance;
+                private double intensity;
 
                 public String getStatus() {
                     return status;
@@ -355,19 +355,19 @@ public class CurrentWetaherBean {
                     this.status = status;
                 }
 
-                public int getDistance() {
+                public double getDistance() {
                     return distance;
                 }
 
-                public void setDistance(int distance) {
+                public void setDistance(double distance) {
                     this.distance = distance;
                 }
 
-                public int getIntensity() {
+                public double getIntensity() {
                     return intensity;
                 }
 
-                public void setIntensity(int intensity) {
+                public void setIntensity(double intensity) {
                     this.intensity = intensity;
                 }
             }

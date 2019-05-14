@@ -5,6 +5,7 @@ import com.zkp.gank.bean.ArticleListBean;
 import com.zkp.gank.bean.BannerBean;
 import com.zkp.gank.bean.CollectListBean;
 import com.zkp.gank.bean.CurrentWetaherBean;
+import com.zkp.gank.bean.DailyWeatherBean;
 import com.zkp.gank.bean.FriendWebBean;
 import com.zkp.gank.bean.HomeArticlesBean;
 import com.zkp.gank.bean.HotKeyBean;
@@ -333,21 +334,34 @@ public interface ApiService {
 
     /**
      * 获取小时级天气预报
+     * &unit=metric:v2
      *
      * @param longitude 经度
      * @param latitude  纬度
      * @return
      */
-    @GET("/v2/TAkhjf8d1nlSlspN/{longitude},{latitude}/hourly.json")
+    @GET("/v2/TAkhjf8d1nlSlspN/{longitude},{latitude}/hourly.json&unit=metric:v2")
     Observable<HourlyWeatherBean> getHourlyJson(@Path("longitude") String longitude, @Path("latitude") String latitude);
 
     /**
-     * 获取当前实时天气
+     * 获取天级天气预报
+     * &unit=metric:v2
      *
      * @param longitude 经度
      * @param latitude  纬度
      * @return
      */
-    @GET("/v2/TAkhjf8d1nlSlspN/{longitude},{latitude}/realtime.json")
+    @GET("/v2/TAkhjf8d1nlSlspN/{longitude},{latitude}/daily.json&unit=metric:v2")
+    Observable<DailyWeatherBean> getDailyJson(@Path("longitude") String longitude, @Path("latitude") String latitude);
+
+    /**
+     * 获取当前实时天气
+     * &unit=metric:v2
+     *
+     * @param longitude 经度
+     * @param latitude  纬度
+     * @return
+     */
+    @GET("/v2/TAkhjf8d1nlSlspN/{longitude},{latitude}/realtime.json&unit=metric:v2")
     Observable<CurrentWetaherBean> getCurrentJson(@Path("longitude") String longitude, @Path("latitude") String latitude);
 }
