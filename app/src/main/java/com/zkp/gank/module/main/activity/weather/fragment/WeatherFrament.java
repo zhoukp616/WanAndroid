@@ -2,7 +2,6 @@ package com.zkp.gank.module.main.activity.weather.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import com.baidu.mapapi.search.core.SearchResult;
@@ -12,6 +11,7 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.coder.zzq.smartshow.toast.SmartToast;
+import com.github.matteobattilana.weather.PrecipType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zkp.gank.R;
 import com.zkp.gank.base.fragment.BaseFragment;
@@ -110,6 +110,9 @@ public class WeatherFrament extends BaseFragment<WeatherFragmentPresenter> imple
     @BindView(R.id.weatherView)
     WeatherView mWeatherView;
 
+    @BindView(R.id.weatherAnimateView)
+    com.github.matteobattilana.weather.WeatherView mWeatherAnimateView;
+
     /**
      * 纬度
      */
@@ -143,7 +146,6 @@ public class WeatherFrament extends BaseFragment<WeatherFragmentPresenter> imple
 
     @Override
     protected void initView() {
-
     }
 
     @Override
@@ -220,6 +222,27 @@ public class WeatherFrament extends BaseFragment<WeatherFragmentPresenter> imple
     public void getCurrentJsonSucess(CurrentWetaherBean data) {
         mTvTemperature.setText(data.getResult().getTemperature() + "");
         mTvWether.setText(mPresenter.getWeather(data.getResult().getSkycon()));
+
+        if ("雨".equals(mTvWether.getText().toString())) {
+            mWeatherAnimateView.setFadeOutPercent(100);
+            mWeatherAnimateView.setAngle(-10);
+            mWeatherAnimateView.setSpeed(1000);
+            mWeatherAnimateView.setEmissionRate(300);
+            mWeatherAnimateView.setWeatherData(PrecipType.RAIN);
+        } else if ("雪".equals(mTvWether.getText().toString())) {
+            mWeatherAnimateView.setFadeOutPercent(100);
+            mWeatherAnimateView.setAngle(-10);
+            mWeatherAnimateView.setSpeed(1000);
+            mWeatherAnimateView.setEmissionRate(300);
+            mWeatherAnimateView.setWeatherData(PrecipType.SNOW);
+        } else {
+            mWeatherAnimateView.setFadeOutPercent(100);
+            mWeatherAnimateView.setAngle(-10);
+            mWeatherAnimateView.setSpeed(1000);
+            mWeatherAnimateView.setEmissionRate(300);
+            mWeatherAnimateView.setWeatherData(PrecipType.CLEAR);
+        }
+
         mTvHumidity.setText(String.valueOf(data.getResult().getHumidity()).substring(2) + "%");
         mTvAqi.setText(data.getResult().getAqi() + "");
         mTvAqiLevel.setText(mPresenter.getApiLeve(data.getResult().getAqi()));
@@ -238,11 +261,11 @@ public class WeatherFrament extends BaseFragment<WeatherFragmentPresenter> imple
     @Override
     public void getDailyJsonSuccess(DailyWeatherBean data) {
         mTvUltraviolet.setText(data.getResult().getDaily().getUltraviolet().get(0).getDesc());
-        mTvVisibility.setText(data.getResult().getDaily().getVisibility().get(0).getAvg() + "");
-        mTvIntensity.setText(data.getResult().getDaily().getPrecipitation().get(0).getAvg() + "");
-        mTvPm25.setText(data.getResult().getDaily().getPm25().get(0).getAvg() + "");
-        mTvDswrf.setText(data.getResult().getDaily().getDswrf().get(0).getAvg() + "");
-        mTvTgwd.setText(data.getResult().getDaily().getTemperature().get(0).getMax() + "");
+        mTvVisibility.setText(data.getResult().getDaily().getVisibility().get(0).getAvg() + "㎞");
+        mTvIntensity.setText(data.getResult().getDaily().getPrecipitation().get(0).getAvg() + "㎜/h");
+        mTvPm25.setText(data.getResult().getDaily().getPm25().get(0).getAvg() + "μg/m³");
+        mTvDswrf.setText(data.getResult().getDaily().getDswrf().get(0).getAvg() + "W/㎡");
+        mTvTgwd.setText(data.getResult().getDaily().getTemperature().get(0).getMax() + "℃");
         mTvSunRise.setText(data.getResult().getDaily().getAstro().get(0).getSunrise().getTime());
         mTvSunSet.setText(data.getResult().getDaily().getAstro().get(0).getSunset().getTime());
 
@@ -305,7 +328,7 @@ public class WeatherFrament extends BaseFragment<WeatherFragmentPresenter> imple
     @Override
     public void updateAddressSuccess(Address address) {
         mAddress = address;
-        if (mToolbarUpdateTime==null){
+        if (mToolbarUpdateTime == null) {
             mToolbarUpdateTime = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbarUpdateTime);
         }
         mToolbarUpdateTime.setText(mPresenter.getUpdateTime(mAddress.getLastRefreshTime()));

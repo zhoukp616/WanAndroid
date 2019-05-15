@@ -183,6 +183,7 @@ dependencies {
     implementation 'com.contrarywind:Android-PickerView:4.1.8'
     //百度定位
     implementation files('libs/BaiduLBS_Android.jar')
-
+    //WeatherView
+    implementation 'com.github.MatteoBattilana:WeatherView:2.0.3'
 }
 
