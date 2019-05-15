@@ -7,8 +7,6 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,23 +20,16 @@ import com.baidu.location.LocationClientOption;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.coder.zzq.smartshow.toast.SmartToast;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.zkp.gank.R;
 import com.zkp.gank.base.activity.BaseActivity;
-import com.zkp.gank.bean.CurrentWetaherBean;
-import com.zkp.gank.bean.DailyWeatherBean;
-import com.zkp.gank.bean.HourlyWeatherBean;
-import com.zkp.gank.db.entity.RefreshTime;
-import com.zkp.gank.widget.WeatherView;
-import com.zkp.gank.widget.SuitLines;
-import com.zkp.gank.widget.SunView;
-import com.zkp.gank.widget.Unit;
-import com.zkp.gank.widget.WeatherBean;
+import com.zkp.gank.bean.AddressItem;
+import com.zkp.gank.db.entity.Address;
+import com.zkp.gank.module.main.activity.weather.adapter.ViewPagerAdapter;
+import com.zkp.gank.widget.ViewPager;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -56,6 +47,7 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
      * 打开GPS回调
      */
     private static final int OPEN_GPS = 0x00001;
+    public TextView mToolbarUpdateTime;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -64,91 +56,15 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
     ImageView mIvLocation;
 
     @BindView(R.id.toolbarTitle)
-    TextView mTvTitle;
+    TextView mToolBarTitle;
 
-    @BindView(R.id.toolbarUpdateTime)
-    TextView mTvUpdateTime;
-
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
-
-    @BindView(R.id.tvTemperature)
-    TextView mTvTemperature;
-
-    @BindView(R.id.tvWether)
-    TextView mTvWether;
-
-    @BindView(R.id.tvHumidity)
-    TextView mTvHumidity;
-
-    @BindView(R.id.tvAqi)
-    TextView mTvAqi;
-
-    @BindView(R.id.tvAqiLevel)
-    TextView mTvAqiLevel;
-
-    @BindView(R.id.tvWindSpeed)
-    TextView mTvWindSpeed;
-
-    @BindView(R.id.tvWindDirection)
-    TextView mTvWindDirection;
-
-    @BindView(R.id.tvUltraviolet)
-    TextView mTvUltraviolet;
-
-    @BindView(R.id.tvVisibility)
-    TextView mTvVisibility;
-
-    @BindView(R.id.tvIntensity)
-    TextView mTvIntensity;
-
-    @BindView(R.id.tvPm25)
-    TextView mTvPm25;
-
-    @BindView(R.id.tvDswrf)
-    TextView mTvDswrf;
-
-    @BindView(R.id.tvTgwd)
-    TextView mTvTgwd;
-
-    @BindView(R.id.tvSunRise)
-    TextView mTvSunRise;
-
-    @BindView(R.id.tvSunSet)
-    TextView mTvSunSet;
-
-    @BindView(R.id.tvDayLong)
-    TextView mTvDayLong;
-
-    @BindView(R.id.tvColth)
-    TextView mTvColth;
-
-    @BindView(R.id.tvCar)
-    TextView mTvCar;
-
-    @BindView(R.id.tvCold)
-    TextView mTvCold;
-
-    @BindView(R.id.suitLines)
-    SuitLines mSuitlines;
-
-    @BindView(R.id.sunView)
-    SunView mSunView;
-
-    @BindView(R.id.weatherView)
-    WeatherView mWeatherView;
-
-    private RefreshTime mRefreshTime;
+    @BindView(R.id.viewPager)
+    ViewPager mViewPager;
 
     private LocationClient mLocationClient;
-    /**
-     * 纬度
-     */
-    private double mLatitude;
-    /**
-     * 经度
-     */
-    private double mLongitude;
+
+    private List<Address> addressList;
+    private ViewPagerAdapter mAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -157,7 +73,7 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
 
     @Override
     protected void initView() {
-
+        mToolbarUpdateTime = findViewById(R.id.toolbarUpdateTime);
     }
 
     @Override
@@ -177,12 +93,10 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
                 .start();
 
         initToolBar();
-        initRefreshLayout();
 
         mPresenter = new WeatherPresenter();
         mPresenter.attachView(this);
 
-        mPresenter.updateRefreshTime(new RefreshTime("刚刚更新", 0, System.currentTimeMillis() / 1000));
     }
 
     private void initLocationOption() {
@@ -222,15 +136,6 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
         mToolbar.setNavigationOnClickListener(v -> onBackPressedSupport());
     }
 
-    private void initRefreshLayout() {
-        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            mRefreshTime.setLastRefreshTime(System.currentTimeMillis() / 1000);
-            mPresenter.updateRefreshTime(mRefreshTime);
-            mLocationClient.restart();
-            refreshLayout.finishRefresh();
-        });
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_weather, menu);
@@ -259,97 +164,54 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
     }
 
     @Override
-    public void updateRefreshTimeSuccess(RefreshTime data) {
-        mRefreshTime = data;
-        mTvUpdateTime.setText(mRefreshTime.getTitle());
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void getCurrentJsonSucess(CurrentWetaherBean data) {
-        mTvTemperature.setText(data.getResult().getTemperature() + "");
-        mTvWether.setText(mPresenter.getWeather(data.getResult().getSkycon()));
-        mTvHumidity.setText(String.valueOf(data.getResult().getHumidity()).substring(2) + "%");
-        mTvAqi.setText(data.getResult().getAqi() + "");
-        mTvAqiLevel.setText(mPresenter.getApiLeve(data.getResult().getAqi()));
-        mTvWindSpeed.setText(mPresenter.getWindSpeed(data.getResult().getWind().getSpeed()));
-        mTvWindDirection.setText(mPresenter.getWindDirection(data.getResult().getWind().getDirection()));
-
-        mPresenter.getDailyJson(String.valueOf(mLongitude), String.valueOf(mLatitude));
+    public void addAddressSuccess(Address address) {
+        //添加城市/地区成功
+        mPresenter.getAllAddress();
     }
 
     @Override
-    public void getCurrentJsonErrror(String errMsg) {
-        SmartToast.show(errMsg);
-    }
+    public void getAllAddressSuccess(List<Address> addressList) {
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void getDailyJsonSuccess(DailyWeatherBean data) {
-        mTvUltraviolet.setText(data.getResult().getDaily().getUltraviolet().get(0).getDesc());
-        mTvVisibility.setText(data.getResult().getDaily().getVisibility().get(0).getAvg() + "");
-        mTvIntensity.setText(data.getResult().getDaily().getPrecipitation().get(0).getAvg() + "");
-        mTvPm25.setText(data.getResult().getDaily().getPm25().get(0).getAvg() + "");
-        mTvDswrf.setText(data.getResult().getDaily().getDswrf().get(0).getAvg() + "");
-        mTvTgwd.setText(data.getResult().getDaily().getTemperature().get(0).getMax() + "");
-        mTvSunRise.setText(data.getResult().getDaily().getAstro().get(0).getSunrise().getTime());
-        mTvSunSet.setText(data.getResult().getDaily().getAstro().get(0).getSunset().getTime());
+        if (this.addressList == null) {
+            this.addressList = new ArrayList<>();
+        }
+        this.addressList.addAll(addressList);
 
-        mTvDayLong.setText(mPresenter.getDayLong(data.getResult().getDaily().getAstro().get(0).getSunrise().getTime(),
-                data.getResult().getDaily().getAstro().get(0).getSunset().getTime()));
+        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this.addressList);
+        mViewPager.setAdapter(mAdapter);
 
-        mSunView.setSunrise(Integer.parseInt(data.getResult().getDaily().getAstro().get(0).getSunrise().getTime().substring(0, 2)),
-                Integer.parseInt(data.getResult().getDaily().getAstro().get(0).getSunrise().getTime().substring(3)));
-
-        mSunView.setSunset(Integer.parseInt(data.getResult().getDaily().getAstro().get(0).getSunset().getTime().substring(0, 2)),
-                Integer.parseInt(data.getResult().getDaily().getAstro().get(0).getSunset().getTime().substring(3)));
-
-        mSunView.setCurrentTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE));
-
-        mTvColth.setText(getResources().getString(R.string.cloth) + "：" + data.getResult().getDaily().getComfort().get(0).getDesc());
-        mTvCar.setText(getResources().getString(R.string.car) + "：" + data.getResult().getDaily().getCarWashing().get(0).getDesc());
-        mTvCold.setText(getResources().getString(R.string.cold) + "：" + data.getResult().getDaily().getColdRisk().get(0).getDesc());
-
-        List<WeatherBean> weatherBeanList = new ArrayList<>();
-
-        for (int i = 0; i < data.getResult().getDaily().getTemperature().size(); i++) {
-            WeatherBean weatherBean = new WeatherBean(i + 1,
-                    data.getResult().getDaily().getTemperature().get(i).getDate().substring(5),
-                    mPresenter.getWeek(data.getResult().getDaily().getTemperature().get(i).getDate(), i),
-                    (int) data.getResult().getDaily().getTemperature().get(i).getMax(),
-                    (int) data.getResult().getDaily().getTemperature().get(i).getMin());
-
-            weatherBeanList.add(weatherBean);
+        if (mViewPager.getCurrentItem() == 0) {
+            mToolbarUpdateTime.setText(mPresenter.getUpdateTime(addressList.get(0).getLastRefreshTime()));
         }
 
-        mWeatherView.setData(weatherBeanList);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float v, int i1) {
 
+            }
 
-        mPresenter.getHouelyJson(String.valueOf(mLongitude), String.valueOf(mLatitude));
+            @Override
+            public void onPageSelected(int position) {
+                mViewPager.setCurrentItem(position, false);
+                mToolBarTitle.setText(mAdapter.getPageTitle(position));
+                mPresenter.getAddressByID(addressList.get(position).getId());
+                if (position == 0) {
+                    mIvLocation.setVisibility(View.VISIBLE);
+                } else {
+                    mIvLocation.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int position) {
+
+            }
+        });
     }
 
     @Override
-    public void getDailyJsonError(String errMsg) {
-        SmartToast.show(errMsg);
-    }
-
-    @Override
-    public void getHouelyJsonSucess(HourlyWeatherBean data) {
-
-        List<Unit> lines = new ArrayList<>();
-
-        for (int i = 0; i < data.getResult().getHourly().getTemperature().size(); i++) {
-            lines.add(new Unit((int) data.getResult().getHourly().getTemperature().get(i).getValue(),
-                    data.getResult().getHourly().getTemperature().get(i).getDatetime().substring(5)));
-        }
-        mSuitlines.setLineForm(true);
-        mSuitlines.setCoverLine(false);
-        mSuitlines.feedWithAnim(lines);
-    }
-
-    @Override
-    public void getHouelyJsonError(String errMsg) {
-        SmartToast.show(errMsg);
+    public void getAddressByIDSuccess(Address address) {
+        mToolbarUpdateTime.setText(mPresenter.getUpdateTime(address.getLastRefreshTime()));
     }
 
     private void showPickerView(AddressItem item) {
@@ -368,8 +230,16 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
                     && item.getOptions3Items().get(options1).get(options2).size() > 0 ?
                     item.getOptions3Items().get(options1).get(options2).get(options3) : "";
 
-            mTvTitle.setText(opt1tx + opt2tx + opt3tx);
-            mIvLocation.setVisibility(View.GONE);
+            if (opt1tx.contains("市")) {
+                mToolBarTitle.setText(opt2tx + opt3tx);
+            } else {
+                mToolBarTitle.setText(opt1tx + opt2tx + opt3tx);
+            }
+
+            mPresenter.addAddress(new Address(mToolBarTitle.getText().toString(), 0, 0, System.currentTimeMillis() / 1000));
+
+            mToolbarUpdateTime.setVisibility(View.GONE);
+
 
         })
                 .setTitleText("选择地址")
@@ -406,12 +276,16 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
                 startActivityForResult(intent, OPEN_GPS);
             }
             //获取纬度信息
-            mLatitude = bdLocation.getLatitude();
+            double mLatitude = bdLocation.getLatitude();
             //获取经度信息
-            mLongitude = bdLocation.getLongitude();
-            mTvTitle.setText(bdLocation.getDistrict());
+            double mLongitude = bdLocation.getLongitude();
+            mToolBarTitle.setText(bdLocation.getDistrict());
 
-            mPresenter.getCurrentJson(String.valueOf(mLongitude), String.valueOf(mLatitude));
+            if (bdLocation.getProvince().equals(bdLocation.getCity())) {
+                mPresenter.addAddress(new Address(bdLocation.getCity() + bdLocation.getDistrict(), mLatitude, mLongitude, System.currentTimeMillis() / 1000));
+            } else {
+                mPresenter.addAddress(new Address(bdLocation.getProvince() + bdLocation.getCity() + bdLocation.getDistrict(), mLatitude, mLongitude, System.currentTimeMillis() / 1000));
+            }
         }
     }
 }

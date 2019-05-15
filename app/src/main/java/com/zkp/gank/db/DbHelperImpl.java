@@ -3,7 +3,7 @@ package com.zkp.gank.db;
 import android.util.Log;
 
 import com.zkp.gank.app.GankApplication;
-import com.zkp.gank.db.entity.RefreshTime;
+import com.zkp.gank.db.entity.Address;
 import com.zkp.gank.db.entity.SearchHistory;
 import com.zkp.gank.db.greendao.DaoSession;
 import com.zkp.gank.http.AppConfig;
@@ -71,24 +71,37 @@ public class DbHelperImpl implements DbHelper {
     }
 
     @Override
-    public RefreshTime loadRefreshTime() {
-        return daoSession.getRefreshTimeDao().load(1L);
-    }
-
-    @Override
-    public RefreshTime updateRefreshTime(RefreshTime data) {
-        RefreshTime refreshTime = daoSession.getRefreshTimeDao().load(1L);
-        if (refreshTime == null) {
-            daoSession.getRefreshTimeDao().insert(data);
-        } else {
-            daoSession.getRefreshTimeDao().update(data);
+    public Address addAddress(Address address) {
+        for (Address addDB : daoSession.getAddressDao().loadAll()) {
+            if (addDB.getAddress().equals(address.getAddress())) {
+                //数据库中存在一样的地址信息，不添加
+                return address;
+            }
         }
-        return data;
+        daoSession.getAddressDao().insert(address);
+        return address;
     }
 
     @Override
-    public void clearRefreshTime() {
-        daoSession.getRefreshTimeDao().deleteByKey(1L);
+    public Address updateAddress(Address address) {
+        daoSession.getAddressDao().update(address);
+        return address;
+    }
+
+    @Override
+    public Address getAddressByID(Long id) {
+        return daoSession.getAddressDao().load(id);
+    }
+
+    @Override
+    public List<Address> getAllAddress() {
+        return daoSession.getAddressDao().loadAll();
+    }
+
+    @Override
+    public Long deleteAddreessById(Long id) {
+        daoSession.getAddressDao().deleteByKey(id);
+        return id;
     }
 
     private void getSearchHistoryList() {

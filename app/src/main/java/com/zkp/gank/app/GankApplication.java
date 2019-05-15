@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.coder.zzq.smartshow.core.SmartShow;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.base.fragment.BaseFragment;
@@ -54,6 +55,7 @@ public class GankApplication extends Application {
 
         //初始化SmartShow
         SmartShow.init(this);
+        SDKInitializer.initialize(this);
 
         if (SPUtils.getBoolean(this, "isNightMode")) {
             AppCompatDelegate.setDefaultNightMode(

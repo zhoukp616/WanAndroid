@@ -1,6 +1,6 @@
 package com.zkp.gank.db;
 
-import com.zkp.gank.db.entity.RefreshTime;
+import com.zkp.gank.db.entity.Address;
 import com.zkp.gank.db.entity.SearchHistory;
 
 import java.util.List;
@@ -42,21 +42,38 @@ public interface DbHelper {
     List<SearchHistory> loadAllSearchHistory();
 
     /**
-     * 获取RefreshTime
+     * 添加城市/地区
+     *
+     * @param address
+     * @return
+     */
+    Address addAddress(Address address);
+
+    /**
+     * 更新城市/地区
+     *
+     * @param address
+     * @return
+     */
+    Address updateAddress(Address address);
+
+    /**
+     * 获取某个城市/地区
+     *
+     * @param id
+     * @return
+     */
+    Address getAddressByID(Long id);
+
+    /**
+     * 获取所有添加的城市/地区
      *
      * @return
      */
-    RefreshTime loadRefreshTime();
+    List<Address> getAllAddress();
 
     /**
-     * 更新RefreshTime
-     *
-     * @param data
+     * 删除城市
      */
-    RefreshTime updateRefreshTime(RefreshTime data);
-
-    /**
-     * 删除RefreshTime
-     */
-    void clearRefreshTime();
+    Long deleteAddreessById(Long id);
 }

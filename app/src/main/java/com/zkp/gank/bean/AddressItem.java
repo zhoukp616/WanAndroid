@@ -1,6 +1,4 @@
-package com.zkp.gank.module.main.activity.weather;
-
-import com.zkp.gank.bean.JsonBean;
+package com.zkp.gank.bean;
 
 import java.util.ArrayList;
 import java.util.List;

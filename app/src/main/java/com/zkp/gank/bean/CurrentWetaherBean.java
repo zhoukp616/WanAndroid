@@ -380,7 +380,7 @@ public class CurrentWetaherBean {
                  */
 
                 private String status;
-                private int intensity;
+                private double intensity;
                 private String datasource;
 
                 public String getStatus() {
@@ -391,11 +391,11 @@ public class CurrentWetaherBean {
                     this.status = status;
                 }
 
-                public int getIntensity() {
+                public double getIntensity() {
                     return intensity;
                 }
 
-                public void setIntensity(int intensity) {
+                public void setIntensity(double intensity) {
                     this.intensity = intensity;
                 }
 
@@ -467,14 +467,14 @@ public class CurrentWetaherBean {
              * speed : 16.56
              */
 
-            private int direction;
+            private double direction;
             private double speed;
 
-            public int getDirection() {
+            public double getDirection() {
                 return direction;
             }
 
-            public void setDirection(int direction) {
+            public void setDirection(double direction) {
                 this.direction = direction;
             }
 

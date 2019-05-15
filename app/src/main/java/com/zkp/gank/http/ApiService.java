@@ -206,17 +206,6 @@ public interface ApiService {
     @GET("/api/data/福利/10/{page}")
     Observable<WelFareBean> getWelFares(@Path("page") int page);
 
-    /**
-     * GET下载文件必须结合@Streaming使用
-     *
-     * @param url 链接
-     * @return
-     */
-    @GET("{url}")
-    @Streaming
-    Observable<ResponseBody> getBitmapFromNet(@Path("url") String url);
-
-
     //============================================收藏相关====================================================
 
     /**
@@ -340,7 +329,7 @@ public interface ApiService {
      * @param latitude  纬度
      * @return
      */
-    @GET("/v2/TAkhjf8d1nlSlspN/{longitude},{latitude}/hourly.json&unit=metric:v2")
+    @GET("/v2/9shhevvLpHGiolKo/{longitude},{latitude}/hourly.json&unit=metric:v2")
     Observable<HourlyWeatherBean> getHourlyJson(@Path("longitude") String longitude, @Path("latitude") String latitude);
 
     /**
@@ -351,7 +340,7 @@ public interface ApiService {
      * @param latitude  纬度
      * @return
      */
-    @GET("/v2/TAkhjf8d1nlSlspN/{longitude},{latitude}/daily.json&unit=metric:v2")
+    @GET("/v2/9shhevvLpHGiolKo/{longitude},{latitude}/daily.json&unit=metric:v2")
     Observable<DailyWeatherBean> getDailyJson(@Path("longitude") String longitude, @Path("latitude") String latitude);
 
     /**
@@ -362,6 +351,6 @@ public interface ApiService {
      * @param latitude  纬度
      * @return
      */
-    @GET("/v2/TAkhjf8d1nlSlspN/{longitude},{latitude}/realtime.json&unit=metric:v2")
+    @GET("/v2/9shhevvLpHGiolKo/{longitude},{latitude}/realtime.json&unit=metric:v2")
     Observable<CurrentWetaherBean> getCurrentJson(@Path("longitude") String longitude, @Path("latitude") String latitude);
 }
