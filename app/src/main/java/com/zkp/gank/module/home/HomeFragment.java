@@ -6,10 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.util.Log;
 import android.widget.LinearLayout;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
@@ -55,7 +54,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
 
     private HomeArticlesAdapter mAdapter;
     private int page = 0;
-    private LinearLayout layout;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -79,7 +77,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
         mAdapter = new HomeArticlesAdapter(R.layout.item_home_article, dataBeanList);
         mRecyclerView.setAdapter(mAdapter);
 
-        layout = (LinearLayout) getLayoutInflater().inflate(R.layout.frgament_home_banner, null);
+        LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.frgament_home_banner, null);
         mBanner = layout.findViewById(R.id.banner);
         layout.removeView(mBanner);
         mAdapter.setHeaderView(mBanner);
@@ -166,6 +164,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
             intent.putExtra("title", mAdapter.getData().get(position).getTitle());
             intent.putExtra("articleLink", mAdapter.getData().get(position).getLink());
             intent.putExtra("articleId", mAdapter.getData().get(position).getId());
+
+            Log.d("qwe", "articleId==" + mAdapter.getData().get(position).getId());
+
             intent.putExtra("isCollected", mAdapter.getData().get(position).isCollect());
             intent.putExtra("isShowCollectIcon", true);
             intent.putExtra("articleItemPosition", position);

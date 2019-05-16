@@ -14,10 +14,46 @@ public class ArticleDetailContract {
 
     public interface View extends IView {
 
+        /**
+         * 收藏站内文章成功
+         */
+        void collectArticleSuccess();
+
+        /**
+         * 收藏站内文章失败
+         *
+         * @param errMsg String
+         */
+        void collectArticleError(String errMsg);
+
+        /**
+         * 取消收藏站内文章成功
+         */
+        void unCollectArticleSuccess();
+
+        /**
+         * 取消收藏站内文章失败
+         *
+         * @param errMsg String
+         */
+        void unCollectArticleError(String errMsg);
+
     }
 
     public interface Presenter extends IPresenter<View> {
+        /**
+         * 收藏站内文章
+         *
+         * @param id
+         */
+        void collectArticle(int id);
 
+        /**
+         * 取消收藏站内文章
+         *
+         * @param id
+         */
+        void unCollectArticle(int id);
     }
 
 }

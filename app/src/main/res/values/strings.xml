@@ -100,5 +100,6 @@
     <string name="day_long">昼长</string>
     <string name="car">洗车</string>
     <string name="cold">感冒</string>
+    <string name="cnblogs">测试博客</string>
 
 </resources>

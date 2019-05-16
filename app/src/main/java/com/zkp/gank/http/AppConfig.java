@@ -95,6 +95,11 @@ public class AppConfig {
      * 搜索结果
      */
     public static final int TYPE_SEARCH_RESULT = 11;
+    /**
+     * 测试博客
+     */
+    public static final int TYPE_CNBLOG = 12;
+    public static final String CNBLOGS_URL = "https://www.cnblogs.com/imyalost/category/873684.html";
 
     /**
      * TODO分类

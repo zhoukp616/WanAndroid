@@ -26,6 +26,7 @@ import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.bean.LoginBean;
 import com.zkp.gank.http.AppConfig;
 import com.zkp.gank.module.home.HomeFragment;
+import com.zkp.gank.module.home.detail.ArticleDetailActivity;
 import com.zkp.gank.module.knowledge.KnowLedgeFragment;
 import com.zkp.gank.module.login.LoginActivity;
 import com.zkp.gank.module.main.activity.ComponentActivity;
@@ -37,6 +38,7 @@ import com.zkp.gank.module.project.ProjectFragment;
 import com.zkp.gank.module.wechat.WeChatFragment;
 
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import butterknife.BindView;
@@ -321,6 +323,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainAct
                 case R.id.nav_item_about_us:
                     intent.set(new Intent(MainActivity.this, ComponentActivity.class));
                     intent.get().putExtra("type_fragment", AppConfig.TYPE_ABOUT_US);
+                    startActivity(intent.get());
+                    break;
+                case R.id.nav_item_cnblogs:
+                    intent.set(new Intent(MainActivity.this, ArticleDetailActivity.class));
+                    intent.get().putExtra("articleLink", AppConfig.CNBLOGS_URL);
+                    intent.get().putExtra("isShowCollectIcon", false);
+                    intent.get().putExtra("isCollected", false);
                     startActivity(intent.get());
                     break;
                 case R.id.nav_item_logout:

@@ -55,9 +55,3 @@
 -keep public class com.android.vending.licensing.ILicensingService
 #如果有引用v4包可以添加下面这行
 -keep public class * extends android.support.v4.app.Fragment
-
-#permission
--dontwarn com.zhy.m.**
--keep class com.zhy.m.** {*;}
--keep interface com.zhy.m.** { *; }
--keep class **$$PermissionProxy { *; }

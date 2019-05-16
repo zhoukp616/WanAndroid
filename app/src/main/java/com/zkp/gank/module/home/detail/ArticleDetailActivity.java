@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -24,6 +25,7 @@ import com.zkp.gank.R;
 import com.zkp.gank.base.activity.BaseActivity;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 import butterknife.BindView;
 
@@ -102,34 +104,27 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
 
     @Override
     protected void initView() {
-        getBundleData();
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
-            if (!TextUtils.isEmpty(title)){
+            if (!TextUtils.isEmpty(title)) {
                 mTitle.setText(Html.fromHtml(title));
             }
             mTitle.setSelected(true);
         }
-
         mToolbar.setNavigationOnClickListener(v -> onBackPressedSupport());
-    }
-
-    private void getBundleData() {
-        Bundle bundle = getIntent().getExtras();
-        assert bundle != null;
-        title = bundle.getString("title");
-        articleLink = bundle.getString("articleLink");
-        articleId = bundle.getInt("articleId");
-        isCollected = bundle.getBoolean("isCollected");
-        isShowCollectIcon = bundle.getBoolean("isShowCollectIcon");
-        articleItemPosition = bundle.getInt("articleItemPosition", -1);
     }
 
     @Override
     protected void initEventAndData() {
+
+        getBundleData();
+
+        mPresenter = new ArticleDetailPresenter();
+        mPresenter.attachView(this);
+
         WebChromeClient webChromeClient = new WebChromeClient() {
             @Override
             public void onReceivedTitle(WebView view, String title) {
@@ -153,6 +148,20 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
                 .go(articleLink);
     }
 
+    private void getBundleData() {
+        Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
+        title = bundle.getString("title");
+        articleLink = bundle.getString("articleLink");
+        articleId = bundle.getInt("articleId");
+        isCollected = bundle.getBoolean("isCollected");
+        isShowCollectIcon = bundle.getBoolean("isShowCollectIcon");
+        articleItemPosition = bundle.getInt("articleItemPosition", -1);
+
+        Log.d("qwe", "articleId==" + articleId);
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_acticle_detail, menu);
@@ -169,7 +178,12 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
                 SmartToast.show("分享");
                 break;
             case R.id.item_collect:
-                SmartToast.show("收藏");
+                if (isCollected) {
+                    mPresenter.unCollectArticle(articleId);
+                } else {
+                    mPresenter.collectArticle(articleId);
+                }
+                isCollected = !isCollected;
                 break;
             case R.id.item_system_browser:
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(articleLink)));
@@ -202,5 +216,25 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
             }
         }
         return super.onMenuOpened(featureId, menu);
+    }
+
+    @Override
+    public void collectArticleSuccess() {
+        mCollectItem.setIcon(isCollected ? R.drawable.ic_like_white : R.drawable.ic_like_not_white);
+    }
+
+    @Override
+    public void collectArticleError(String errMsg) {
+        SmartToast.show(errMsg);
+    }
+
+    @Override
+    public void unCollectArticleSuccess() {
+        mCollectItem.setIcon(isCollected ? R.drawable.ic_like_white : R.drawable.ic_like_not_white);
+    }
+
+    @Override
+    public void unCollectArticleError(String errMsg) {
+        SmartToast.show(errMsg);
     }
 }
