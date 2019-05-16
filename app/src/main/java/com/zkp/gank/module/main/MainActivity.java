@@ -22,6 +22,7 @@ import com.coder.zzq.smartshow.toast.SmartToast;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.bean.LoginBean;
 import com.zkp.gank.http.AppConfig;
@@ -38,7 +39,6 @@ import com.zkp.gank.module.project.ProjectFragment;
 import com.zkp.gank.module.wechat.WeChatFragment;
 
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import butterknife.BindView;
@@ -129,8 +129,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainAct
     protected void initView() {
 
         //闪退重启、日志收集，保存在 玩安卓/Crash 下
-//        GankApplication.getApplication().initUnCaughtHandler();
-//        GankApplication.getApplication().addActivity(this);
+        GankApplication.getApplication().initUnCaughtHandler();
+        GankApplication.getApplication().addActivity(this);
 
         mPresenter = new MainPresenter();
         mPresenter.attachView(this);

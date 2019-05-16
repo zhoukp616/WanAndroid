@@ -84,7 +84,7 @@ android {
     }
 
     greendao {
-        schemaVersion 1
+        schemaVersion 2
         daoPackage 'com.zkp.gank.db.greendao'
         targetGenDir 'src/main/java'
     }
