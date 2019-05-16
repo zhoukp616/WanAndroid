@@ -48,8 +48,6 @@
 
 ### 12.天气页面 ###
 
-----------
-
 ![](https://i.imgur.com/l95ojkB.jpg) ![](https://i.imgur.com/fDMb94z.jpg)
 
 ![](https://i.imgur.com/ZUY0v56.jpg)
