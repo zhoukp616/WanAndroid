@@ -109,74 +109,52 @@ dependencies {
 
     //permission
     implementation 'com.yanzhenjie.permission:support:2.0.1'
-
     //SmartShow
     implementation 'com.github.the-pig-of-jungle.smart-show:all:2.7.3'
-
     //okHttp
     implementation 'com.squareup.okhttp3:okhttp:3.14.0'
-
     //rxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
-
     //rxAndroid
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-
     //Retrofit
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-
     //PersistentCookieJar
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
-
     //Gson解析
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-
     //ButterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     //fragmentation
     implementation 'me.yokeyword:fragmentation:1.3.6'
-
     //banner
     implementation 'com.youth.banner:banner:1.4.10'
-
     //Glide图片加载框架
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-
     //android EventBus
     implementation 'org.simple:androideventbus:1.0.5.1'
-
     //FlycoTabLayout
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-
     //BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
-
     //AgentWeb
     implementation 'com.just.agentweb:agentweb:4.0.3-alpha@aar'
-
     //greenDao
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'org.greenrobot:greendao-generator:3.2.2'
-
     //SmartRefreshLayout
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
-
     //SmartRefreshHeader
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
-
     //VerticalTabLayout
     implementation 'q.rorbin:VerticalTabLayout:1.2.5'
-
     //flowLayout
     implementation 'com.hyman:flowlayout-lib:1.1.2'
-
     //update
     implementation 'com.qianwen:update-app:3.5.2'
     implementation 'com.qianwen:okhttp-utils:3.8.0'
-
     //PickerView
     implementation 'com.contrarywind:Android-PickerView:4.1.8'
     //百度定位

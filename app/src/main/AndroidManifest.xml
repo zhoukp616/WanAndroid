@@ -33,8 +33,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
-
-
         <!--dev  BT5oVLqAEhuHL5p9qBuiu17jA5Q9OL5E-->
         <!--发布  GXgIGm61O9ghRGH4Uk6BWKzbRUkfdjto-->
         <meta-data
@@ -96,6 +94,8 @@
             android:name=".module.main.activity.weather.WeatherActivity"
             android:screenOrientation="portrait" />
 
+        <!--debug com.zkp.gankdev.provider-->
+        <!--打包 com.zkp.gank.provider-->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.zkp.gankdev.provider"
