@@ -328,8 +328,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainAct
                 case R.id.nav_item_cnblogs:
                     intent.set(new Intent(MainActivity.this, ArticleDetailActivity.class));
                     intent.get().putExtra("articleLink", AppConfig.CNBLOGS_URL);
-                    intent.get().putExtra("isShowCollectIcon", false);
+                    intent.get().putExtra("author", AppConfig.CNBLOGS_AUTHOR);
+                    intent.get().putExtra("isShowCollectIcon", true);
                     intent.get().putExtra("isCollected", false);
+                    intent.get().putExtra("isCnBlogs", true);
                     startActivity(intent.get());
                     break;
                 case R.id.nav_item_logout:

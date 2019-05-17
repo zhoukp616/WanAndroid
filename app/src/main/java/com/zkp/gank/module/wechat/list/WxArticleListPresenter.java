@@ -21,6 +21,9 @@ import javax.inject.Inject;
  */
 public class WxArticleListPresenter extends BasePresenter<WxArticleListFragmentContract.View> implements WxArticleListFragmentContract.Presenter {
 
+    private int id;
+    private int currentPage = 1;
+
     @Inject
     WxArticleListPresenter() {
     }
@@ -58,6 +61,19 @@ public class WxArticleListPresenter extends BasePresenter<WxArticleListFragmentC
                 }
             });
         }
+    }
+
+    @Override
+    public void refresh(int id) {
+        currentPage = 1;
+        this.id = id;
+        getWxArticleList(id, currentPage, true);
+    }
+
+    @Override
+    public void loadMore() {
+        currentPage++;
+        getWxArticleList(id, currentPage, false);
     }
 
     @Override

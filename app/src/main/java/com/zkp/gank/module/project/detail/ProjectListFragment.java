@@ -39,8 +39,6 @@ public class ProjectListFragment extends BaseFragment<ProjectListPresenter> impl
      */
     private int cid;
 
-    private int page = 0;
-
     private ProjectListAdapter mAdapter;
 
     public static ProjectListFragment newInstance(Bundle bundle) {
@@ -70,16 +68,15 @@ public class ProjectListFragment extends BaseFragment<ProjectListPresenter> impl
 
         mPresenter = new ProjectListPresenter();
         mPresenter.attachView(this);
-        mPresenter.getProjectList(page, cid, true);
+        mPresenter.refresh(cid);
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            page = 0;
-            mPresenter.getProjectList(page, cid, true);
+            mPresenter.refresh(cid);
             refreshLayout.finishRefresh();
         });
 
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            mPresenter.getProjectList(++page, cid, false);
+            mPresenter.loadMore();
             refreshLayout.finishLoadMore();
         });
 
@@ -133,8 +130,7 @@ public class ProjectListFragment extends BaseFragment<ProjectListPresenter> impl
 
     @Override
     public void collectArticleSuccess() {
-        page = 0;
-        mPresenter.getProjectList(page, cid, true);
+        mPresenter.refresh(cid);
     }
 
     @Override
@@ -144,8 +140,7 @@ public class ProjectListFragment extends BaseFragment<ProjectListPresenter> impl
 
     @Override
     public void unCollectArticleSuccess() {
-        page = 0;
-        mPresenter.getProjectList(page, cid, true);
+        mPresenter.refresh(cid);
     }
 
     @Override

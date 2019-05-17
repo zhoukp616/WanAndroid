@@ -216,6 +216,17 @@ public interface ApiService {
     Observable<CollectListBean> getCollectList(@Path("page") int page);
 
     /**
+     * 收藏站外文章
+     *
+     * @param title  标题
+     * @param author 作者
+     * @param link   连接
+     * @return
+     */
+    @POST("lg/collect/add/json")
+    Observable<CollectListBean> collectOutArticle(@Query("title") String title, @Query("author") String author, @Query("link") String link);
+
+    /**
      * 收藏站内文章
      *
      * @param id int

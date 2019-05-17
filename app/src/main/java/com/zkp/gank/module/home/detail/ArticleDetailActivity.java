@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -21,8 +22,11 @@ import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.NestedScrollAgentWebView;
 import com.just.agentweb.WebChromeClient;
+import com.just.agentweb.WebViewClient;
 import com.zkp.gank.R;
 import com.zkp.gank.base.activity.BaseActivity;
+import com.zkp.gank.bean.CollectListBean;
+import com.zkp.gank.http.AppConfig;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -72,6 +76,13 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
     private boolean isShowCollectIcon;
     private int articleItemPosition;
 
+    /**
+     * 是否为测试博客
+     */
+    private boolean isCnBlogs = false;
+
+    private int page = 0;
+
     @Override
     protected void onPause() {
         mAgentWeb.getWebLifeCycle().onPause();
@@ -120,16 +131,36 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
     @Override
     protected void initEventAndData() {
 
-        getBundleData();
-
         mPresenter = new ArticleDetailPresenter();
         mPresenter.attachView(this);
+
+        getBundleData();
 
         WebChromeClient webChromeClient = new WebChromeClient() {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 mTitle.setText(Html.fromHtml(title));
+                if (isCnBlogs) {
+                    mCollectItem.setIcon(R.drawable.ic_like_not_white);
+                    page = 0;
+                    mPresenter.getCollectList(page);
+                }
+            }
+        };
+
+        WebViewClient webViewClient = new WebViewClient() {
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                articleLink = url;
+                return super.shouldOverrideUrlLoading(view, url);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                articleLink = request.getUrl().toString();
+                return super.shouldOverrideUrlLoading(view, request);
             }
         };
 
@@ -141,6 +172,7 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
                 .useDefaultIndicator()
                 .setWebView(mNestedWebView)
                 .setWebChromeClient(webChromeClient)
+                .setWebViewClient(webViewClient)
                 .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
                 .createAgentWeb()
@@ -154,12 +186,10 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
         title = bundle.getString("title");
         articleLink = bundle.getString("articleLink");
         articleId = bundle.getInt("articleId");
+        isCnBlogs = bundle.getBoolean("isCnBlogs");
         isCollected = bundle.getBoolean("isCollected");
         isShowCollectIcon = bundle.getBoolean("isShowCollectIcon");
         articleItemPosition = bundle.getInt("articleItemPosition", -1);
-
-        Log.d("qwe", "articleId==" + articleId);
-
     }
 
     @Override
@@ -181,7 +211,12 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
                 if (isCollected) {
                     mPresenter.unCollectArticle(articleId);
                 } else {
-                    mPresenter.collectArticle(articleId);
+                    if (isCnBlogs) {
+                        mPresenter.collectOutArticle(mTitle.getText().toString(), AppConfig.CNBLOGS_AUTHOR, articleLink);
+                        isCnBlogs = false;
+                    } else {
+                        mPresenter.collectArticle(articleId);
+                    }
                 }
                 isCollected = !isCollected;
                 break;
@@ -225,6 +260,42 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
 
     @Override
     public void collectArticleError(String errMsg) {
+        SmartToast.show(errMsg);
+    }
+
+    @Override
+    public void getCollectListSuccess(CollectListBean data) {
+
+        for (CollectListBean.DataBean.DatasBean datasBean : data.getData().getDatas()) {
+            if (datasBean.getAuthor().equals(AppConfig.CNBLOGS_AUTHOR) &&
+                    datasBean.getTitle().equals(mTitle.getText().toString()) &&
+                    datasBean.getLink().equals(articleLink)) {
+                //这篇文章已在收藏列表中
+                isCollected = true;
+                mCollectItem.setIcon(R.drawable.ic_like_white);
+                return;
+            }
+        }
+
+        if (!data.getData().isOver()) {
+            //收藏文章数>1页
+            page++;
+            mPresenter.getCollectList(page);
+        }
+    }
+
+    @Override
+    public void getCollectListError(String errMsg) {
+        SmartToast.show(errMsg);
+    }
+
+    @Override
+    public void collectOutArticleSuccess(CollectListBean data) {
+        mCollectItem.setIcon(isCollected ? R.drawable.ic_like_white : R.drawable.ic_like_not_white);
+    }
+
+    @Override
+    public void collectOutArticleError(String errMsg) {
         SmartToast.show(errMsg);
     }
 

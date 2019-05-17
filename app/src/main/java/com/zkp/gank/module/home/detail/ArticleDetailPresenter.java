@@ -2,6 +2,7 @@ package com.zkp.gank.module.home.detail;
 
 import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.presenter.BasePresenter;
+import com.zkp.gank.bean.CollectListBean;
 import com.zkp.gank.bean.HomeArticlesBean;
 import com.zkp.gank.http.ApiService;
 import com.zkp.gank.http.AppConfig;
@@ -50,6 +51,48 @@ public class ArticleDetailPresenter extends BasePresenter<ArticleDetailContract.
                 @Override
                 public void onFail(String errMsg) {
                     mView.collectArticleError(errMsg);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void getCollectList(int page) {
+        if (mView != null) {
+            HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).getCollectList(page), new HttpsUtil.IResponseListener<CollectListBean>() {
+                @Override
+                public void onSuccess(CollectListBean data) {
+                    if (data.getErrorCode() == 0) {
+                        mView.getCollectListSuccess(data);
+                    } else {
+                        mView.getCollectListError(data.getErrorMsg());
+                    }
+                }
+
+                @Override
+                public void onFail(String errMsg) {
+                    mView.getCollectListError(errMsg);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void collectOutArticle(String title, String author, String link) {
+        if (mView != null) {
+            HttpsUtil.request(HttpsUtil.createApi(GankApplication.getContext(), AppConfig.BASE_URL, ApiService.class).collectOutArticle(title, author, link), new HttpsUtil.IResponseListener<CollectListBean>() {
+                @Override
+                public void onSuccess(CollectListBean data) {
+                    if (data.getErrorCode()==0) {
+                        mView.collectOutArticleSuccess(data);
+                    } else {
+                        mView.collectOutArticleError(data.getErrorMsg());
+                    }
+                }
+
+                @Override
+                public void onFail(String errMsg) {
+                    mView.collectOutArticleError(errMsg);
                 }
             });
         }

@@ -68,6 +68,18 @@ public class ProjectListFragmentContract {
         void getProjectList(int page, int cid, boolean isFresh);
 
         /**
+         * 刷新todo列表
+         *
+         * @param cid   分类ID
+         */
+        void refresh(int cid);
+
+        /**
+         * 加载更多
+         */
+        void loadMore();
+
+        /**
          * 收藏站内文章
          *
          * @param id

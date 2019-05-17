@@ -21,6 +21,9 @@ import javax.inject.Inject;
  */
 public class ProjectListPresenter extends BasePresenter<ProjectListFragmentContract.View> implements ProjectListFragmentContract.Presenter {
 
+    private int cid;
+    private int currentPage = 1;
+
     @Inject
     ProjectListPresenter() {
     }
@@ -58,6 +61,19 @@ public class ProjectListPresenter extends BasePresenter<ProjectListFragmentContr
                 }
             });
         }
+    }
+
+    @Override
+    public void refresh(int cid) {
+        currentPage = 1;
+        this.cid = cid;
+        getProjectList(currentPage, cid, true);
+    }
+
+    @Override
+    public void loadMore() {
+        currentPage++;
+        getProjectList(currentPage, cid, false);
     }
 
     @Override

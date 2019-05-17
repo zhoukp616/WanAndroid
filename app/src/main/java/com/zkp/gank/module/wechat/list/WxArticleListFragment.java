@@ -38,7 +38,6 @@ public class WxArticleListFragment extends BaseFragment<WxArticleListPresenter> 
      * 公众号id、
      */
     private int id;
-    private int page = 0;
 
     private WxArticleListAdapter mAdapter;
 
@@ -72,16 +71,15 @@ public class WxArticleListFragment extends BaseFragment<WxArticleListPresenter> 
 
         mPresenter = new WxArticleListPresenter();
         mPresenter.attachView(this);
-        mPresenter.getWxArticleList(id, page, true);
+        mPresenter.refresh(id);
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            page = 0;
-            mPresenter.getWxArticleList(id, page, true);
+            mPresenter.refresh(id);
             refreshLayout.finishRefresh();
         });
 
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            mPresenter.getWxArticleList(id, ++page, false);
+            mPresenter.loadMore();
             refreshLayout.finishLoadMore();
         });
 
@@ -134,8 +132,7 @@ public class WxArticleListFragment extends BaseFragment<WxArticleListPresenter> 
 
     @Override
     public void collectArticleSuccess() {
-        page = 0;
-        mPresenter.getWxArticleList(id, page, true);
+        mPresenter.refresh(id);
     }
 
     @Override
@@ -145,8 +142,7 @@ public class WxArticleListFragment extends BaseFragment<WxArticleListPresenter> 
 
     @Override
     public void unCollectArticleSuccess() {
-        page = 0;
-        mPresenter.getWxArticleList(id, page, true);
+        mPresenter.refresh(id);
     }
 
     @Override

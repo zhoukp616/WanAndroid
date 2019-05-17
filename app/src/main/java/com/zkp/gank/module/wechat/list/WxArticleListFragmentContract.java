@@ -69,6 +69,18 @@ public class WxArticleListFragmentContract {
         void getWxArticleList(int id, int page, boolean isFresh);
 
         /**
+         * 刷新todo列表
+         *
+         * @param id   公账号id
+         */
+        void refresh(int id);
+
+        /**
+         * 加载更多
+         */
+        void loadMore();
+
+        /**
          * 收藏站内文章
          *
          * @param id

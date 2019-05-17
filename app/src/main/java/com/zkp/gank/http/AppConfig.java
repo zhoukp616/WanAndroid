@@ -100,6 +100,7 @@ public class AppConfig {
      */
     public static final int TYPE_CNBLOG = 12;
     public static final String CNBLOGS_URL = "https://www.cnblogs.com/imyalost/category/873684.html";
+    public static final String CNBLOGS_AUTHOR = "老_张";
 
     /**
      * TODO分类
