@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.ProjectListBean;
 import com.zkp.gank.module.home.detail.ArticleDetailActivity;
@@ -54,6 +55,9 @@ public class ProjectListFragment extends BaseFragment<ProjectListPresenter> impl
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addFragment(this);
+
         List<ProjectListBean.DataBean.DatasBean> mArticleList = new ArrayList<>();
         mAdapter = new ProjectListAdapter(R.layout.item_project_list, mArticleList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

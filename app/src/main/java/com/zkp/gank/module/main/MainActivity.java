@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainAct
                 SmartToast.show("再按一次退出应用");
                 clickTime = System.currentTimeMillis();
             } else {
-                finish();
+                GankApplication.getApplication().exitApplication();
             }
         }
     }

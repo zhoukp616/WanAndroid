@@ -61,6 +61,9 @@ public class ToDoListFragment extends BaseFragment<ToDoListPresenter> implements
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addFragment(this);
+
         initRecyclerView();
         mPresenter = new ToDoListPresenter();
         mPresenter.registerEventBus();

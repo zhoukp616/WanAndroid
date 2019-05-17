@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.CollectListBean;
 import com.zkp.gank.module.home.detail.ArticleDetailActivity;
@@ -49,6 +50,9 @@ public class CollectFragment extends BaseFragment<CollectPresenter> implements C
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addFragment(this);
+
         initRecyclerView();
 
         mPresenter = new CollectPresenter();

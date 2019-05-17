@@ -10,6 +10,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.FriendWebBean;
 import com.zkp.gank.module.home.detail.ArticleDetailActivity;
@@ -45,7 +46,7 @@ public class UsefulSitesFragment extends BaseFragment<UsefulSitesPresenter> impl
 
     @Override
     protected void initView() {
-
+        GankApplication.getApplication().addFragment(this);
     }
 
     @Override

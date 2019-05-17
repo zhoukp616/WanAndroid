@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.ArticleListBean;
 import com.zkp.gank.module.home.detail.ArticleDetailActivity;
@@ -58,6 +59,8 @@ public class KnowledgeListFragment extends BaseFragment<KnowledgeListPresenter> 
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addFragment(this);
 
         List<ArticleListBean.DataBean.DatasBean> mArticleList = new ArrayList<>();
         mAdapter = new KnowledgeListAdapter(R.layout.item_home_article, mArticleList);

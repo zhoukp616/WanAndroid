@@ -16,6 +16,7 @@ import com.yanzhenjie.permission.runtime.Permission;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.bean.HomeArticlesBean;
 import com.zkp.gank.module.home.adapter.HomeArticlesAdapter;
 import com.zkp.gank.module.home.detail.ArticleDetailActivity;
@@ -67,6 +68,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeFra
     @SuppressLint("ResourceAsColor")
     @Override
     protected void initView() {
+        GankApplication.getApplication().addFragment(this);
         //设置布局管理器
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         //设置默认动画

@@ -2,6 +2,7 @@ package com.zkp.gank.module.main.fragment.about;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -46,6 +47,9 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addFragment(this);
+
         try {
             String versionStr = getString(R.string.app_name)
                     + " V" + GankApplication.getContext().getPackageManager()
@@ -62,7 +66,7 @@ public class AboutFragment extends BaseFragment {
     }
 
     @OnClick({R.id.about_update, R.id.about_website, R.id.about_source_code,
-            R.id.about_feedback, R.id.about_copyright})
+            R.id.about_feedback, R.id.about_copyright, R.id.about_lottie})
     void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -114,6 +118,11 @@ public class AboutFragment extends BaseFragment {
             case R.id.about_copyright:
                 //版权声明
                 onShowNotificationDialog();
+                break;
+            case R.id.about_lottie:
+                Log.d("qwe", "lottie动画");
+                intent = new Intent(getActivity(), LottieActivity.class);
+                Objects.requireNonNull(getActivity()).startActivity(intent);
                 break;
             default:
                 break;

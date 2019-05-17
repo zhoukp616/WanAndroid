@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.bean.TreeBean;
 import com.zkp.gank.module.knowledge.detail.list.KnowledgeListFragment;
@@ -63,6 +64,9 @@ public class KnowledgeDetailActivity extends BaseActivity<KnowledgeDetailPresent
     }
 
     private void initToolBar() {
+
+        GankApplication.getApplication().addActivity(this);
+
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

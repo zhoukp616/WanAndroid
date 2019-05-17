@@ -14,6 +14,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.WelFareBean;
 import com.zkp.gank.http.AppConfig;
@@ -58,6 +59,9 @@ public class WelFareFragment extends BaseFragment<WelFarePresenter> implements W
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addFragment(this);
+
         initRecyclerView();
     }
 

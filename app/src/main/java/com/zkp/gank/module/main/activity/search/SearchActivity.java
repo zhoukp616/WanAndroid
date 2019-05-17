@@ -19,6 +19,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.bean.HotKeyBean;
 import com.zkp.gank.db.entity.SearchHistory;
@@ -62,6 +63,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addActivity(this);
+
         initToolbar();
         initRecyclerView();
 

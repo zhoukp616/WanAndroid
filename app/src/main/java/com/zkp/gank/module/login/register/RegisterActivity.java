@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.bean.LoginBean;
 
@@ -42,6 +43,9 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addActivity(this);
+
         mPresenter = new RegisterPresenter();
         mPresenter.attachView(this);
     }

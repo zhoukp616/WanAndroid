@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.ProjectTreeBean;
 import com.zkp.gank.module.project.detail.ProjectListFragment;
@@ -51,6 +52,9 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addFragment(this);
+
         mPresenter = new ProjectPresenter();
         mPresenter.attachView(this);
         mPresenter.getProjectTree();

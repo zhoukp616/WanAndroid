@@ -14,6 +14,7 @@ import com.coder.zzq.smartshow.toast.SmartToast;
 import com.github.matteobattilana.weather.PrecipType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.CurrentWetaherBean;
 import com.zkp.gank.bean.DailyWeatherBean;
@@ -146,6 +147,7 @@ public class WeatherFrament extends BaseFragment<WeatherFragmentPresenter> imple
 
     @Override
     protected void initView() {
+        GankApplication.getApplication().addFragment(this);
     }
 
     @Override

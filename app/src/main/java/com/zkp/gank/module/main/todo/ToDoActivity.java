@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.http.AppConfig;
 import com.zkp.gank.module.main.todo.list.ToDoListFragment;
@@ -75,6 +76,8 @@ public class ToDoActivity extends BaseActivity<ToDoPresenter> implements ToDoAct
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addActivity(this);
 
         mPresenter = new ToDoPresenter();
         mPresenter.registerEventBus();

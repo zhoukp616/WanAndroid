@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.NavigationBean;
 import com.zkp.gank.module.navigation.adapter.NavigationAdapter;
@@ -55,6 +56,9 @@ public class NavigationFragment extends BaseFragment<NavigationPresenter> implem
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addFragment(this);
+
         List<NavigationBean.DataBean> navigationDataList = new ArrayList<>();
         mAdapter = new NavigationAdapter(R.layout.item_navigation, navigationDataList);
         mLinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);

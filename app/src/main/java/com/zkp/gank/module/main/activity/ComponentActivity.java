@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.http.AppConfig;
 import com.zkp.gank.module.main.activity.search.fragment.SearchFragment;
@@ -47,6 +48,9 @@ public class ComponentActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addActivity(this);
+
         mToolbar = findViewById(R.id.toolbar);
 
         int fragType = getIntent().getIntExtra("type_fragment", -1);

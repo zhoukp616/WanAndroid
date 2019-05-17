@@ -23,6 +23,7 @@ import com.coder.zzq.smartshow.toast.SmartToast;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.bean.AddressItem;
 import com.zkp.gank.db.entity.Address;
@@ -73,6 +74,9 @@ public class WeatherActivity extends BaseActivity<WeatherPresenter> implements W
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addActivity(this);
+
         mToolbarUpdateTime = findViewById(R.id.toolbarUpdateTime);
     }
 

@@ -6,6 +6,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.utils.CacheUtils;
 
 /**
@@ -23,6 +24,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
+
         addPreferencesFromResource(R.xml.fragment_setting);
         findPreference("clearCache").setSummary(CacheUtils.getTotalCacheSize());
     }

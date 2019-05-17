@@ -16,6 +16,7 @@ import com.coder.zzq.smartshow.dialog.ChooseListDialog;
 import com.coder.zzq.smartshow.dialog.ChooseResult;
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.bean.AddToDoBean;
 import com.zkp.gank.bean.ToDoListBean;
@@ -86,6 +87,9 @@ public class AddToDoActivity extends BaseActivity<AddToDoPresenter> implements A
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addActivity(this);
+
         initToolbar();
     }
 

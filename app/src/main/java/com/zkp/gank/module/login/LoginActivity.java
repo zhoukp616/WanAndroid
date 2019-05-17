@@ -50,6 +50,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addActivity(this);
+
         mPresenter = new LoginPresenter();
         mPresenter.attachView(this);
     }

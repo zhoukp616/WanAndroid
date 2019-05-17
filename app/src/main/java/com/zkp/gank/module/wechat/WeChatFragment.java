@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.WeChatBean;
 import com.zkp.gank.module.wechat.list.WxArticleListFragment;
@@ -50,6 +51,8 @@ public class WeChatFragment extends BaseFragment<WeChatPresenter> implements WeC
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addFragment(this);
 
         mPresenter = new WeChatPresenter();
         mPresenter.attachView(this);

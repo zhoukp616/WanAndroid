@@ -51,7 +51,7 @@ public class UnCaughtHandler implements Thread.UncaughtExceptionHandler {
     public void uncaughtException(Thread t, Throwable e) {
         if (mDefaultHandler != null && e == null) {
             //如果用户没有处理则让系统默认的异常处理器来处理
-            mDefaultHandler.uncaughtException(t, e);
+            mDefaultHandler.uncaughtException(t, null);
         } else {
             Intent intent = new Intent(mApplication.getApplicationContext(), MainActivity.class);
             @SuppressLint("WrongConstant")

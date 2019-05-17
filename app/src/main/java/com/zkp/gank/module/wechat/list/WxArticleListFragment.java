@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.coder.zzq.smartshow.toast.SmartToast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.fragment.BaseFragment;
 import com.zkp.gank.bean.WeChatArticleBean;
 import com.zkp.gank.module.home.detail.ArticleDetailActivity;
@@ -54,6 +55,9 @@ public class WxArticleListFragment extends BaseFragment<WxArticleListPresenter> 
 
     @Override
     protected void initView() {
+
+        GankApplication.getApplication().addFragment(this);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setHasFixedSize(true);
 

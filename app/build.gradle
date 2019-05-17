@@ -161,5 +161,7 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
     //WeatherView
     implementation 'com.github.MatteoBattilana:WeatherView:2.0.3'
+    //lottie
+    implementation 'com.airbnb.android:lottie:1.5.1'
 }
 

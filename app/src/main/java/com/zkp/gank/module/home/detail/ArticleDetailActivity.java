@@ -24,6 +24,7 @@ import com.just.agentweb.NestedScrollAgentWebView;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
 import com.zkp.gank.R;
+import com.zkp.gank.app.GankApplication;
 import com.zkp.gank.base.activity.BaseActivity;
 import com.zkp.gank.bean.CollectListBean;
 import com.zkp.gank.http.AppConfig;
@@ -115,6 +116,7 @@ public class ArticleDetailActivity extends BaseActivity<ArticleDetailPresenter> 
 
     @Override
     protected void initView() {
+        GankApplication.getApplication().addActivity(this);
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
