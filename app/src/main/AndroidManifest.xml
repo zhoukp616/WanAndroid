@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.zkp.gank">
+    package="com.zkp.androidwan">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -25,7 +25,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name=".app.GankApplication"
+        android:name="com.zkp.androidwan.app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${app_name}"
@@ -33,7 +33,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="android:appComponentFactory"
-        android:appComponentFactory="com.zkp.gankdev">
+        android:appComponentFactory="com.zkp.androidwan">
 
         <!--dev  BT5oVLqAEhuHL5p9qBuiu17jA5Q9OL5E-->
         <!--发布  GXgIGm61O9ghRGH4Uk6BWKzbRUkfdjto-->
@@ -47,7 +47,7 @@
             android:process=":remote" />
 
         <activity
-            android:name=".module.main.MainActivity"
+            android:name="com.zkp.androidwan.module.main.MainActivity"
             android:label="${app_name}"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
@@ -59,52 +59,52 @@
         </activity>
 
         <activity
-            android:name=".module.home.detail.ArticleDetailActivity"
+            android:name="com.zkp.androidwan.module.home.detail.ArticleDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.knowledge.detail.KnowledgeDetailActivity"
+            android:name="com.zkp.androidwan.module.knowledge.detail.KnowledgeDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.main.activity.ComponentActivity"
+            android:name="com.zkp.androidwan.module.main.activity.ComponentActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.login.LoginActivity"
+            android:name="com.zkp.androidwan.module.login.LoginActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.login.register.RegisterActivity"
+            android:name="com.zkp.androidwan.module.login.register.RegisterActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.main.todo.ToDoActivity"
+            android:name="com.zkp.androidwan.module.main.todo.ToDoActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.main.todo.list.add.AddToDoActivity"
+            android:name="com.zkp.androidwan.module.main.todo.list.add.AddToDoActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.main.activity.search.SearchActivity"
+            android:name="com.zkp.androidwan.module.main.activity.search.SearchActivity"
             android:screenOrientation="portrait" />
 
         <!--  ——————————————————————————————————————————————天气相关————————————————————————————————————————————————————————————————   -->
 
         <activity
-            android:name=".module.main.activity.weather.WeatherActivity"
+            android:name="com.zkp.androidwan.module.main.activity.weather.WeatherActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.main.fragment.about.LottieActivity"
+            android:name="com.zkp.androidwan.module.main.fragment.about.LottieActivity"
             android:screenOrientation="portrait" />
 
         <!--debug com.zkp.gankdev.provider-->
         <!--打包 com.zkp.gank.provider-->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.zkp.gankdev.provider"
+            android:authorities="com.zkp.androidwandev.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

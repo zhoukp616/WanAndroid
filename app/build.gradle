@@ -7,7 +7,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 3
-        versionName "1.1.2"
+        versionName "1.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         flavorDimensions "default"
@@ -27,21 +27,21 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "Gank_${variant.buildType.name}_${variant.versionName}.apk".toLowerCase()
+            outputFileName = "WanAndroidJava_${variant.buildType.name}_${variant.versionName}.apk".toLowerCase()
         }
     }
 
     signingConfigs {
         dev {
-            keyAlias 'gank_dev'
+            keyAlias 'androidwan_dev'
             keyPassword '123456'
-            storeFile file('D:/code/Git/Gank/ot.jks')
+            storeFile file('D:/code/Git/WanAndroidJava/ot.jks')
             storePassword '123456'
         }
-        gank {
-            keyAlias 'gank'
+        androidwan {
+            keyAlias 'androidwan'
             keyPassword '123456'
-            storeFile file('D:/code/Git/Gank/ot.jks')
+            storeFile file('D:/code/Git/WanAndroidJava/ot.jks')
             storePassword '123456'
         }
     }
@@ -54,7 +54,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), "proguard-rules.pro"
         }
         gank {
-            signingConfig signingConfigs.gank
+            signingConfig signingConfigs.androidwan
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), "proguard-rules.pro"
         }
@@ -68,14 +68,14 @@ android {
 
     productFlavors {
         flavors_dev {
-            applicationId "com.zkp.gankdev"
+            applicationId "com.zkp.androidwandev"
             manifestPlaceholders = [
                     app_name : "玩安卓_dev",
                     baidu_key: "BT5oVLqAEhuHL5p9qBuiu17jA5Q9OL5E"
             ]
         }
-        flavors_gank {
-            applicationId "com.zkp.gank"
+        flavors_androidwan {
+            applicationId "com.zkp.androidwan"
             manifestPlaceholders = [
                     app_name : "玩安卓",
                     baidu_key: "GXgIGm61O9ghRGH4Uk6BWKzbRUkfdjto"
@@ -85,7 +85,7 @@ android {
 
     greendao {
         schemaVersion 2
-        daoPackage 'com.zkp.gank.db.greendao'
+        daoPackage 'com.zkp.androidwan.db.greendao'
         targetGenDir 'src/main/java'
     }
 

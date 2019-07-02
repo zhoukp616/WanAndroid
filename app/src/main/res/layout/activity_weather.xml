@@ -6,7 +6,7 @@
 
     <include layout="@layout/toolbar_weather" />
 
-    <com.zkp.gank.widget.ViewPager
+    <com.zkp.androidwan.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

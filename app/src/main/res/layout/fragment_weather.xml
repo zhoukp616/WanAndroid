@@ -168,7 +168,7 @@
 
                 </LinearLayout>
 
-                <com.zkp.gank.widget.SuitLines
+                <com.zkp.androidwan.widget.SuitLines
                     android:id="@+id/suitLines"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_200"
@@ -453,7 +453,7 @@
 
                     </LinearLayout>
 
-                    <com.zkp.gank.widget.SunView
+                    <com.zkp.androidwan.widget.SunView
                         android:id="@+id/sunView"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_80"
@@ -553,7 +553,7 @@
 
                 </LinearLayout>
 
-                <com.zkp.gank.widget.WeatherView
+                <com.zkp.androidwan.widget.WeatherView
                     android:id="@+id/weatherView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

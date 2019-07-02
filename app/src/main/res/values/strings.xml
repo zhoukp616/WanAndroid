@@ -33,8 +33,8 @@
     <string name="search_tint">发现更多精彩内容</string>
     <string name="search_null_tint">快去搜索更多干货吧</string>
 
-    <string name="scale_down_show_behavior">com.zkp.gank.widget.ScaleDownShowBehavior</string>
-    <string name="bye_burger_bottom_behavior">com.zkp.gank.widget.BottomNavigationBehavior</string>
+    <string name="scale_down_show_behavior">com.zkp.androidwan.widget.ScaleDownShowBehavior</string>
+    <string name="bye_burger_bottom_behavior">com.zkp.androidwan.widget.BottomNavigationBehavior</string>
 
 
     <string name="about_update">检查更新</string>
@@ -83,10 +83,10 @@
     <string name="nav_weather">天气</string>
     <string name="update_just_now">刚刚更新</string>
     <string name="update_minute">分钟前更新</string>
-    <string name="temperature">℃</string>
     <string name="humidity">湿度</string>
     <string name="aqi_excellent">优</string>
     <string name="wind">风力</string>
+    <string name="temperature">℃</string>
     <string name="temperature_data">19.5</string>
     <string name="ultraviolet">紫外线</string>
     <string name="visibility">能见度</string>
@@ -94,10 +94,10 @@
     <string name="pm2_5">pm2.5</string>
     <string name="dswrf">短波辐射</string>
     <string name="tgwd">体感温度</string>
-    <string name="cloth">穿衣</string>
     <string name="sun_rise">日出</string>
     <string name="sun_set">日落</string>
     <string name="day_long">昼长</string>
+    <string name="cloth">穿衣</string>
     <string name="car">洗车</string>
     <string name="cold">感冒</string>
     <string name="cnblogs">测试博客</string>
